@@ -1,0 +1,1 @@
+jQuery((function(o){var c=o("#chat").convform();console.log(c)}));
