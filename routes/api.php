@@ -26,7 +26,7 @@ Route::post('user/update_password/{id}', [App\Http\Controllers\API\APIUserContro
 
 Route::resource('/event', App\Http\Controllers\API\EventController::class);
 
-Route::get('/event-detail/{id}', [App\Http\Controllers\API\EventController::class, 'product_details']);
+Route::get('/event-detail/{id}', [App\Http\Controllers\API\EventController::class, 'product_detail']);
 
 
 Route::resource('/event', App\Http\Controllers\API\EventController::class);

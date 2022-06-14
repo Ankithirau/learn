@@ -184,7 +184,7 @@ class EventController extends Controller
         return response()->json($response);
     }
 
-    public function product_details(Request $request, $id)
+    public function product_detail(Request $request, $id)
     {
         $result =  Product::find($id);
         if ($result) {
