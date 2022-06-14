@@ -8,13 +8,13 @@
 		</li>
 		<li>
 			<a class="side-menu__item" href="{{url('county')}}">
-				<i class="side-menu__icon mdi fs-2 mdi-account-multiple"></i><span
+				<i class="side-menu__icon mdi fs-2 mdi-flag-outline"></i><span
 					class="side-menu__label">County</span></a>
 		</li>
 		<li class="slide">
 			<a class="side-menu__item" data-toggle="slide" href="#">
-				<i class="side-menu__icon mdi fs-2 mdi-account-multiple"></i><span
-					class="side-menu__label">Categories</span><i class="angle fa fa-angle-right"></i></a>
+				<i class="side-menu__icon mdi fs-2 mdi-lan"></i><span class="side-menu__label">Categories</span><i
+					class="angle fa fa-angle-right"></i></a>
 			<ul class="slide-menu">
 				<li><a href="{{url('category')}}" class="slide-item">Category </a></li>
 				<li><a href="{{url('subcategory')}}" class="slide-item">Subcategory </a></li>
@@ -22,7 +22,7 @@
 		</li>
 		<li>
 			<a class="side-menu__item" data-toggle="slide" href="#">
-				<i class="side-menu__icon mdi fs-2 mdi-account-multiple"></i><span
+				<i class="side-menu__icon mdi fs-2 mdi-van-passenger"></i><span
 					class="side-menu__label">Operator</span><i class="angle fa fa-angle-right"></i></a>
 			<ul class="slide-menu">
 				<li><a href="{{route('operator.create')}}" class="slide-item">Create </a></li>
@@ -31,7 +31,7 @@
 		</li>
 		<li>
 			<a class="side-menu__item" href="{{url('coupon')}}">
-				<i class="side-menu__icon mdi fs-2 mdi-calendar"></i><span class="side-menu__label">Coupon</span></a>
+				<i class="side-menu__icon mdi fs-2 mdi-gift"></i><span class="side-menu__label">Coupon</span></a>
 		</li>
 		<li>
 			<a class="side-menu__item" href="{{url('event')}}">
@@ -39,7 +39,7 @@
 		</li>
 		<li>
 			<a class="side-menu__item" href="{{url('pickup')}}">
-				<i class="side-menu__icon mdi fs-2 mdi-calendar"></i><span class="side-menu__label">Pickup
+				<i class="side-menu__icon mdi fs-2 mdi-map-marker"></i><span class="side-menu__label">Pickup
 					Points</span></a>
 		</li>
 		<li>

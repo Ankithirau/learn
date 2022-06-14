@@ -345,7 +345,15 @@ $(document).ready(function () {
             if (i == "role_id") {
               $("select[name=role]").val(val);
             } else {
-              $("select[name=" + i + "]").val(val);
+              if (i == "discount_type") {
+                var d_type = 1;
+                if (val == "value") {
+                  d_type = 2;
+                }
+                $("select[name=" + i + "]").val(d_type);
+              } else {
+                $("select[name=" + i + "]").val(val);
+              }
             }
             if (i == "state_id") {
               setTimeout(function () {
@@ -540,9 +548,42 @@ $(document).ready(function () {
     tinycomments_mode: "embedded",
     tinycomments_author: "Author name",
   });
-  // $('input[name="date_concert"]').daterangepicker();
+  $('input[name="from"]').daterangepicker();
 
   $('input[name="date_concert"]').multiDatesPicker();
+
+  // $(function () {
+  //   var dateFormat = "mm/dd/yy",
+  //     from = $("#from")
+  //       .datepicker({
+  //         defaultDate: "+1w",
+  //         changeMonth: true,
+  //         numberOfMonths: 3,
+  //       })
+  //       .on("change", function () {
+  //         to.datepicker("option", "minDate", getDate(this));
+  //       }),
+  //     to = $("#to")
+  //       .datepicker({
+  //         defaultDate: "+1w",
+  //         changeMonth: true,
+  //         numberOfMonths: 3,
+  //       })
+  //       .on("change", function () {
+  //         from.datepicker("option", "maxDate", getDate(this));
+  //       });
+
+  //   function getDate(element) {
+  //     var date;
+  //     try {
+  //       date = $.datepicker.parseDate(dateFormat, element.value);
+  //     } catch (error) {
+  //       date = null;
+  //     }
+
+  //     return date;
+  //   }
+  // });
 
   //Inline form submit
 });

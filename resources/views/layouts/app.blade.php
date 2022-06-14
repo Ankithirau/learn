@@ -47,8 +47,8 @@
     <!---Icons css-->
     <link href="{{URL::asset('assets/plugins/icons/icons.css')}}" rel="stylesheet" />
     <link rel="stylesheet" href="{{asset('assets/css/toastr.css')}}">
-
-
+    <script src="https://cdn.tiny.cloud/1/5k156vf3ih1uykgy4c9lbnrvewsstmtvq9w646eucssgnjy9/tinymce/5/tinymce.min.js">
+    </script>
     @yield('styles')
 
     <!--Fonts-->
@@ -110,7 +110,8 @@
     <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
 
     <!-- Jquery js-->
-    <script src="{{URL::asset('assets/plugins/vendors/jquery.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/vendors/jquery.min.js')}}">
+    </script>
 
     <!--Bootstrap.min js-->
     <script src="{{URL::asset('assets/plugins/bootstrap/popper.min.js')}}"></script>

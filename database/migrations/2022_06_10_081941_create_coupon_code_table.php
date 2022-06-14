@@ -17,8 +17,8 @@ class CreateCouponCodeTable extends Migration
         Schema::create('coupon_code', function (Blueprint $table) {
             $table->id();
             $table->string('coupon_code')->nullable();
-            $table->dateTime('start_date')->nullable();
-            $table->dateTime('end_date')->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->enum('discount_type', ['percentage', 'value'])->default('percentage')->nullable();
             $table->decimal('discount', 8, 2);
             $table->integer('maximum_usage')->default(0);

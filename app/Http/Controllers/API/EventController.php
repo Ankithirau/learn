@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Category;
 use App\Models\County;
 use App\Models\Event;
 use App\Models\Pick_Point;
@@ -21,18 +22,23 @@ class EventController extends Controller
      */
     public function index()
     {
-        $results =  Product::all();
+        $results =  Product::select('id', 'name', 'price', 'image', 'category_id')->get();
 
         foreach ($results as $key => $event) {
 
             $event->price = "\xE2\x82\xAc " . $event->price;
 
             $event->image = asset('uploads/event_image') . '/' . $event->image;
-
-            // $event->pickup_point_id = explode(',', $event->pickup_point_id);
-
         }
-        return array('events' => $results);
+
+        if ($results->count() > 0) {
+
+            $response = array('status' => 200, 'data' => $results);
+        } else {
+
+            $response = array('status' => 500, 'msg' => 'No Record Found');
+        }
+        return response()->json($response);
     }
 
     /**
@@ -175,6 +181,17 @@ class EventController extends Controller
         } catch (\Throwable $th) {
             $response = array('status' => 500, 'msg' => 'Something went wrong...!');
         }
-        return json_encode($response);
+        return response()->json($response);
+    }
+
+    public function product_details(Request $request, $id)
+    {
+        $result =  Product::find($id);
+        if ($result) {
+            $response = array('status' => 200, 'result' => $result);
+        } else {
+            $response = array('status' => 400, 'msg' => 'Something went wrong...!');
+        }
+        return response()->json($response);
     }
 }

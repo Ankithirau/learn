@@ -55,6 +55,12 @@ Route::group(['middleware' => ['auth', 'CheckUserLogin']], function () {
 
     Route::resource('/coupon', App\Http\Controllers\CouponController::class);
 
+    Route::get('/coupon-status/{id}', [App\Http\Controllers\CouponController::class, 'status'])->name('coupon.status');
+
+    Route::resource('/seo', App\Http\Controllers\SeoController::class);
+
+    Route::get('/seo-status/{id}', [App\Http\Controllers\SeoController::class, 'status'])->name('seo.status');
+
     Route::get('/product-status/{id}', [App\Http\Controllers\ProductController::class, 'status'])->name('product.status');
 
     Route::get('/event-status/{id}', [App\Http\Controllers\EventController::class, 'status'])->name('event.status');

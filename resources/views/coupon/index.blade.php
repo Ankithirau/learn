@@ -24,11 +24,11 @@
   <div class="ml-auto">
     <div class="input-group">
       <a href="javascript:void(0);" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="modal"
-        data-target="#modalCategory" title="Add State">
+        data-target="#modalCoupon" title="Add State">
         <span>
           <i class="fa fa-plus"></i>
         </span>
-        Add Category
+        Add Coupon
       </a>
 
     </div>
@@ -45,10 +45,13 @@
             <thead>
               <tr>
                 <th class="border-bottom-0 bg-primary">S.No.</th>
-                <th class="border-bottom-0 bg-primary">Name</th>
-                <!-- <th class="border-bottom-0 bg-primary">Created at</th> -->
+                <th class="border-bottom-0 bg-primary">Coupon Name</th>
+                <th class="border-bottom-0 bg-primary">Start Date</th>
+                <th class="border-bottom-0 bg-primary">End Date</th>
+                <th class="border-bottom-0 bg-primary">Discount Type</th>
+                <th class="border-bottom-0 bg-primary">Discount</th>
                 <th class="border-bottom-0 bg-primary">Status</th>
-                <th class="border-bottom-0 bg-primary"> Actions</th>
+                <th class="border-bottom-0 bg-primary">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -59,21 +62,24 @@
               @foreach($results as $result)
               <tr>
                 <td>{{$i++}}</td>
-                <td>{{$result->name}}</td>
-                <!-- <td>{{date('d-m-Y',strtotime($result->created_at))}}</td> -->
+                <td>{{$result->coupon_code}}</td>
+                <td>{{$result->start_date}}</td>
+                <td>{{$result->end_date}}</td>
+                <td>{{$result->discount_type}}</td>
+                <td>{{$result->discount}}</td>
                 <td>
                   <input type="button"
                     class="btn  @if($result->status==0) btn-danger @else btn-success @endif  updateStatus"
-                    data-url="{{route('category.status', $result->id)}}"
+                    data-url="{{route('coupon.status', $result->id)}}"
                     value="@if($result->status==0) Inactive @else Active @endif">
                 </td>
                 <td>
                   <div class="d-flex">
-                    <input type="button" class="btn  btn-warning  editRecord" data-title="Category"
-                      data-url="{{route('category.edit', $result->id)}}"
-                      data-action="{{route('category.update', $result->id)}}" value="Edit">&nbsp;
+                    <input type="button" class="btn  btn-warning  editRecord" data-title="Coupon"
+                      data-url="{{route('coupon.edit', $result->id)}}"
+                      data-action="{{route('coupon.update', $result->id)}}" value="Edit">&nbsp;
                     <input type="button" class="btn  btn-danger  deleteRecord"
-                      data-url="{{route('category.destroy', $result->id)}}" value="Delete">
+                      data-url="{{route('coupon.destroy', $result->id)}}" value="Delete">
                   </div>
                 </td>
               </tr>
@@ -85,22 +91,50 @@
       </div>
     </div>
   </div>
-  <div class="modal fade" id="modalCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  <div class="modal fade" id="modalCoupon" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add Coupon</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form name="ajax_form" method="post" action="{{route('category.store')}}" enctype="multipart/form-data">
+        <form name="ajax_form" method="post" action="{{route('coupon.store')}}" enctype="multipart/form-data">
           @csrf
           <div class="modal-body">
             <div class="form-group">
-              <label for="name" class="col-form-label">Name *:</label>
-              <input type="text" name="name" class="form-control" id="name" autocomplete="off">
+              <label for="coupon_code" class="col-form-label">Name *:</label>
+              <input type="text" name="coupon_code" class="form-control" id="coupon_code" autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label for="start_date" class="col-form-label">Start date *:</label>
+              <input type="date" id="start_date" name="start_date" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="end_date" class="col-form-label">End date *:</label>
+              <input type="date" id="end_date" name="end_date" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="discount_type" class="col-form-label">Discount Type *:</label>
+              <select name="discount_type" class="form-control">
+                <option value="" selected>Select Discount Type</option>
+                <option value="1">Percentage</option>
+                <option value="2">Value</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="discount" class="col-form-label">Discount *:</label>
+              <input type="text" id="discount" name="discount" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="status" class="col-form-label">Status *:</label>
+              <select name="status" class="form-control">
+                <option value="" selected>Select Status</option>
+                <option value="1">Active</option>
+                <option value="0">Disabled</option>
+              </select>
             </div>
           </div>
           <div class="modal-footer">

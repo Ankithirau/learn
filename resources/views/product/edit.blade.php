@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('styles')
@@ -7,8 +6,7 @@
 <link href="{{URL::asset('assets/plugins/datatable/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
 <link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('assets/plugins/datatable/responsivebootstrap4.min.css')}}" rel="stylesheet" />
-<script src="https://cdn.tiny.cloud/1/9rzt1ee962ipuoijl24sevk0vp5yt5tflc9hooynbmq49wfw/tinymce/5/tinymce.min.js"
-  referrerpolicy="origin"></script>
+
 <link rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" />
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
@@ -62,7 +60,8 @@
                   <span class="text-danger">*</span>
                 </label>
                 {{-- {{print_r($other_point)}} --}}
-                {{-- <pre> --}}
+                {{--
+                <pre> --}}
 
 
                   {{-- @if(!empty($other_point))
@@ -75,16 +74,16 @@
                   multiple id="pick_point_id">
                   @if(!empty($pickup_points))
                   @php
-                      $selected_points=explode(',',$result->pickup_point_id);
+                  $selected_points=explode(',',$result->pickup_point_id);
                   @endphp
                   @foreach($pickup_points as $key=> $points)
-                  <option value="{{$points->id}}" @if (in_array($points->id,$selected_points)) selected 
-                      
-                  @endif>{{$points->name}}</option>
+                  <option value="{{$points->id}}" @if (in_array($points->id,$selected_points)) selected
+
+                    @endif>{{$points->name}}</option>
                   @endforeach
                   @endif
 
-                  
+
                   {{-- @if(!empty($other_point))
                   @foreach($other_point as $key => $pickpoints)
                   <option value="{{$pickpoints[0]->id}}">{{$pickpoints[0]->name}}</option>
@@ -114,12 +113,12 @@
                   multiple id="counties_id">
                   @if(!empty($counties))
                   @php
-                      $selected_counties=explode(',',$result->counties_id);
+                  $selected_counties=explode(',',$result->counties_id);
                   @endphp
                   @foreach($counties as $key=> $county)
-                  <option value="{{$county->id}}" @if (in_array($county->id,$selected_counties)) selected 
-                      
-                  @endif>{{$county->name}}</option>
+                  <option value="{{$county->id}}" @if (in_array($county->id,$selected_counties)) selected
+
+                    @endif>{{$county->name}}</option>
                   @endforeach
                   @endif
                   {{-- @if(!empty($county))
@@ -186,12 +185,12 @@
                   @endif --}}
                   @if(!empty($categories))
                   @php
-                      $selected_categories=explode(',',$result->category_id);
+                  $selected_categories=explode(',',$result->category_id);
                   @endphp
                   @foreach($categories as $key=> $category)
-                  <option value="{{$category->id}}" @if (in_array($category->id,$selected_categories)) selected 
-                      
-                  @endif>{{$category->name}}</option>
+                  <option value="{{$category->id}}" @if (in_array($category->id,$selected_categories)) selected
+
+                    @endif>{{$category->name}}</option>
                   @endforeach
                   @endif
                 </select>

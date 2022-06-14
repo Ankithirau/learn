@@ -26,6 +26,11 @@ Route::post('user/update_password/{id}', [App\Http\Controllers\API\APIUserContro
 
 Route::resource('/event', App\Http\Controllers\API\EventController::class);
 
+Route::get('/event-detail/{id}', [App\Http\Controllers\API\EventController::class, 'product_details']);
+
+
+Route::resource('/event', App\Http\Controllers\API\EventController::class);
+
 Route::get('pickup_point/{id}', [App\Http\Controllers\API\EventController::class, 'pickuppoint_by_county']);
 
 Route::get('county/{id}', [App\Http\Controllers\API\EventController::class, 'county_by_Id']);
