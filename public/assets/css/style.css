@@ -17,4 +17,6 @@
   display: grid !important;
   width: 100%;
 }
-
+#map {
+  height: 400px;
+}

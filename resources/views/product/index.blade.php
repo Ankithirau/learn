@@ -35,7 +35,6 @@
                 <th class="border-bottom-0 bg-primary">S.No.</th>
                 <th class="border-bottom-0 bg-primary">Name</th>
                 <th class="border-bottom-0 bg-primary">Price</th>
-                <th class="border-bottom-0 bg-primary">Description</th>
                 <th class="border-bottom-0 bg-primary">Status</th>
                 <th class="border-bottom-0 bg-primary">Actions</th>
               </tr>
@@ -58,15 +57,28 @@
                 </td>
                 <td>
                   <div class="d-flex">
-                    <a class="btn btn-success" href="{{route('product.variation',$result->id)}}">Add
-                      Variations</a>
-                    &nbsp;
-                    <a class="btn btn-primary" href="{{route('product.show', $result->id)}}" value="Edit">View</a>
-                    &nbsp;
-                    <a class="btn btn-warning" href="{{route('product.edit', $result->id)}}" value="Edit">Edit</a>
-                    &nbsp;
-                    <input type="button" class="btn  btn-danger  deleteRecord"
-                      data-url="{{route('product.destroy', $result->id)}}" value="Delete">
+                    <div class="dropdown">
+                      <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1s"
+                        data-bs-toggle="dropdown" aria-expanded="false" type="button">
+                        Action &nbsp;&nbsp;<i class="fa fa-chevron-down"></i>
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1s">
+                        <li>
+                          <a class="dropdown-item" href="{{route('product.variation',$result->id)}}">Add
+                            Variations</a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="{{route('product.show', $result->id)}}">View</a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="{{route('product.edit', $result->id)}}">Edit</a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item deleteRecord" href="javascript:void(0)"
+                            data-url="{{route('product.destroy', $result->id)}}">Delete</a>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </td>
               </tr>
@@ -232,5 +244,6 @@
 <script src="{{URL::asset('assets/plugins/datatable/dataTables.responsive.min.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/datatable/responsive.bootstrap4.min.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/datatable/datatable-2.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 
 @endsection

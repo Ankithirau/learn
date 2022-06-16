@@ -42,18 +42,18 @@
               <div class="form-group">
                 <label for="name" class="col-form-label">Product Name :<span class="text-danger">*</span>:</label>
                 <input type="text" name="name" class="form-control" id="name" autocomplete="off"
-                  value="{{$result->name}}" />
+                  value="{{$result->name}}" placeholder="Enter Product Name" />
               </div>
               <div class="form-group">
                 <label for="price" class="col-form-label">Product Price :<span class="text-danger">*</span>:</label>
                 <input type="text" name="price" class="form-control" id="price" autocomplete="off"
-                  value="{{$result->price}}">
+                  value="{{$result->price}}" placeholder="Enter Product Price">
               </div>
               <div class="form-group">
                 <label for="shortdesc" class="col-form-label">Short Description :<span
                     class="text-danger">*</span></label>
-                <textarea class="form-control" name="shortdesc" id="shortdesc" autocomplete="off" cols="30"
-                  rows="5">{{$result->shortdesc}}</textarea>
+                <textarea class="form-control" name="shortdesc" id="shortdesc" autocomplete="off" cols="30" rows="5"
+                  placeholder="Enter Product Price">{{$result->shortdesc}}</textarea>
               </div>
               <div class="form-group">
                 <label for="pick_point_id" class="col-form-label">Pick up Points & Departure Times:
@@ -203,6 +203,30 @@
                   <label class="form-check-label" for="flexCheckChecked">
                     Allow ticket check-out :<span class="text-danger">*</span>
                   </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="meta_title" class="col-form-label">Product Meta Title<span
+                        class="text-danger">*</span></label>
+                    <input type="text" name="meta_title" value="{{$result->meta_title}}" class="form-control"
+                      id="meta_title" autocomplete="off">
+                  </div>
+                  <div class="form-group">
+                    <label for="meta_tag" class="col-form-label">Product Meta Tag<span
+                        class="text-danger">*</span></label>
+                    <input type="text" name="meta_tag" value="{{$result->meta_tag}}" class="form-control" id="meta_tag"
+                      autocomplete="off">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="check_in_per_ticket" class="col-form-label">Product Meta Description :<span
+                        class="text-danger">*</span></label>
+                    <textarea name="meta_desc" id="" cols="25" rows="5"
+                      class="form-control">{{$result->meta_desc}}</textarea>
+                  </div>
                 </div>
               </div>
             </div>

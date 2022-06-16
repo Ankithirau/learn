@@ -44,17 +44,19 @@
             <div class="col-md-12 col-lg-12">
               <div class="form-group">
                 <label for="name" class="col-form-label">Product Name :<span class="text-danger">*</span>:</label>
-                <input type="text" name="name" class="form-control" id="name" autocomplete="off">
+                <input type="text" name="name" class="form-control" id="name" autocomplete="off"
+                  placeholder="Enter Product Name">
               </div>
               <div class="form-group">
                 <label for="price" class="col-form-label">Product Price :<span class="text-danger">*</span>:</label>
-                <input type="text" name="price" class="form-control" id="price" autocomplete="off">
+                <input type="text" name="price" class="form-control" id="price" autocomplete="off"
+                  placeholder="Enter Product Price">
               </div>
               <div class="form-group">
                 <label for="shortdesc" class="col-form-label">Short Description :<span
                     class="text-danger">*</span></label>
-                <textarea name="shortdesc" class="form-control" id="shortdesc" autocomplete="off" cols="30"
-                  rows="5"></textarea>
+                <textarea name="shortdesc" class="form-control" id="shortdesc" autocomplete="off" cols="30" rows="5"
+                  placeholder="Enter Product Short Description"></textarea>
               </div>
               <div class="form-group">
                 <label for="pick_point_id" class="col-form-label">Pick up Points & Departure Times:
@@ -78,7 +80,8 @@
               <div class="form-group">
                 <label for="date_concert" class="col-form-label">Date of Concert:<span
                     class="text-danger">*</span></label>
-                <input type="text" name="date_concert" class="form-control" id="date_concert" autocomplete="off">
+                <input type="text" name="date_concert" class="form-control" id="date_concert" autocomplete="off"
+                  placeholder="Select Date here">
               </div>
               <div class="form-group">
                 <label for="counties_id" class="col-form-label">County you wish to travel from: <span
@@ -104,7 +107,8 @@
               </div>
               <div class="form-group">
                 <label for="sku" class="col-form-label">Sku :<span class="text-danger">*</span></label>
-                <input type="text" name="sku" class="form-control" id="sku" autocomplete="off">
+                <input type="text" name="sku" class="form-control" id="sku" autocomplete="off"
+                  placeholder="Enter Sku here">
               </div>
               <div class="form-group">
                 <label for="event_id" class="col-form-label">Event :<span class="text-danger">*</span></label>
@@ -121,7 +125,7 @@
                 <label for="check_in_per_ticket" class="col-form-label">Check-ins per ticket :<span
                     class="text-danger">*</span></label>
                 <input type="number" name="check_in_per_ticket" class="form-control" id="check_in_per_ticket"
-                  autocomplete="off">
+                  autocomplete="off" placeholder="Enter Check-ins per ticket here">
               </div>
               <div class="form-group">
                 <label for="category_id" class="col-form-label">Category :<span class="text-danger">*</span></label>
@@ -143,12 +147,36 @@
                   </label>
                 </div>
               </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="meta_title" class="col-form-label">Product Meta Title<span
+                        class="text-danger">*</span></label>
+                    <input type="text" name="meta_title" class="form-control" id="meta_title" autocomplete="off"
+                      placeholder="Enter Meta Title here">
+                  </div>
+                  <div class="form-group">
+                    <label for="meta_tag" class="col-form-label">Product Meta Tag<span
+                        class="text-danger">*</span></label>
+                    <input type="text" name="meta_tag" class="form-control" id="meta_tag" autocomplete="off"
+                      placeholder="Enter Meta Tag here">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="check_in_per_ticket" class="col-form-label">Product Meta Description :<span
+                        class="text-danger">*</span></label>
+                    <textarea name="meta_desc" id="" cols="25" rows="5" class="form-control"
+                      placeholder="Enter Meta Description here"></textarea>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="col-md-12 col-lg-12">
               <div class="form-group">
                 <label for="description" class="col-form-label">Description :<span class="text-danger">*</span></label>
                 <textarea name="description" class="form-control" id="description" autocomplete="off" cols="30"
-                  rows="20"></textarea>
+                  rows="20" placeholder="Enter Description here"></textarea>
               </div>
             </div>
           </div>

@@ -59,6 +59,8 @@ Route::group(['middleware' => ['auth', 'CheckUserLogin']], function () {
 
     Route::resource('/seo', App\Http\Controllers\SeoController::class);
 
+    Route::resource('/tracker', App\Http\Controllers\BuspostionController::class);
+
     Route::get('/seo-status/{id}', [App\Http\Controllers\SeoController::class, 'status'])->name('seo.status');
 
     Route::get('/product-status/{id}', [App\Http\Controllers\ProductController::class, 'status'])->name('product.status');

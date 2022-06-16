@@ -715,3 +715,67 @@ function showError(msg) {
 function showWarning(msg) {
   toastr.warning(msg);
 }
+
+/**
+ * @license
+ * Copyright 2021 Google LLC.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+// The following example creates five accessible and
+// focusable markers.
+function initMap() {
+  const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 12,
+    center: { lat: 51.54879, lng: -9.2637 },
+  });
+  // Set LatLng and title text for the markers. The first marker (Boynton Pass)
+  // receives the initial focus when tab is pressed. Use arrow keys to
+  // move between markers; press tab again to cycle through the map controls.
+  const tourStops = [
+    [{ lat: 51.54879, lng: -9.26374 }, "Boynton Pass"],
+    [{ lat: 51.53879, lng: -9.25374 }, "Airport Mesa"],
+    [{ lat: 51.52879, lng: -9.24374 }, "Chapel of the Holy Cross"],
+    [{ lat: 51.51879, lng: -9.23374 }, "Red Rock Crossing"],
+    [{ lat: 51.50879, lng: -9.22374 }, "Bell Rock"],
+  ];
+  const tourStopss = [{ lat: 51.54879, lng: -9.26374 }];
+  const flightPath = new google.maps.Polyline({
+    path: tourStopss,
+    geodesic: true,
+    strokeColor: "#FF0000",
+    strokeOpacity: 1.0,
+    strokeWeight: 2,
+  });
+
+  flightPath.setMap(map);
+  // Create an info window to share between markers.
+  const infoWindow = new google.maps.InfoWindow();
+
+  // Create the markers.
+  const image = "https://www.linkpicture.com/q/new_1.png";
+
+  tourStops.forEach(([position, title], i) => {
+    const marker = new google.maps.Marker({
+      position,
+      map,
+      icon: image,
+      title: `${i + 1}. ${title}`,
+      label: {
+        text: `${i + 1}`, // codepoint from https://fonts.google.com/icons
+        fontFamily: "Material Icons",
+        color: "#0d0c0a",
+        fontSize: "0px",
+      },
+      optimized: false,
+    });
+
+    // Add a click listener for each marker, and set up the info window.
+    marker.addListener("click", () => {
+      infoWindow.close();
+      infoWindow.setContent(marker.getTitle());
+      infoWindow.open(marker.getMap(), marker);
+    });
+  });
+}
+
+window.initMap = initMap;

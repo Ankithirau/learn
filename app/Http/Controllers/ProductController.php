@@ -69,6 +69,9 @@ class ProductController extends Controller
                 'event_id' => 'required',
                 'category_id' => 'required',
                 'check_in_per_ticket' => 'required',
+                'meta_title' => 'required|string',
+                'meta_tag' => 'required|string',
+                'meta_desc' => 'required|string',
             ],
             [
                 'pick_point_id.required'    => 'The Pickup Point is required.',
@@ -77,6 +80,9 @@ class ProductController extends Controller
                 'category_id.required'    => 'The Category is required.',
                 'check_in_per_ticket.required'    => 'The Check-ins per ticket is required.',
                 'date_concert.required'      => 'The Date of concert is required.',
+                'meta_title.required' => 'Meta Title is required.',
+                'meta_tag.required' => 'Meta Tag is required.',
+                'meta_desc.required' => 'Meta Description is required.',
             ]
         );
 
@@ -102,6 +108,9 @@ class ProductController extends Controller
             $store->date_concert = $requested_data['date_concert'];
             $store->event_id = $requested_data['event_id'];
             $store->category_id = $requested_data['category_id'];
+            $store->meta_title = $requested_data['meta_title'];
+            $store->meta_tag = $requested_data['meta_tag'];
+            $store->meta_desc = $requested_data['meta_desc'];
             $store->image = $filename;
             $store->created_by = Auth::user()->id;
 
@@ -205,6 +214,9 @@ class ProductController extends Controller
                 'event_id' => 'required',
                 'category_id' => 'required',
                 'check_ins_per_ticket' => 'required',
+                'meta_title' => 'required|string',
+                'meta_tag' => 'required|string',
+                'meta_desc' => 'required|string',
             ],
             [
                 'pick_point_id.required'    => 'The Pickup Point is required.',
@@ -213,6 +225,9 @@ class ProductController extends Controller
                 'category_id.required'    => 'The Category is required.',
                 'check_in_per_ticket.required'    => 'The Check-ins per ticket is required.',
                 'date_concert.required'      => 'The Date of concert is required.',
+                'meta_title.required' => 'Meta Title is required.',
+                'meta_tag.required' => 'Meta Tag is required.',
+                'meta_desc.required' => 'Meta Description is required.',
             ]
         );
 
@@ -232,6 +247,9 @@ class ProductController extends Controller
             $store->date_concert = $requested_data['date_concert'];
             $store->event_id = $requested_data['event_id'];
             $store->category_id = $requested_data['category_id'];
+            $store->meta_title = $requested_data['meta_title'];
+            $store->meta_tag = $requested_data['meta_tag'];
+            $store->meta_desc = $requested_data['meta_desc'];
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
                 $filename = time() . '.' . $request->image->extension();
@@ -247,7 +265,7 @@ class ProductController extends Controller
             $store->save();
             $response = array('status' => 200, 'msg' => 'Data saved successfully...!');
         } catch (\Throwable $th) {
-            $response = array('status' => 500, 'msg' => 'Something went wrong...!"' . $th . '"');
+            $response = array('status' => 500, 'msg' => $th->getMessage());
         }
         return json_encode($response);
 

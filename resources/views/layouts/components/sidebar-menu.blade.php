@@ -20,7 +20,7 @@
 				<li><a href="{{url('subcategory')}}" class="slide-item">Subcategory </a></li>
 			</ul>
 		</li>
-		<li>
+		<li class="slide">
 			<a class="side-menu__item" data-toggle="slide" href="#">
 				<i class="side-menu__icon mdi fs-2 mdi-van-passenger"></i><span
 					class="side-menu__label">Operator</span><i class="angle fa fa-angle-right"></i></a>
@@ -42,7 +42,7 @@
 				<i class="side-menu__icon mdi fs-2 mdi-map-marker"></i><span class="side-menu__label">Pickup
 					Points</span></a>
 		</li>
-		<li>
+		<li class="slide">
 			<a class="side-menu__item" data-toggle="slide" href="#">
 				<i class="side-menu__icon mdi fs-2 mdi-cart"></i><span class="side-menu__label">Product</span><i
 					class="angle fa fa-angle-right"></i></a>

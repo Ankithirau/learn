@@ -21,9 +21,10 @@ class CreateBookingsTable extends Migration
             $table->string('booking_email')->nullable();
             $table->string('booking_phone')->nullable();
             $table->text('booking_info')->nullable();
-            $table->string('booking_date', 50);
-            $table->decimal('booking_amount', 10, 2);
-            $table->tinyInteger('no_of_seats_booked')->nullable();
+            $table->date('booking_date');
+            $table->decimal('fare_amount', 10, 2);
+            $table->decimal('total_amount', 10, 2);
+            $table->tinyInteger('number_of_seats')->nullable();
             $table->bigInteger('product_id')->unsigned()->nullable();
             $table->foreign('product_id')->references('id')->on('products')
                 ->onDelete('cascade');

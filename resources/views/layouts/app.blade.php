@@ -148,6 +148,8 @@
 
     <script src="{{asset('assets/js/toastr.min.js')}}"></script>
     <script src="{{URL::asset('assets/js/common-action.js')}}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDR44kcH-9BWx43vlGYZ2jxDC7HqlVU0Js&callback=initMap"
+        defer></script>
 </body>
 
 </html>

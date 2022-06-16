@@ -187,6 +187,34 @@ class EventController extends Controller
     public function product_detail(Request $request, $id)
     {
         $result =  Product::find($id);
+
+        $result->price = "\xE2\x82\xAc " . $result->price;
+
+        $result->image = asset('uploads/event_image') . '/' . $result->image;
+
+        $result->date_concert = explode(',', $result->date_concert);;
+
+        // $counties = explode(',', $result->counties_id);
+
+        // $pickup_point = explode(',', $result->pickup_point_id);
+
+        // $county_arr = array();
+
+        // $pickup_arr = array();
+
+        // foreach ($counties as $key => $value) {
+        //     $county_arr[] = County::select('id', 'name')->find($value);
+        // }
+
+        // foreach ($pickup_point as $key => $value) {
+        //     $pickup_arr[] = Pick_Point::select('id', 'name')->find($value);
+        // }
+
+        $result->counties = County::select('id', 'name')->get();
+
+        $result->pickup_point = Pick_Point::select('id', 'counties_id', 'name')->get();
+
+
         if ($result) {
             $response = array('status' => 200, 'result' => $result);
         } else {
