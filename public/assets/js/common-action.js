@@ -752,7 +752,7 @@ function initMap() {
   const infoWindow = new google.maps.InfoWindow();
 
   // Create the markers.
-  const image = "https://www.linkpicture.com/q/new_1.png";
+  const image = "https://gcdnb.pbrd.co/images/EsjrYbyrkSq7.png?o=1";
 
   tourStops.forEach(([position, title], i) => {
     const marker = new google.maps.Marker({

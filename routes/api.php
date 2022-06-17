@@ -28,8 +28,9 @@ Route::resource('/event', App\Http\Controllers\API\EventController::class);
 
 Route::get('/event-detail/{id}', [App\Http\Controllers\API\EventController::class, 'product_detail']);
 
-
 Route::resource('/event', App\Http\Controllers\API\EventController::class);
+
+Route::resource('/seo', App\Http\Controllers\API\SeoController::class);
 
 Route::get('pickup_point/{id}', [App\Http\Controllers\API\EventController::class, 'pickuppoint_by_county']);
 
@@ -67,7 +68,7 @@ Route::get('test', function () {
         'info' => 'Laravel & Python Devloper'
     ];
 
-    \Mail::to('hira.jabi25@gmail.com')->send(new \App\Mail\NewMail($user));
+    \Mail::to('viradoj301@exoacre.com')->send(new \App\Mail\NewMail($user));
 
     dd("success");
 });

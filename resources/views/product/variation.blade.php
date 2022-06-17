@@ -62,15 +62,24 @@
                   <input type="hidden" name="pickup_id[]" class="form-control pickup_id" value="{{$point->id}}">
                 </td>
                 @php
-                $prices=\App\Models\Product_variation::where(['counties_id'=>$val['county']['id'],'pickup_point_id'=>$point->id,'product_id'=>$val['product']['id']])->first();
+                $prices=\App\Models\Product_variation::select('id','price')->where(['counties_id'=>$val['county']['id'],'pickup_point_id'=>$point->id,'product_id'=>$val['product']['id']])->first();
                 @endphp
-                <td><input type="text" name="price[]" class="form-control price" id="price_{{$point->id}}">
+
+                @if ($prices)
+                <td>
+                  <input type="text" name="price[]" class="form-control price" id="price_{{$point->id}}"
+                    value="{{$prices->price}}">
                 </td>
-                {{-- {{print_r($prices)}} --}}
+                @else
+                <td>
+                  <input type="text" name="price[]" class="form-control price" id="price_{{$point->id}}">
+                </td>
+                @endif
+
                 <td>
                   <input type="button" value="Update" class="btn btn-primary update_variation"
-                    data-action="{{route('product.add_variation',1)}}">
-                  </td>
+                    data-action="{{route('product.add_variation',$point->id)}}">
+                </td>
               </tr>
               @endforeach
               @endforeach

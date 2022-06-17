@@ -20,6 +20,8 @@ class CreateEventScheduleTable extends Migration
             $table->string('destination', 100);
             $table->date('schedule_date');
             $table->time('departure_time');
+            $table->decimal('bus_lat', 10, 7);
+            $table->decimal('bus_lng', 10, 7);
             $table->bigInteger('pickup_point_id')->unsigned();
             $table->foreign('pickup_point_id')->references('id')->on('pickup_points')
                 ->onDelete('cascade');

@@ -324,43 +324,46 @@ class ProductController extends Controller
 
     public function add_variation(Request $request, $id)
     {
-        // dd($id);
+
         $requested_data = $request->except(['_token', '_method']);
+
         if (empty($request->get('price'))) {
             $response = array('status' => 400, 'pickup_id' => $request->get('pickup_id'), 'price' => 'Price is required.');
             return json_encode($response);
         }
-        // die();
-        // try {
 
-        $store = Product_variation::firstOrNew(array('id' => $id));
+        $record = Product_variation::find($id);
 
-        // $store->date_concert = implode(', ', $request->get('date'));
+        if (empty($record)) {
 
-        $store->date_concert = $request->get('date');
+            $store = new product_variation;
 
-        // $store->price = $requested_data['price'];
+            $store->date_concert = $request->get('date');
 
-        $store->price = $request->get('price');
+            $store->price = $request->get('price');
 
-        // $store->counties_id = implode(', ', $request->get('county_id'));
+            $store->counties_id = $request->get('county_id');
 
-        $store->counties_id = $request->get('county_id');
+            $store->pickup_point_id = $request->get('pickup_id');
 
-        // $store->pickup_point_id = implode(', ', $request->get('pickup_id'));
+            $store->product_id = $request->get('product');
 
-        $store->pickup_point_id = $request->get('pickup_id');
+            $store->created_by = Auth::user()->id;
 
-        $store->product_id = $request->get('product');
+            $store->save();
+        } else {
 
-        $store->created_by = Auth::user()->id;
+            $record->price = $request->get('price');
 
-        $store->save();
+            $record->save();
+        }
 
-        $response = array('status' => 200, 'msg' => 'Data saved successfully...!');
-        // } catch (\Throwable $th) {
-        $response = array('status' => 500, 'msg' => "");
-        // }
+        if (!empty($record) || !empty($store)) {
+            $response = array('status' => 200, 'msg' => 'Data saved successfully...!');
+        } else {
+            $response = array('status' => 500, 'msg' => "");
+        }
+
         return json_encode($response);
     }
 
@@ -381,19 +384,20 @@ class ProductController extends Controller
         $prices = $request->price;
         $counties = $request->county_id;
         $pickups = $request->pickup_id;
+
         for ($i = 0; $i < count($dates); $i++) {
             $date = $dates[$i];
             $product_id = $products[$i];
             $price = $prices[$i];
             $counties_id = $counties[$i];
             $pickup_id = $pickups[$i];
-            $variation_exist = Product_variation::where(['product_id' => $product_id, 'counties_id' => $counties_id, 'pickup_point_id' => $pickup_id])->first();
+            $variation_exist = Product_variation::where(['product_id' => $product_id, 'counties_id' => $counties_id, 'pickup_point_id' => $pickup_id, 'date_concert' => $date])->first();
             $data_array = array(
                 'date_concert' => $date,
                 'product_id' => $product_id,
                 'price' => $price,
                 'counties_id' => $counties_id,
-                'pickup_point_id' => $product_id
+                'pickup_point_id' => $pickup_id
             );
             if (!$variation_exist) {
                 $data_array['created_by'] = Auth::user()->id;

@@ -26,7 +26,7 @@ class EventController extends Controller
 
         foreach ($results as $key => $event) {
 
-            $event->price = "\xE2\x82\xAc " . $event->price;
+            $event->price =  $event->price;
 
             $event->image = asset('uploads/event_image') . '/' . $event->image;
         }
@@ -135,7 +135,7 @@ class EventController extends Controller
 
     public function get_price(Request $request, $product_id, $county_id, $point_id)
     {
-        $price = Product_variation::where(['product_id' => $product_id, 'counties_id' => $county_id, 'pickup_point_id' => $point_id])->get()->makeHidden(['created_by', 'status', 'created_at', 'updated_at']);
+        $price = Product_variation::select('price')->where(['product_id' => $product_id, 'counties_id' => $county_id, 'pickup_point_id' => $point_id])->first();
 
         if ($price->count() > 0) {
             $response = array('status' => 200, 'data' => $price);
@@ -188,7 +188,7 @@ class EventController extends Controller
     {
         $result =  Product::find($id);
 
-        $result->price = "\xE2\x82\xAc " . $result->price;
+        $result->price =  $result->price;
 
         $result->image = asset('uploads/event_image') . '/' . $result->image;
 
