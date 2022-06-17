@@ -36,7 +36,7 @@ class EventController extends Controller
             $response = array('status' => 200, 'data' => $results);
         } else {
 
-            $response = array('status' => 500, 'msg' => 'No Record Found');
+            $response = array('status' => 500, 'msg' => 'No Record Founds');
         }
         return response()->json($response);
     }
