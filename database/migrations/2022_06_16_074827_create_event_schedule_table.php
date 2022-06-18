@@ -16,6 +16,7 @@ class CreateEventScheduleTable extends Migration
     {
         Schema::create('event_schedule', function (Blueprint $table) {
             $table->id();
+            $table->string('route_name', 100);
             $table->string('starting_point', 100);
             $table->string('destination', 100);
             $table->date('schedule_date');

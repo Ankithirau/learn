@@ -28,6 +28,8 @@ Route::resource('/event', App\Http\Controllers\API\EventController::class);
 
 Route::get('/event-detail/{id}', [App\Http\Controllers\API\EventController::class, 'product_detail']);
 
+Route::get('/event-search/{search}', [App\Http\Controllers\API\EventController::class, 'search_product']);
+
 Route::resource('/event', App\Http\Controllers\API\EventController::class);
 
 Route::resource('/seo', App\Http\Controllers\API\SeoController::class);

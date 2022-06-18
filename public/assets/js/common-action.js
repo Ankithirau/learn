@@ -27,6 +27,11 @@ $(document).ready(function () {
       $("#form-button").attr("type", "button");
     }
   });
+  $('#add_time').datetimepicker({
+    datepicker:false,
+    formatTime:"h:i a",
+    step:60
+ });
   $(document).on("click", ".update_variation", function () {
     var tr = $(this).closest("tr");
     $(".has_error").remove();

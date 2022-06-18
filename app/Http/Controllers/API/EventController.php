@@ -29,6 +29,14 @@ class EventController extends Controller
             $event->price =  $event->price;
 
             $event->image = asset('uploads/event_image') . '/' . $event->image;
+
+            $variation = Product_variation::where(['product_id' => $event->id])->get();
+
+            $min_price = ($variation->min('price')) ? $variation->min('price') : 'N/A';
+
+            $max_price = ($variation->max('price')) ? $variation->max('price') : 'N/A';
+
+            $event->price = $min_price  . '-' . $max_price;
         }
 
         if ($results->count() > 0) {
@@ -188,11 +196,17 @@ class EventController extends Controller
     {
         $result =  Product::find($id);
 
-        $result->price =  $result->price;
+        $variation = Product_variation::where(['product_id' => $result->id])->get();
+
+        $min_price = ($variation->min('price')) ? $variation->min('price') : 'N/A';
+
+        $max_price = ($variation->max('price')) ? $variation->max('price') : 'N/A';
+
+        $result->price = $min_price  . '-' . $max_price;
 
         $result->image = asset('uploads/event_image') . '/' . $result->image;
 
-        $result->date_concert = explode(',', $result->date_concert);;
+        $result->date_concert = explode(',', $result->date_concert);
 
         // $counties = explode(',', $result->counties_id);
 
@@ -220,6 +234,33 @@ class EventController extends Controller
         } else {
             $response = array('status' => 400, 'msg' => 'Something went wrong...!');
         }
+        return response()->json($response);
+    }
+
+    public function search_product(Request $request, $search)
+    {
+
+        $result = Product::select('id', 'name', 'image')->where('name', 'LIKE', '%' . $search . '%')->where('status', 1)->get();
+
+        foreach ($result as $key => $product) {
+
+            $product->image = asset('uploads/event_image') . '/' . $product->image;
+
+            $variation = Product_variation::where(['product_id' => $product->id])->get();
+
+            $min_price = ($variation->min('price')) ? $variation->min('price') : 'N/A';
+
+            $max_price = ($variation->max('price')) ? $variation->max('price') : 'N/A';
+
+            $product->price = $min_price  . '-' . $max_price;
+        }
+
+        if (!empty($result)) {
+            $response = array('status' => 200, 'result' => $result);
+        } else {
+            $response = array('status' => 400, 'msg' => 'No Record Found...!');
+        }
+
         return response()->json($response);
     }
 }

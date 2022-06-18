@@ -22,7 +22,7 @@
 		</li>
 		<li class="slide">
 			<a class="side-menu__item" data-toggle="slide" href="#">
-				<i class="side-menu__icon mdi fs-2 mdi-van-passenger"></i><span
+				<i class="side-menu__icon mdi fs-2 mdi-account-circle"></i><span
 					class="side-menu__label">Operator</span><i class="angle fa fa-angle-right"></i></a>
 			<ul class="slide-menu">
 				<li><a href="{{route('operator.create')}}" class="slide-item">Create </a></li>
@@ -50,6 +50,16 @@
 				<li><a href="{{route('product.create')}}" class="slide-item">Create </a></li>
 				<li><a href="{{route('product.index')}}" class="slide-item">Show </a></li>
 			</ul>
+		</li>
+		<li>
+			<a class="side-menu__item" href="{{url('pickups')}}">
+				<i class="side-menu__icon mdi fs-2 mdi-bus"></i><span class="side-menu__label">
+					Bus Detail</span></a>
+		</li>
+		<li>
+			<a class="side-menu__item" href="{{url('schedule')}}">
+				<i class="side-menu__icon mdi fs-2 mdi-timer"></i><span class="side-menu__label">
+					Route Schedule</span></a>
 		</li>
 		<li>
 			<a class="side-menu__item" href="{{url('seo')}}">

@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('auth.login');
-})->name('login');
+    // return view('auth.login');
+    return redirect('home');
+    // })->name('login');
+});
 
 Auth::routes();
 
@@ -34,6 +36,8 @@ Route::group(['middleware' => ['auth', 'CheckUserLogin']], function () {
     Route::get('get-Place', [App\Http\Controllers\PlaceController::class, 'get_Place'])->name('places.place_list');
 
     Route::resource('/category', App\Http\Controllers\CategoryController::class);
+
+    Route::resource('/schedule', App\Http\Controllers\ScheduleController::class);
 
     Route::resource('/subcategory', App\Http\Controllers\SubcategoryController::class);
 
