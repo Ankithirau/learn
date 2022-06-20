@@ -45,6 +45,7 @@ Route::post('login', [App\Http\Controllers\API\APIEmployeeController::class, 'do
 Route::post('/booking', [App\Http\Controllers\API\EventController::class, 'book_product']);
 
 Route::get('companies', [App\Http\Controllers\API\APIClientController::class, 'index']);
+Route::post('/payment', [App\Http\Controllers\StripeController::class, 'stripePost']);
 
 Route::get('employees/{client_id}', [App\Http\Controllers\API\APIEmployeeController::class, 'index']);
 Route::post('employee/store', [App\Http\Controllers\API\APIEmployeeController::class, 'store']);
