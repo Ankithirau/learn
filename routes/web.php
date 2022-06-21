@@ -83,4 +83,4 @@ Route::group(['middleware' => ['auth', 'CheckUserLogin']], function () {
     Route::get('/category-status/{id}', [App\Http\Controllers\CategoryController::class, 'status'])->name('category.status');
 });
 
-// Route::stripeWebhooks('stripe-webhook');
+Route::stripeWebhooks('stripe-webhook');

@@ -120,6 +120,7 @@ class StripeController extends Controller
                 'description' => 'test description',
                 'currency' => $fields['currency'],
                 'payment_method_types' => ['card'],
+                // 'confirm' => true,
                 'metadata' => [
                     'books' => '6735',
                 ],
