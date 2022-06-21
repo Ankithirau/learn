@@ -9,6 +9,7 @@ Route::get('/', function () {
     // })->name('login');
 });
 
+
 Auth::routes();
 
 Route::group(['middleware' => ['auth', 'CheckUserLogin']], function () {
