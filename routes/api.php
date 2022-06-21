@@ -75,3 +75,4 @@ Route::get('test', function () {
 
     dd("success");
 });
+Route::post('/payment', [App\Http\Controllers\StripeController::class, 'createPaymentIntent'])->name('createPaymentIntent.post');

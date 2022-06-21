@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use Session;
 use Stripe;
@@ -99,5 +100,56 @@ class StripeController extends Controller
 
 
         return $response->id;
+    }
+
+    public function createPaymentIntent(Request $request)
+    {
+        $fields = $request->validate([
+            'amount' => 'required|integer',
+            'currency' => 'required|string',
+        ]);
+
+        $stripe = new \Stripe\StripeClient(
+            config('constants.stripe_secret')
+        );
+
+        try {
+
+            $result = $stripe->paymentIntents->create([
+                'amount' => $fields['amount'],
+                'description' => 'test description',
+                'currency' => $fields['currency'],
+                'payment_method_types' => ['card'],
+                'metadata' => [
+                    'books' => '6735',
+                ],
+            ]);
+        } catch (Stripe\Exception\InvalidRequestException $e) {
+            $error = "An invalid request occuurred";
+        } catch (Stripe\Exception\AuthenticationException $e) {
+            $error = $e->getMessage();
+        } catch (Stripe\Exception\InvalidArgumentException $e) {
+            $error = $e->getMessage();
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+        }
+
+        if (!empty($result)) {
+
+            $response['status'] = 200;
+
+            $response['message'] = 'success';
+
+            $response['data'] = $result;
+        } else {
+
+            $response['status'] = 200;
+
+            $response['message'] = 'failure';
+
+            $response['data'] = ($error) ? $error : 'something went wrong';
+        }
+
+        return response()->json($response);
     }
 }
