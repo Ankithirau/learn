@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 |
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
+| is assigneds the "api" middleware group. Enjoy building your API!
 |
 */
 
@@ -25,6 +25,7 @@ Route::post('/user/login', [App\Http\Controllers\API\APIUserController::class, '
 Route::post('user/update_password/{id}', [App\Http\Controllers\API\APIUserController::class, 'update_password']);
 
 Route::resource('/event', App\Http\Controllers\API\EventController::class);
+
 // Route::get('/event/{category_id?}', [App\Http\Controllers\API\EventController::class, 'index']);
 // Route::resource('/event', App\Http\Controllers\API\EventController::class)->except([
 //     'index'
