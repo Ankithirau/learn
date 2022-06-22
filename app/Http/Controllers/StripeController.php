@@ -104,29 +104,111 @@ class StripeController extends Controller
 
     public function createPaymentIntent(Request $request)
     {
-        $fields = $request->validate([
-            'amount' => 'required|integer',
-            'currency' => 'required|string',
+        // $stripe = new \Stripe\StripeClient(
+        //     config('constants.stripe_secret')
+        // );
+
+        \Stripe\Stripe::setApiKey(config('constants.stripe_secret'));
+
+        $intent = \Stripe\PaymentIntent::create([
+            'amount' => 1099,
+            'currency' => 'gbp',
         ]);
 
-        $stripe = new \Stripe\StripeClient(
-            config('constants.stripe_secret')
+        $client_secret = $intent->client_secret;
+
+
+        return response()->json($intent);
+        die();
+
+
+        $response = $stripe->paymentIntents->confirm(
+            $request->clientid,
+            ['payment_method' => 'pm_card_visa']
         );
 
-        try {
+        return response()->json($request);
+        $fields = $request->validate([
+            'amount' => 'required|integer',
+            // 'currency' => 'required|string',
+            // 'token' => 'required'
 
-            $result = $stripe->paymentIntents->create([
-                'amount' => $fields['amount'],
-                'description' => 'test description',
-                'currency' => $fields['currency'],
+        ]);
+        // dd($request);
+
+
+        try {
+            // $stripe = new \Stripe\StripeClient(
+            //     'sk_test_51LCegmSH9vE4HJsnYUtv
+            //     tNmSn4PJqg0A5qxWzopdM0P9mY2UOTAO6d7X2CzwdE7Hkr9IgtOPaVOBH04XEMyvZOnP00Sb73eoIc'
+            // );
+
+            $stripe = Stripe\Stripe::setApiKey(config('constants.stripe_secret'));
+
+            // $result = $stripe->charges->create([
+            //     'amount' => $request->amount,
+            //     'currency' => $request->currency,
+            //     "customer" => $request->token
+            // ]);
+            // $result = $stripe->charges->create([
+            //     "amount" => $request->amount,
+            //     "currency" => "usd",
+            //     "source" => $request->token,
+            //     "description" => "Test payment from Lookyda."
+            // ]);
+            // $result = Stripe\Charge::create([
+            //     "amount" => $request->amount,
+            //     "currency" => "usd",
+            //     "source" => $request->token,
+            //     "description" => "Test payment from Lookyda."
+            // ]);
+
+            // $customer = \Stripe\Customer::create([
+            //     'name' => 'Jenny Rosen',
+            //     'email' => 'jenyy@hotmail.co.us',
+            //     'address' => [
+            //         'line1' => '510 Townsend St',
+            //         'postal_code' => '98140',
+            //         'city' => 'San Francisco',
+            //         'state' => 'CA',
+            //         'country' => 'US',
+            //     ],
+            // ]);
+
+            // \Stripe\Customer::createSource(
+            //     $customer->id,
+            //     ['source' => $request->token]
+            // );
+
+            // Stripe\Charge::create([
+            //     "customer" => $customer->id,
+            //     "amount" => 100 * 100,
+            //     "currency" => "usd",
+            //     "description" => "Test payment from stripe.test.",
+            // ]);
+
+            // $result = $stripe->paymentIntent->create([
+            //     'amount' => $fields['amount'],
+            //     'description' => 'test description',
+            //     'currency' => "USD",
+            //     'payment_method' => "pm_1LD6TjSH9vE4HJsnAzttzB6G",
+            //     'capture_method' => 'manual',
+            //     'confirm'        => true,
+            //     // 'confirm' => true,
+            //     // 'payment_method_types' => ['card'],
+            //     // 'metadata' => [
+            //     //     'books' => '6735',
+            //     // ],
+            // ]);
+            $result = Stripe\PaymentIntent::create([
+                'amount' => 1099,
+                'currency' => 'usd',
                 'payment_method_types' => ['card'],
-                // 'confirm' => true,
-                'metadata' => [
-                    'books' => '6735',
-                ],
+                'confirm' => true,
             ]);
-        } catch (Stripe\Exception\InvalidRequestException $e) {
-            $error = "An invalid request occuurred";
+            // } catch (Stripe\Exception\InvalidRequestException $e) {
+            //     $error = $e;
+            // }
         } catch (Stripe\Exception\AuthenticationException $e) {
             $error = $e->getMessage();
         } catch (Stripe\Exception\InvalidArgumentException $e) {
@@ -150,6 +232,27 @@ class StripeController extends Controller
 
             $response['data'] = ($error) ? $error : 'something went wrong';
         }
+
+        return response()->json($response);
+    }
+
+    public function ConfirmPayment(Request $request)
+    {
+        // $stripe = new \Stripe\StripeClient(
+        //     config('constants.stripe_secret')
+        // );
+
+        // $response = $stripe->paymentIntents->confirm(
+        //     $request->clientid,
+        //     ['payment_method' => 'pm_card_visa']
+        // );
+        $stripe = new \Stripe\StripeClient(
+            config('constants.stripe_secret')
+        );
+        $response = $stripe->paymentIntents->confirm(
+            $request->clientid,
+            ['payment_method' => 'pm_card_visa']
+        );
 
         return response()->json($response);
     }

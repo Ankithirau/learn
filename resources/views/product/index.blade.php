@@ -48,7 +48,16 @@
               <tr>
                 <td>{{$i++}}</td>
                 <td>{{$result->name}}</td>
-                <td>&euro; {{$result->price}}</td>
+                @php
+
+                $variation = App\Models\Product_variation::where(['product_id' => $result->id])->get();
+
+                $min_price = ($variation->min('price')) ? $variation->min('price') : 'N/A';
+
+                $max_price = ($variation->max('price')) ? $variation->max('price') : 'N/A';
+                @endphp
+
+                <td>&euro; {{$min_price .'-'.$max_price}}</td>
                 <td>
                   <input type="button"
                     class="btn  @if($result->status==0) btn-danger @else btn-success @endif  updateStatus"

@@ -48,11 +48,6 @@
                   placeholder="Enter Product Name">
               </div>
               <div class="form-group">
-                <label for="price" class="col-form-label">Product Price :<span class="text-danger">*</span>:</label>
-                <input type="text" name="price" class="form-control" id="price" autocomplete="off"
-                  placeholder="Enter Product Price">
-              </div>
-              <div class="form-group">
                 <label for="shortdesc" class="col-form-label">Short Description :<span
                     class="text-danger">*</span></label>
                 <textarea name="shortdesc" class="form-control" id="shortdesc" autocomplete="off" cols="30" rows="5"

@@ -20,15 +20,25 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $results =  Product::select('id', 'name', 'price', 'image', 'category_id')->get();
+        $query =  Product::select('id', 'name', 'image', 'category_id');
+
+        if (!empty($request->get('category_id'))) {
+            $query->where('category_id', $request->get('category_id'));
+        }
+
+        $results = $query->get();
 
         foreach ($results as $key => $event) {
 
-            $event->price =  $event->price;
-
             $event->image = asset('uploads/event_image') . '/' . $event->image;
+            if (!empty($request->get('category_id'))) {
+                $cat = Category::select('name')->find($request->get('category_id'));
+                $event->category_name = $cat->name;
+            } else {
+                $event->category_name = 'ALL EVENT';
+            }
 
             $variation = Product_variation::where(['product_id' => $event->id])->get();
 
@@ -208,30 +218,19 @@ class EventController extends Controller
 
         $result->date_concert = explode(',', $result->date_concert);
 
-        // $counties = explode(',', $result->counties_id);
+        $county = explode(',', $result->counties_id);
 
-        // $pickup_point = explode(',', $result->pickup_point_id);
+        $result->counties = County::whereIn('id', $county)->get();
 
-        // $county_arr = array();
+        $points = explode(',', $result->pickup_point_id);
 
-        // $pickup_arr = array();
-
-        // foreach ($counties as $key => $value) {
-        //     $county_arr[] = County::select('id', 'name')->find($value);
-        // }
-
-        // foreach ($pickup_point as $key => $value) {
-        //     $pickup_arr[] = Pick_Point::select('id', 'name')->find($value);
-        // }
-
-        $result->counties = County::select('id', 'name')->get();
-
-        $result->pickup_point = Pick_Point::select('id', 'counties_id', 'name')->get();
-
+        $result->pickup_point = Pick_Point::whereIn('id', $points)->get();
 
         if ($result) {
+
             $response = array('status' => 200, 'result' => $result);
         } else {
+
             $response = array('status' => 400, 'msg' => 'Something went wrong...!');
         }
         return response()->json($response);

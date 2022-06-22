@@ -45,11 +45,6 @@
                   value="{{$result->name}}" placeholder="Enter Product Name" />
               </div>
               <div class="form-group">
-                <label for="price" class="col-form-label">Product Price :<span class="text-danger">*</span>:</label>
-                <input type="text" name="price" class="form-control" id="price" autocomplete="off"
-                  value="{{$result->price}}" placeholder="Enter Product Price">
-              </div>
-              <div class="form-group">
                 <label for="shortdesc" class="col-form-label">Short Description :<span
                     class="text-danger">*</span></label>
                 <textarea class="form-control" name="shortdesc" id="shortdesc" autocomplete="off" cols="30" rows="5"

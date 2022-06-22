@@ -32,13 +32,13 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $points = Pick_Point::where(['status' => 1])->orderBy('id', 'DESC')->get();
+        $points = Pick_Point::where(['status' => 1])->orderBy('name', 'DESC')->get();
 
-        $county = County::where(['status' => 1])->orderBy('id', 'DESC')->get();
+        $county = County::where(['status' => 1])->orderBy('name', 'DESC')->get();
 
-        $events = Event::where(['status' => 1])->orderBy('id', 'DESC')->get();
+        $events = Event::where(['status' => 1])->orderBy('name', 'DESC')->get();
 
-        $category = Category::where(['status' => 1])->orderBy('id', 'DESC')->get();
+        $category = Category::where(['status' => 1])->orderBy('name', 'DESC')->get();
 
         return view("product.create", compact('points', 'county', 'events', 'category'));
     }
@@ -57,7 +57,6 @@ class ProductController extends Controller
         $request->validate(
             [
                 'name' => 'required|string',
-                'price' => 'required|string',
                 'description' => 'required|string',
                 'shortdesc' => 'required|string',
                 'counties_id' => 'required',
@@ -96,7 +95,6 @@ class ProductController extends Controller
         try {
             $store  = new Product();
             $store->name = $requested_data['name'];
-            $store->price = $requested_data['price'];
             $store->description = $requested_data['description'];
             $store->shortdesc = $requested_data['shortdesc'];
             $store->counties_id = implode(', ', $requested_data['counties_id']);
@@ -110,7 +108,7 @@ class ProductController extends Controller
             $store->category_id = $requested_data['category_id'];
             $store->meta_title = $requested_data['meta_title'];
             $store->meta_tag = $requested_data['meta_tag'];
-            $store->meta_desc = $requested_data['meta_desc'];
+            $store->meta_description = $requested_data['meta_desc'];
             $store->image = $filename;
             $store->created_by = Auth::user()->id;
 
@@ -203,7 +201,6 @@ class ProductController extends Controller
         $request->validate(
             [
                 'name' => 'required|string',
-                'price' => 'required|string',
                 'description' => 'required|string',
                 'shortdesc' => 'required|string',
                 'counties_id' => 'required',
@@ -235,7 +232,6 @@ class ProductController extends Controller
 
         try {
             $store->name = $requested_data['name'];
-            $store->price = $requested_data['price'];
             $store->description = $requested_data['description'];
             $store->shortdesc = $requested_data['shortdesc'];
             $store->counties_id = implode(', ', $requested_data['counties_id']);
@@ -249,7 +245,7 @@ class ProductController extends Controller
             $store->category_id = $requested_data['category_id'];
             $store->meta_title = $requested_data['meta_title'];
             $store->meta_tag = $requested_data['meta_tag'];
-            $store->meta_desc = $requested_data['meta_desc'];
+            $store->meta_description = $requested_data['meta_desc'];
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
                 $filename = time() . '.' . $request->image->extension();

@@ -25,7 +25,10 @@ Route::post('/user/login', [App\Http\Controllers\API\APIUserController::class, '
 Route::post('user/update_password/{id}', [App\Http\Controllers\API\APIUserController::class, 'update_password']);
 
 Route::resource('/event', App\Http\Controllers\API\EventController::class);
-
+// Route::get('/event/{category_id?}', [App\Http\Controllers\API\EventController::class, 'index']);
+// Route::resource('/event', App\Http\Controllers\API\EventController::class)->except([
+//     'index'
+// ]);
 Route::get('/event-detail/{id}', [App\Http\Controllers\API\EventController::class, 'product_detail']);
 
 Route::get('/event-search/{search}', [App\Http\Controllers\API\EventController::class, 'search_product']);
@@ -76,3 +79,5 @@ Route::get('test', function () {
     dd("success");
 });
 Route::post('/payment', [App\Http\Controllers\StripeController::class, 'createPaymentIntent'])->name('createPaymentIntent.post');
+
+Route::post('/confirmpayment', [App\Http\Controllers\StripeController::class, 'ConfirmPayment'])->name('ConfirmPayment.post');
