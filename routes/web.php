@@ -22,6 +22,10 @@ Route::group(['middleware' => ['auth', 'CheckUserLogin']], function () {
 
     Route::resource('/states', App\Http\Controllers\StateController::class);
 
+    Route::resource('/slider', App\Http\Controllers\SliderController::class);
+
+    Route::get('/slider-status/{id}', [App\Http\Controllers\SliderController::class, 'status'])->name('slider.status');
+
     Route::get('/states-status/{id}', [App\Http\Controllers\StateController::class, 'status'])->name('states.status');
 
     Route::resource('/cities', App\Http\Controllers\CityController::class);
@@ -73,6 +77,8 @@ Route::group(['middleware' => ['auth', 'CheckUserLogin']], function () {
     Route::get('/event-status/{id}', [App\Http\Controllers\EventController::class, 'status'])->name('event.status');
 
     Route::get('/pickup-point/{id}', [App\Http\Controllers\PickpointController::class, 'status'])->name('pickup.status');
+
+    Route::post('/get_pickup-point', [App\Http\Controllers\PickpointController::class, 'get_pickup_point'])->name('pickup.get');
 
     Route::get('/county-status/{id}', [App\Http\Controllers\CountyController::class, 'status'])->name('county.status');
 

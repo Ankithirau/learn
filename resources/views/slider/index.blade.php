@@ -24,11 +24,11 @@
   <div class="ml-auto">
     <div class="input-group">
       <a href="javascript:void(0);" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="modal"
-        data-target="#modalCounty" title="Add County">
+        data-target="#modalSlider" title="Add Slider">
         <span>
           <i class="fa fa-plus"></i>
         </span>
-        Add County
+        Add Slider
       </a>
     </div>
   </div>
@@ -45,33 +45,35 @@
               <tr>
                 <th class="border-bottom-0 bg-primary">S.No.</th>
                 <th class="border-bottom-0 bg-primary">Name</th>
+                <th class="border-bottom-0 bg-primary">Image</th>
                 <th class="border-bottom-0 bg-primary">Status</th>
                 <th class="border-bottom-0 bg-primary"> Actions</th>
               </tr>
             </thead>
             <tbody>
-              @if(!empty($results))
+              @if(!empty($slider))
               @php
               $i=1
               @endphp
-              @foreach($results as $result)
+              @foreach($slider as $result)
               <tr>
                 <td>{{$i++}}</td>
-                <td>{{$result->name}}</td>
-                <!-- <td>{{date('d-m-Y',strtotime($result->created_at))}}</td> -->
+                <td>{{$result->title}}</td>
+                <td><img src="{{asset('uploads/slider').'/'.$result->photo}}" alt="" srcset="" height="80" width="80">
+                </td>
                 <td>
                   <input type="button"
                     class="btn  @if($result->status==0) btn-danger @else btn-success @endif  updateStatus"
-                    data-url="{{route('county.status', $result->id)}}"
+                    data-url="{{route('slider.status', $result->id)}}"
                     value="@if($result->status==0) Inactive @else Active @endif">
                 </td>
                 <td>
                   <div class="d-flex">
-                    <input type="button" class="btn  btn-warning  editRecord" data-title="County"
-                      data-url="{{route('county.edit', $result->id)}}"
-                      data-action="{{route('county.update', $result->id)}}" value="Edit">&nbsp;
+                    <input type="button" class="btn  btn-warning  editRecord" data-title="Slider"
+                      data-url="{{route('slider.edit', $result->id)}}"
+                      data-action="{{route('slider.update', $result->id)}}" value="Edit">&nbsp;
                     <input type="button" class="btn  btn-danger  deleteRecord"
-                      data-url="{{route('county.destroy', $result->id)}}" value="Delete">
+                      data-url="{{route('slider.destroy', $result->id)}}" value="Delete">
                   </div>
                 </td>
               </tr>
@@ -83,22 +85,41 @@
       </div>
     </div>
   </div>
-  <div class="modal fade" id="modalCounty" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  <div class="modal fade" id="modalSlider" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add County</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add Slider</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form name="ajax_form" method="post" action="{{route('county.store')}}" enctype="multipart/form-data">
+        <form name="ajax_form" method="post" action="{{route('slider.store')}}" enctype="multipart/form-data">
           @csrf
           <div class="modal-body">
             <div class="form-group">
-              <label for="name" class="col-form-label">Name *:</label>
-              <input type="text" name="name" class="form-control" id="name" autocomplete="off">
+              <label for="title" class="col-form-label">Title *:</label>
+              <input type="text" name="title" class="form-control" id="title" autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label for="photo" class="col-form-label">Image *:</label>
+              <input type="file" name="photo" class="form-control" id="image" autocomplete="off">
+            </div>
+            {{-- <div class="form-group">
+              <label for="photo" class="col-form-label">Image *:</label>
+              <img src="" alt="" srcset="" class="form-control" id="image">
+            </div> --}}
+            <div class="form-group">
+              <label for="product_id" class="col-form-label">Event :<span class="text-danger">*</span>:</label>
+              <select name="product_id" class="form-control" id="product_id">
+                <option value="" selected>Select Event</option>
+                @foreach ($products as $product)
+                @if ($product->name)
+                <option value="{{$product->id}}">{{$product->name}}</option>
+                @endif
+                @endforeach
+              </select>
             </div>
           </div>
           <div class="modal-footer">

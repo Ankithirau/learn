@@ -415,6 +415,7 @@ $(document).ready(function () {
       },
     });
   });
+
   //Delete Record
   $(document).on("click", ".deleteRecord", function (e) {
     var url = $(this).data("url");

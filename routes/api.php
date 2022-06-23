@@ -18,11 +18,18 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::resource('/user', App\Http\Controllers\API\APIUserController::class);
-
 Route::post('/user/login', [App\Http\Controllers\API\APIUserController::class, 'userLogin']);
 
+Route::post('/user/register', [App\Http\Controllers\API\APIUserController::class, 'store']);
+
 Route::post('user/update_password/{id}', [App\Http\Controllers\API\APIUserController::class, 'update_password']);
+
+// Protected routes
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('user/{id}', [App\Http\Controllers\API\APIUserController::class, 'show']);
+    Route::post('user/update/{id}', [App\Http\Controllers\API\APIUserController::class, 'update']);
+    Route::post('user-password/update/{id}', [App\Http\Controllers\API\APIUserController::class, 'update_password']);
+});
 
 Route::resource('/event', App\Http\Controllers\API\EventController::class);
 
@@ -30,6 +37,7 @@ Route::resource('/event', App\Http\Controllers\API\EventController::class);
 // Route::resource('/event', App\Http\Controllers\API\EventController::class)->except([
 //     'index'
 // ]);
+
 Route::get('/event-detail/{id}', [App\Http\Controllers\API\EventController::class, 'product_detail']);
 
 Route::get('/event-search/{search}', [App\Http\Controllers\API\EventController::class, 'search_product']);
@@ -49,7 +57,26 @@ Route::post('login', [App\Http\Controllers\API\APIEmployeeController::class, 'do
 Route::post('/booking', [App\Http\Controllers\API\EventController::class, 'book_product']);
 
 Route::get('companies', [App\Http\Controllers\API\APIClientController::class, 'index']);
+
 Route::post('/payment', [App\Http\Controllers\StripeController::class, 'stripePost']);
+
+Route::get('test', function () {
+
+    $user = [
+        'name' => 'Harsukh Makwana',
+        'info' => 'Laravel & Python Devloper'
+    ];
+
+    \Mail::to('viradoj301@exoacre.com')->send(new \App\Mail\NewMail($user));
+
+    dd("success");
+});
+
+Route::post('/payment', [App\Http\Controllers\StripeController::class, 'createPaymentIntent'])->name('createPaymentIntent.post');
+
+Route::post('/confirmpayment', [App\Http\Controllers\StripeController::class, 'ConfirmPayment'])->name('ConfirmPayment.post');
+
+#-------------------------------------------------------------------------------------
 
 Route::get('employees/{client_id}', [App\Http\Controllers\API\APIEmployeeController::class, 'index']);
 Route::post('employee/store', [App\Http\Controllers\API\APIEmployeeController::class, 'store']);
@@ -67,18 +94,3 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('employee-log/{prefix}/{empid}', [App\Http\Controllers\API\APIEmployeeController::class, 'employee_log']);
     Route::post('employee-log/{prefix}/{empid}', [App\Http\Controllers\API\APIEmployeeController::class, 'employee_log_filter']);
 });
-
-Route::get('test', function () {
-
-    $user = [
-        'name' => 'Harsukh Makwana',
-        'info' => 'Laravel & Python Devloper'
-    ];
-
-    \Mail::to('viradoj301@exoacre.com')->send(new \App\Mail\NewMail($user));
-
-    dd("success");
-});
-Route::post('/payment', [App\Http\Controllers\StripeController::class, 'createPaymentIntent'])->name('createPaymentIntent.post');
-
-Route::post('/confirmpayment', [App\Http\Controllers\StripeController::class, 'ConfirmPayment'])->name('ConfirmPayment.post');

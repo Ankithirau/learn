@@ -7,6 +7,11 @@
 				<i class="side-menu__icon typcn typcn-device-desktop"></i><span class="side-menu__label">Home</span></a>
 		</li>
 		<li>
+			<a class="side-menu__item" href="{{url('slider')}}"><i class="side-menu__icon mdi mdi-file-image"></i><span
+					class="side-menu__label">Banner
+					Slider</span></a>
+		</li>
+		<li>
 			<a class="side-menu__item" href="{{url('county')}}">
 				<i class="side-menu__icon mdi fs-2 mdi-flag-outline"></i><span
 					class="side-menu__label">County</span></a>

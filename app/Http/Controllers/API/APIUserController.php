@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class APIUserController extends Controller
 {
@@ -43,7 +44,7 @@ class APIUserController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'email' => 'required|email',
+                'email' => ['required', 'email', Rule::unique('users', 'email')],
                 'password' => [
                     'required',
                     'string',
@@ -171,11 +172,11 @@ class APIUserController extends Controller
             ]
         );
         try {
-            $employee  = User::where(['email' => $request->email])->first();
+            $employee  = User::select('id', 'name', 'email', 'password')->where(['email' => $request->email])->first();
             if ($employee) {
                 if (Hash::check($request->password, $employee->password)) {
                     $token = $employee->createToken('mytoken');
-                    $response = array('status' => 200, 'employee' => $employee, 'token' => $token->plainTextToken);
+                    $response = array('status' => 200, 'user' => $employee, 'token' => $token->plainTextToken);
                 } else {
                     $response = array('status' => 500, 'msg' => 'Invalid password!');
                 }
@@ -206,6 +207,10 @@ class APIUserController extends Controller
                 'regex:/[@$!%*#?&]/', // must contain a special character
             ],
         ], ['password.regex' => 'Password should be at least 10 characters, contain upper case, lower case, numbers and special characters (!@£$%^&)']);
+        if ($request->current_password == $request->password) {
+            $response = array("message" =>  'The given data was invalid.', 'erros' => array('password' => array('password should be different from current password')));
+            return response()->json($response, 422);
+        }
         try {
             $update  = User::find($id);
             if ($update) {

@@ -54,17 +54,46 @@
                   placeholder="Enter Product Short Description"></textarea>
               </div>
               <div class="form-group">
+                <label for="counties_id" class="col-form-label">County you wish to travel from: <span
+                    class="text-danger">*</span>:</label>
+                <div class="row">
+                  <div class="col-9">
+                    <select name="counties_id[]" class="form-control selectpicker" aria-label="size 3 select example"
+                      multiple id="counties_id">
+                      <option value="">Select County</option>
+                      @if(!empty($county))
+                      @foreach($county as $county)
+                      <option value="{{$county->id}}">{{$county->name}}</option>
+                      @endforeach
+                      @endif
+                    </select>
+                  </div>
+                  <div class="col-3">
+                    <input type="button" class="btn btn-primary" value="Get Pickup Point" id="get_point"
+                      data-url="{{route('pickup.get')}}">
+                  </div>
+                </div>
+                <div class="text-danger error_counties_id error-inline"></div>
+              </div>
+
+              <div class="form-group">
                 <label for="pick_point_id" class="col-form-label">Pick up Points & Departure Times:
                   <span class="text-danger">*</span>
-                  <select name="pick_point_id[]" class="form-control selectpicker" aria-label="size 3 select example"
-                    multiple id="pick_point_id">
-                    <option value="">Select Pickup Points</option>
-                    @if(!empty($points))
+                  <div id="pick_point_ids">
+                    <select name="pickup_point_id[]" class="form-control selectpicker set_point"
+                      aria-label="size 3 select example" multiple id="pickup_point_id">
+                    </select>
+                  </div>
+                  {{-- <select name="pick_point_id[]" class="form-control selectpicker"
+                    aria-label="size 3 select example" multiple id="pick_point_id">
+                    <option value="">Select Pickup Points</option> --}}
+                    {{-- @if(!empty($points))
                     @foreach($points as $point)
                     <option value="{{$point->id}}">{{$point->name}}</option>
                     @endforeach
-                    @endif
-                  </select>
+                    @endif --}}
+                    {{--
+                  </select> --}}
                   <div class="text-danger error_pick_point_id error-inline"></div>
                 </label>
               </div>
@@ -77,20 +106,6 @@
                     class="text-danger">*</span></label>
                 <input type="text" name="date_concert" class="form-control" id="date_concert" autocomplete="off"
                   placeholder="Select Date here">
-              </div>
-              <div class="form-group">
-                <label for="counties_id" class="col-form-label">County you wish to travel from: <span
-                    class="text-danger">*</span>:</label>
-                <select name="counties_id[]" class="form-control selectpicker" aria-label="size 3 select example"
-                  multiple>
-                  <option value="">Select County</option>
-                  @if(!empty($county))
-                  @foreach($county as $county)
-                  <option value="{{$county->id}}">{{$county->name}}</option>
-                  @endforeach
-                  @endif
-                </select>
-                <div class="text-danger error_counties_id error-inline"></div>
               </div>
               <div class="form-group">
                 <label for="status" class="col-form-label">Status :<span class="text-danger">*</span></label>
@@ -212,6 +227,26 @@
 <script src="{{URL::asset('assets/plugins/datatable/dataTables.responsive.min.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/datatable/responsive.bootstrap4.min.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/datatable/datatable-2.js')}}"></script>
+<script>
+  $(document).ready(function(){
+    $("#get_point").click(function () {
+    var selected = $("#counties_id").val();
+    var url = $(this).data("url");
+    $.ajax({
+      type: "post",
+      url: url,
+      data: {
+        _token: $("meta[name='csrf-token']").attr("content"),
+        county: selected,
+      },
+      success: function (response) {
+       
+        $("#pickup_point_id").append(response);
+      },
+    });
+  });
+  })
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 <script src="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.js">
 </script>

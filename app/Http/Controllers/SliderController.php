@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\County;
-use App\Models\Pick_Point;
+use App\Models\Product;
+use App\Models\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PickpointController extends Controller
+class SliderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +16,11 @@ class PickpointController extends Controller
      */
     public function index()
     {
-        $results = Pick_Point::orderBy('id', 'DESC')->get();
+        $products = Product::select('id', 'name')->where(['status' => 1])->orderBy('name', 'desc')->get();
 
-        $county = County::orderBy('id', 'DESC')->get();
+        $slider = Slider::select('id', 'title', 'photo', 'product_id')->orderBy('id', 'desc')->get();
 
-        return view("pickup_points.index", compact('results', 'county'));
+        return view('slider.index', compact('products', 'slider'));
     }
 
     /**
@@ -41,27 +41,38 @@ class PickpointController extends Controller
      */
     public function store(Request $request)
     {
+
         $requested_data = $request->except(['_token']);
         $request->validate(
             [
-                'name' => 'required',
-                'counties_id' => 'required',
+                'title' => 'required|string',
+                'product_id' => 'required|string',
+                'photo'       => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:500',
             ],
             [
-                'name.required'      => 'Pick Point field is required.',
-                'counties_id.required'      => 'County field is required.',
+                'title.required'      => 'Slider title is required.',
+                'product_id.required'      => 'Event field is required.',
+                'photo.required'      => 'Slider image is required.',
             ]
         );
         try {
-            $store  = new Pick_Point();
+            $store  = new Slider();
             foreach ($requested_data as $key => $data) {
                 $store->$key = $data;
             }
+
+            if ($request->hasFile('photo')) {
+                $file = $request->file('photo');
+                $filename = time() . '.' . $request->photo->extension();
+                $path = public_path() . '/uploads/slider';
+                $file->move($path, $filename);
+            }
+            $store->photo = $filename;
             $store->created_by = Auth::user()->id;
             $store->save();
             $response = array('status' => 200, 'msg' => 'Data saved successfully...!');
         } catch (\Throwable $th) {
-            $response = array('status' => 500, 'msg' => $th);
+            $response = array('status' => 500, 'msg' => 'Something went wrong...!');
         }
         return json_encode($response);
     }
@@ -85,7 +96,7 @@ class PickpointController extends Controller
      */
     public function edit($id)
     {
-        $result =  Pick_Point::find($id);
+        $result =  Slider::select('id', 'title', 'product_id')->find($id);
         if ($result) {
             $response = array('status' => 200, 'result' => $result);
         } else {
@@ -106,23 +117,30 @@ class PickpointController extends Controller
         $requested_data = $request->except(['_token', '_method']);
         $request->validate(
             [
-                'name' => 'required',
-                'counties_id' => 'required',
-            ],
-            [
-                'name.required'      => 'Pick Point field is required.',
-                'counties_id.required'      => 'County field is required.',
+                'title' => 'string',
+                'product_id' => 'string',
+                'photo'       => 'image|mimes:jpeg,png,jpg,gif,svg|max:500',
             ]
         );
         try {
-            $update  = Pick_Point::find($id);
+            $update  = Slider::find($id);
             foreach ($requested_data as $key => $data) {
                 $update->$key = $data;
             }
+            if ($request->hasFile('photo')) {
+                $file = $request->file('photo');
+                $filename = time() . '.' . $request->photo->extension();
+                $path = public_path() . '/uploads/slider';
+                $file->move($path, $filename);
+                $update->photo = $filename;
+            } else {
+                $update->photo = $update->photo;
+            }
+            $update->created_by = Auth::user()->id;
             $update->save();
             $response = array('status' => 200, 'msg' => 'Data updated successfully...!');
         } catch (\Throwable $th) {
-            $response = array('status' => 500, 'msg' => 'Something went wrong...!');
+            $response = array('status' => 500, 'msg' => $th);
         }
 
         return json_encode($response);
@@ -136,7 +154,7 @@ class PickpointController extends Controller
      */
     public function destroy($id)
     {
-        Pick_Point::find($id)->delete($id);
+        Slider::find($id)->delete($id);
         return json_encode([
             'status' => 200,
             'msg' => 'Record deleted successfully!'
@@ -146,32 +164,13 @@ class PickpointController extends Controller
     public function status($id)
     {
         try {
-            $update  = Pick_Point::find($id);
+            $update  = Slider::find($id);
             $update->status = !$update->status;
             $update->save();
             $response = array('status' => 200, 'msg' => 'Status updated successfully...!');
         } catch (\Throwable $th) {
-            $response = array('status' => 500, 'msg' => 'Something went wrong...!');
+            $response = array('status' => 500, 'msg' => $th->getMessage());
         }
         return json_encode($response);
-    }
-
-    public function get_pickup_point(Request $request)
-    {
-
-        $requested_data = $request->except(['_token', '_method']);
-
-        $result = array();
-        foreach ($request->county as $data) {
-
-            $result[] = Pick_Point::where('counties_id', $data)->get();
-        }
-        // if ($result) {
-        //     $response = array('status' => 200, 'result' => $result);
-        // } else {
-        //     $response = array('status' => 400, 'msg' => 'Something went wrong...!');
-        // }
-        // print_r($result);
-        return view('product.pickup-points', compact('result'));
     }
 }
