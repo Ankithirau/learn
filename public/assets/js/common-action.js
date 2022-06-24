@@ -527,6 +527,12 @@ $(document).ready(function () {
       }
     });
   });
+  $("#people").multiSelect();
+  // $("#ckbCheckAll").click(function () {
+  //   $(".checkBoxClass input").prop("checked", $(this).prop("checked"));
+  //   // $(".checkBoxClass").prop("checked", $(this).prop("checked"));
+  // });
+
   //Convert kyc client to non-kyc client
   $(document).on("click", ".updateKycStatus", function (e) {
     var url = $(this).data("url");

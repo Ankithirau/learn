@@ -153,9 +153,15 @@ class EventController extends Controller
 
     public function get_price(Request $request, $product_id, $county_id, $point_id)
     {
-        $price = Product_variation::select('price')->where(['product_id' => $product_id, 'counties_id' => $county_id, 'pickup_point_id' => $point_id])->first();
+        $price = Product_variation::select('price', 'stock_quantity')->where(['product_id' => $product_id, 'counties_id' => $county_id, 'pickup_point_id' => $point_id])->first();
 
-        if ($price->count() > 0) {
+        // if ($price->stock_quantity == 0) {
+        //     $price->Instock = 'SEATS SOLD OUT';
+        // } else {
+        //     $price->Instock = 'IN SEATS';
+        // }
+
+        if (!empty($price)) {
             $response = array('status' => 200, 'data' => $price);
         } else {
             $response = array('status' => 500, 'msg' => 'No Record Found');

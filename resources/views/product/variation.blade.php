@@ -65,7 +65,6 @@
                 @php
                 $prices=\App\Models\Product_variation::select('id','price','stock_quantity')->where(['counties_id'=>$val['county']['id'],'pickup_point_id'=>$point->id,'product_id'=>$val['product']['id']])->first();
                 @endphp
-
                 @if ($prices)
                 <td>
                   <input type="text" name="stock_quantity[]" class="form-control stock_quantity"
@@ -87,7 +86,7 @@
 
                 <td>
                   <input type="button" value="Update" class="btn btn-primary update_variation"
-                    data-action="{{route('product.add_variation',$point->id)}}">
+                    data-action="{{route('product.add_variation',isset($prices->id)?$prices->id:0)}}">
                 </td>
               </tr>
               @endforeach

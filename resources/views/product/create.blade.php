@@ -7,15 +7,20 @@
 <link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('assets/plugins/datatable/responsivebootstrap4.min.css')}}" rel="stylesheet" />
 
+{{--
 <link rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" />
+  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" /> --}}
 <link href="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.css"
   rel="stylesheet" />
 <link href="https://code.jquery.com/ui/1.12.1/themes/pepper-grinder/jquery-ui.css" rel="stylesheet" />
 {{--
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /> --}}
 <!-- Select2 css -->
-<link href="{{URL::asset('assets/plugins/select2/select2.min.css')}}" rel="stylesheet" />
+{{--
+<link href="{{URL::asset('assets/plugins/select2/select2.min.css')}}" rel="stylesheet" /> --}}
+<link href="{{URL::asset('assets/plugins/multipleselect/example-styles.css')}}" rel="stylesheet" />
+<link href="{{URL::asset('assets/plugins/multipleselect/demo-styles.css')}}" rel="stylesheet" />
+{{-- assets/plugins/multipleselect/multi-select.js --}}
 
 @endsection
 
@@ -58,12 +63,12 @@
                     class="text-danger">*</span>:</label>
                 <div class="row">
                   <div class="col-9">
-                    <select name="counties_id[]" class="form-control selectpicker" aria-label="size 3 select example"
-                      multiple id="counties_id">
-                      <option value="">Select County</option>
+                    <select name="counties_id[]" class="form-control" aria-label="size 3 select example" multiple
+                      id="people">
+                      <option value="" id="ckbCheckAll">Select County</option>
                       @if(!empty($county))
                       @foreach($county as $county)
-                      <option value="{{$county->id}}">{{$county->name}}</option>
+                      <option value="{{$county->id}}" class="checkBoxClass">{{$county->name}}</option>
                       @endforeach
                       @endif
                     </select>
@@ -80,8 +85,8 @@
                 <label for="pick_point_id" class="col-form-label">Pick up Points & Departure Times:
                   <span class="text-danger">*</span>
                   <div id="pick_point_ids">
-                    <select name="pickup_point_id[]" class="form-control selectpicker set_point"
-                      aria-label="size 3 select example" multiple id="pickup_point_id">
+                    <select name="pickup_point_id[]" class="form-control set_point" aria-label="size 3 select example"
+                      multiple id="pickup_point_id">
                     </select>
                   </div>
                   {{-- <select name="pick_point_id[]" class="form-control selectpicker"
@@ -123,10 +128,10 @@
               <div class="form-group">
                 <label for="event_id" class="col-form-label">Event :<span class="text-danger">*</span></label>
                 <select name="event_id" class="form-control">
-                  <option value="" selected>Select Event</option>
+                  <option value="" selected id="ckbCheckAll">Select Event</option>
                   @if(!empty($events))
                   @foreach($events as $event)
-                  <option value="{{$event->id}}">{{$event->name}}</option>
+                  <option value="{{$event->id}}" class="checkBoxClass">{{$event->name}}</option>
                   @endforeach
                   @endif
                 </select>
@@ -227,7 +232,10 @@
 <script src="{{URL::asset('assets/plugins/datatable/dataTables.responsive.min.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/datatable/responsive.bootstrap4.min.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/datatable/datatable-2.js')}}"></script>
-<script>
+<script src="{{URL::asset('assets/plugins/multipleselect/jquery-2.2.4.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/multipleselect/jquerymulti-select.min.js')}}"></script>
+
+{{-- <script>
   $(document).ready(function(){
     $("#get_point").click(function () {
     var selected = $("#counties_id").val();
@@ -246,8 +254,9 @@
     });
   });
   })
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+</script> --}}
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+--}}
 <script src="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.js">
 </script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
