@@ -40,27 +40,37 @@ $(document).ready(function () {
     var county_id = tr.find("input.county_id").val();
     var pickup_id = tr.find("input.pickup_id").val();
     var product = tr.find("input.product").val();
+    var stock_quantity = tr.find("input.stock_quantity").val();
     var formData = {
       date: date,
       price: price,
       county_id: county_id,
       pickup_id: pickup_id,
       product: product,
+      stock_quantity: stock_quantity,
     };
-    console.log(formData);
     $.ajax({
       method: "GET",
       url: $(this).data("action"),
       data: formData,
       success: function (response) {
         var data = JSON.parse(response);
-        console.log(data);
-        console.log(data.status);
-        console.log(data.pickup_id);
+        // console.log(data);
+        // console.log(data.status);
+        // console.log(data.pickup_id);
         if (data.status === 400) {
-          $("#price_" + data.pickup_id).after(
-            '<div class="text-danger has_error">' + data.price + "</div>"
-          );
+          if (data.stock_quantity) {
+            $("#stock_" + data.pickup_id).after(
+              '<div class="text-danger has_error">' +
+                data.stock_quantity +
+                "</div>"
+            );
+          }
+          if (data.price) {
+            $("#price_" + data.pickup_id).after(
+              '<div class="text-danger has_error">' + data.price + "</div>"
+            );
+          }
         } else if (data.status === 500) {
           showError(data.msg);
         } else {

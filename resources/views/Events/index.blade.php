@@ -23,7 +23,8 @@
   </ol><!-- End breadcrumb -->
   <div class="ml-auto">
     <div class="input-group">
-      <a href="javascript:void(0);" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="modal" data-target="#modalEvent" title="Add Event">
+      <a href="javascript:void(0);" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="modal"
+        data-target="#modalEvent" title="Add Event">
         <span>
           <i class="fa fa-plus"></i>
         </span>
@@ -43,7 +44,7 @@
             <thead>
               <tr>
                 <th class="border-bottom-0 bg-primary">S.No.</th>
-                <th class="border-bottom-0 bg-primary">Name</th>
+                <th class="border-bottom-0 bg-primary">Names</th>
                 <th class="border-bottom-0 bg-primary">Status</th>
                 <th class="border-bottom-0 bg-primary"> Actions</th>
               </tr>
@@ -58,12 +59,18 @@
                 <td>{{$i++}}</td>
                 <td>{{$result->name}}</td>
                 <td>
-                  <input type="button" class="btn  @if($result->status==0) btn-danger @else btn-success @endif  updateStatus" data-url="{{route('event.status', $result->id)}}" value="@if($result->status==0) Inactive @else Active @endif">
+                  <input type="button"
+                    class="btn  @if($result->status==0) btn-danger @else btn-success @endif  updateStatus"
+                    data-url="{{route('event.status', $result->id)}}"
+                    value="@if($result->status==0) Inactive @else Active @endif">
                 </td>
                 <td>
                   <div class="d-flex">
-                    <input type="button" class="btn  btn-warning  editRecord" data-title="Event" data-url="{{route('event.edit', $result->id)}}" data-action="{{route('event.update', $result->id)}}" value="Edit">&nbsp;
-                    <input type="button" class="btn  btn-danger  deleteRecord" data-url="{{route('event.destroy', $result->id)}}" value="Delete">
+                    <input type="button" class="btn  btn-warning  editRecord" data-title="Event"
+                      data-url="{{route('event.edit', $result->id)}}"
+                      data-action="{{route('event.update', $result->id)}}" value="Edit">&nbsp;
+                    <input type="button" class="btn  btn-danger  deleteRecord"
+                      data-url="{{route('event.destroy', $result->id)}}" value="Delete">
                   </div>
                 </td>
               </tr>
@@ -75,7 +82,8 @@
       </div>
     </div>
   </div>
-  <div class="modal fade" id="modalEvent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="modalEvent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -107,7 +115,7 @@
 @endsection('content')
 
 @section('scripts')
-{{-- 
+{{--
 <!--Jquery Sparkline js-->
 <script src="{{URL::asset('assets/plugins/vendors/jquery.sparkline.min.js')}}"></script>
 

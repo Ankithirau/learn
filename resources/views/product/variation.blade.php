@@ -38,6 +38,7 @@
                 <th>Date of Concert</th>
                 <th>County</th>
                 <th>Pickup Point</th>
+                <th>Stock Quantity</th>
                 <th>Price</th>
                 <th>Action</th>
               </tr>
@@ -62,15 +63,23 @@
                   <input type="hidden" name="pickup_id[]" class="form-control pickup_id" value="{{$point->id}}">
                 </td>
                 @php
-                $prices=\App\Models\Product_variation::select('id','price')->where(['counties_id'=>$val['county']['id'],'pickup_point_id'=>$point->id,'product_id'=>$val['product']['id']])->first();
+                $prices=\App\Models\Product_variation::select('id','price','stock_quantity')->where(['counties_id'=>$val['county']['id'],'pickup_point_id'=>$point->id,'product_id'=>$val['product']['id']])->first();
                 @endphp
 
                 @if ($prices)
+                <td>
+                  <input type="text" name="stock_quantity[]" class="form-control stock_quantity"
+                    id="stock_{{$point->id}}" value="{{$prices->stock_quantity}}">
+                </td>
                 <td>
                   <input type="text" name="price[]" class="form-control price" id="price_{{$point->id}}"
                     value="{{$prices->price}}">
                 </td>
                 @else
+                <td>
+                  <input type="text" name="stock_quantity[]" class="form-control stock_quantity"
+                    id="stock_{{$point->id}}">
+                </td>
                 <td>
                   <input type="text" name="price[]" class="form-control price" id="price_{{$point->id}}">
                 </td>

@@ -313,8 +313,6 @@ class ProductController extends Controller
                 }
             }
         }
-
-        // return response()->json($result);
         return view('product.variation', compact('result'));
     }
 
@@ -323,10 +321,16 @@ class ProductController extends Controller
 
         $requested_data = $request->except(['_token', '_method']);
 
+        if (empty($request->get('stock_quantity'))) {
+            $response = array('status' => 400, 'pickup_id' => $request->get('pickup_id'), 'stock_quantity' => $request->get('stock_quantity'), 'stock_quantity' => 'stock quantity is required.');
+            return json_encode($response);
+        }
+
         if (empty($request->get('price'))) {
             $response = array('status' => 400, 'pickup_id' => $request->get('pickup_id'), 'price' => 'Price is required.');
             return json_encode($response);
         }
+
 
         $record = Product_variation::find($id);
 
@@ -344,6 +348,8 @@ class ProductController extends Controller
 
             $store->product_id = $request->get('product');
 
+            $store->stock_quantity = $request->get('stock_quantity');
+
             $store->created_by = Auth::user()->id;
 
             $store->save();
@@ -351,13 +357,17 @@ class ProductController extends Controller
 
             $record->price = $request->get('price');
 
+            $record->stock_quantity = $request->get('stock_quantity');
+
             $record->save();
         }
+
+        // return response()->json($record);
 
         if (!empty($record) || !empty($store)) {
             $response = array('status' => 200, 'msg' => 'Data saved successfully...!');
         } else {
-            $response = array('status' => 500, 'msg' => "");
+            $response = array('status' => 500, 'msg' => 'Something went wrong...!');
         }
 
         return json_encode($response);
@@ -369,10 +379,12 @@ class ProductController extends Controller
 
         $request->validate(
             [
-                'price' => 'required'
+                'price' => 'required',
+                'stock_quantity' => 'required'
             ],
             [
-                'price.required'    => 'The price is required.'
+                'price.required'    => 'The price is required.',
+                'stock_quantity.required'    => 'The stock quantity is required.'
             ]
         );
         $dates = $request->date;
@@ -380,6 +392,7 @@ class ProductController extends Controller
         $prices = $request->price;
         $counties = $request->county_id;
         $pickups = $request->pickup_id;
+        $quantity = $request->stock_quantity;
 
         for ($i = 0; $i < count($dates); $i++) {
             $date = $dates[$i];
@@ -387,60 +400,30 @@ class ProductController extends Controller
             $price = $prices[$i];
             $counties_id = $counties[$i];
             $pickup_id = $pickups[$i];
+            $stock_quantity = $quantity[$i];
             $variation_exist = Product_variation::where(['product_id' => $product_id, 'counties_id' => $counties_id, 'pickup_point_id' => $pickup_id, 'date_concert' => $date])->first();
             $data_array = array(
                 'date_concert' => $date,
                 'product_id' => $product_id,
                 'price' => $price,
                 'counties_id' => $counties_id,
-                'pickup_point_id' => $pickup_id
+                'pickup_point_id' => $pickup_id,
+                'stock_quantity' => $stock_quantity
             );
             if (!$variation_exist) {
                 $data_array['created_by'] = Auth::user()->id;
-                Product_variation::insert($data_array);
+                $store = Product_variation::insert($data_array);
             } else {
-                Product_variation::where('id', $variation_exist->id)->update($data_array);
+                $store = Product_variation::where('id', $variation_exist->id)->update($data_array);
             }
         }
 
-        // if (empty($request->get('price'))) {
-        //     $response = array('status' => 400, 'pickup_id' => $request->get('pickup_id'), 'price' => 'Price is required.');
-        //     return json_encode($response);
-        // }
-        // die();
-        // try {
-        // $store  = new Product_variation();
+        if (!empty($store)) {
+            $response = array('status' => 200, 'msg' => 'Data saved successfully...!');
+        } else {
+            $response = array('status' => 500, 'msg' => 'Something went wrong...!');
+        }
 
-        // for ($i=0; $i <count ; $i++) { 
-        //     # code...
-        // }
-
-        // $store->date_concert = implode(', ', $request->get('date'));
-
-        // // $store->date_concert = $request->get('date');
-
-        // // $store->price = $requested_data['price'];
-
-        // $store->price = $request->get('price');
-
-        // $store->counties_id = implode(', ', $request->get('county_id'));
-
-        // // $store->counties_id = $request->get('county_id');
-
-        // $store->pickup_point_id = implode(', ', $request->get('pickup_id'));
-
-        // // $store->pickup_point_id = $request->get('pickup_id');
-
-        // $store->product_id = implode(', ', $request->get('product'));
-
-        // $store->created_by = Auth::user()->id;
-
-        // $store->save();
-
-        $response = array('status' => 200, 'msg' => 'Data saved successfully...!');
-        // } catch (\Throwable $th) {
-        //     $response = array('status' => 500, 'msg' => $th);
-        // }
         return json_encode($response);
     }
 }
