@@ -527,7 +527,7 @@ $(document).ready(function () {
       }
     });
   });
-  $("#people").multiSelect();
+  // $("#people").multiSelect();
   // $("#ckbCheckAll").click(function () {
   //   $(".checkBoxClass input").prop("checked", $(this).prop("checked"));
   //   // $(".checkBoxClass").prop("checked", $(this).prop("checked"));
@@ -557,6 +557,56 @@ $(document).ready(function () {
           },
         });
       }
+    });
+  });
+
+  $("#get_point").click(function () {
+    var selected = $(".counties_id").val();
+    var url = $(this).data("url");
+    $.ajax({
+      type: "post",
+      url: url,
+      data: {
+        _token: $("meta[name='csrf-token']").attr("content"),
+        county: selected,
+      },
+      success: function (response) {
+        var data = JSON.parse(response);
+        var list = "";
+        list +=
+          '<label for="pick_point_id" class="col-form-label">Pick up Points & Departure Times:<span class="text-danger">*</span></br><select name="pickup_point_id[]" class="form-control pickup_point_id" multiple id="testSelect2">';
+        $.each(data.result, function (k, v) {
+          if (v.length > 0) {
+            for (let index = 0; index < v.length; index++) {
+              list +=
+                '<option value="' +
+                v[index].id +
+                '">' +
+                v[index].name +
+                "</option>";
+            }
+          } else {
+            list += '<option value="">No Place Found!</option>';
+          }
+        });
+        list +=
+          "</select><div class='text-danger error_pick_point_id error-inline'></div>";
+        $("#pickup_point").html(list);
+        document
+          .multiselect("#testSelect2")
+          .setCheckBoxClick("checkboxAll", function (target, args) {
+            console.log(
+              "Checkbox 'Select All' was clicked and got value ",
+              args.checked
+            );
+          })
+          .setCheckBoxClick("1", function (target, args) {
+            console.log(
+              "Checkbox for item with value '1' was clicked and got value ",
+              args.checked
+            );
+          });
+      },
     });
   });
 
@@ -609,6 +659,20 @@ $(document).ready(function () {
 
   //Inline form submit
 });
+document
+  .multiselect("#testSelect1")
+  .setCheckBoxClick("checkboxAll", function (target, args) {
+    console.log(
+      "Checkbox 'Select All' was clicked and got value ",
+      args.checked
+    );
+  })
+  .setCheckBoxClick("1", function (target, args) {
+    console.log(
+      "Checkbox for item with value '1' was clicked and got value ",
+      args.checked
+    );
+  });
 
 function getCategoryData(type, url) {
   $.ajax({

@@ -1,6 +1,7 @@
 /node_modules
 /vendor
 .env
+.laravel_travel_sql
 .env.backup
 composer.lock
 .phpunit.result.cache

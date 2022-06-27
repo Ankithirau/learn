@@ -31,6 +31,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('user-password/update/{id}', [App\Http\Controllers\API\APIUserController::class, 'update_password']);
 });
 
+Route::post('/intent-payments', [App\Http\Controllers\API\StripeController::class, 'StripePaymentIntent']);
+
+Route::get('/get_slider', [App\Http\Controllers\API\SliderController::class, 'get_slider']);
+
 Route::resource('/event', App\Http\Controllers\API\EventController::class);
 
 // Route::get('/event/{category_id?}', [App\Http\Controllers\API\EventController::class, 'index']);
@@ -49,6 +53,8 @@ Route::resource('/seo', App\Http\Controllers\API\SeoController::class);
 Route::get('pickup_point/{id}', [App\Http\Controllers\API\EventController::class, 'pickuppoint_by_county']);
 
 Route::get('county/{id}', [App\Http\Controllers\API\EventController::class, 'county_by_Id']);
+
+Route::post('intent-payment', [App\Http\Controllers\API\EventController::class, 'createPaymentIntent']);
 
 Route::get('/get_price/{product_id}/{county_id}/{pickup_id}', [App\Http\Controllers\API\EventController::class, 'get_price']);
 
@@ -71,10 +77,6 @@ Route::get('test', function () {
 
     dd("success");
 });
-
-Route::post('/payment', [App\Http\Controllers\StripeController::class, 'createPaymentIntent'])->name('createPaymentIntent.post');
-
-Route::post('/confirmpayment', [App\Http\Controllers\StripeController::class, 'ConfirmPayment'])->name('ConfirmPayment.post');
 
 #-------------------------------------------------------------------------------------
 

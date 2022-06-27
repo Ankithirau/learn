@@ -268,4 +268,29 @@ class EventController extends Controller
 
         return response()->json($response);
     }
+
+    public function createPaymentIntent(Request $request)
+    {
+        \Stripe\Stripe::setApiKey(config('constants.stripe_secret'));
+
+        $intent = \Stripe\PaymentIntent::create([
+            'amount' => 1999,
+            'currency' => 'usd',
+            'description' => 'Payment Collected on behalf of ShopOnline.com',
+            'shipping' => [
+                'name' => 'Jenny Rosen',
+                'address' => [
+                    'line1' => '510 Townsend St',
+                    'postal_code' => '98140',
+                    'city' => 'San Francisco',
+                    'state' => 'CA',
+                    'country' => 'US',
+                ],
+            ],
+        ]);
+
+        $client_secret = $intent->client_secret;
+
+        return response()->json($client_secret);
+    }
 }

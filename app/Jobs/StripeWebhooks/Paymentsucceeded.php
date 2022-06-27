@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\WebhookClient\Models\WebhookCall;
 
-class Paymentcreated implements ShouldQueue
+class Paymentsucceeded implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -27,10 +27,7 @@ class Paymentcreated implements ShouldQueue
 
     public function handle()
     {
-        // do your work here
 
-        // you can access the payload of the webhook call with `$this->webhookCall->payload`
-        return response()->json($this->webhookCall->payload);
-        // dd($this->webhookCall->payload);
+        dd($this->webhookCall->payload);
     }
 }

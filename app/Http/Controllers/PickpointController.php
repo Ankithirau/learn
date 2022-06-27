@@ -166,12 +166,11 @@ class PickpointController extends Controller
 
             $result[] = Pick_Point::where('counties_id', $data)->get();
         }
-        // if ($result) {
-        //     $response = array('status' => 200, 'result' => $result);
-        // } else {
-        //     $response = array('status' => 400, 'msg' => 'Something went wrong...!');
-        // }
-        // print_r($result);
-        return view('product.pickup-points', compact('result'));
+        if ($result) {
+            $response = array('status' => 200, 'result' => $result);
+        } else {
+            $response = array('status' => 400, 'msg' => 'Something went wrong...!');
+        }
+        return json_encode($response);
     }
 }

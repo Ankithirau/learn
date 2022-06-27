@@ -18,9 +18,11 @@
 <!-- Select2 css -->
 {{--
 <link href="{{URL::asset('assets/plugins/select2/select2.min.css')}}" rel="stylesheet" /> --}}
+{{--
 <link href="{{URL::asset('assets/plugins/multipleselect/example-styles.css')}}" rel="stylesheet" />
-<link href="{{URL::asset('assets/plugins/multipleselect/demo-styles.css')}}" rel="stylesheet" />
-{{-- assets/plugins/multipleselect/multi-select.js --}}
+<link href="{{URL::asset('assets/plugins/multipleselect/demo-styles.css')}}" rel="stylesheet" /> --}}
+<link href="{{URL::asset('assets/plugins/multipleselect/multiselect.css')}}" rel="stylesheet" />
+<script src="{{URL::asset('assets/plugins/multipleselect/multiselect.min.js')}}"></script>
 
 @endsection
 
@@ -62,19 +64,18 @@
                 <label for="counties_id" class="col-form-label">County you wish to travel from: <span
                     class="text-danger">*</span>:</label>
                 <div class="row">
-                  <div class="col-9">
-                    <select name="counties_id[]" class="form-control" aria-label="size 3 select example" multiple
-                      id="people">
-                      <option value="" id="ckbCheckAll">Select County</option>
+                  <div class="col-5">
+                    <select name="counties_id[]" class="form-control counties_id" multiple id='testSelect1'
+                      placeholder="Select County">
                       @if(!empty($county))
                       @foreach($county as $county)
-                      <option value="{{$county->id}}" class="checkBoxClass">{{$county->name}}</option>
+                      <option value="{{$county->id}}">{{$county->name}}</option>
                       @endforeach
                       @endif
                     </select>
                   </div>
-                  <div class="col-3">
-                    <input type="button" class="btn btn-primary" value="Get Pickup Point" id="get_point"
+                  <div class="col-2">
+                    <input type="button" class="btn btn-sm btn-primary" value="Get Pickup Point" id="get_point"
                       data-url="{{route('pickup.get')}}">
                   </div>
                 </div>
@@ -82,24 +83,8 @@
               </div>
 
               <div class="form-group">
-                <label for="pick_point_id" class="col-form-label">Pick up Points & Departure Times:
-                  <span class="text-danger">*</span>
-                  <div id="pick_point_ids">
-                    <select name="pickup_point_id[]" class="form-control set_point" aria-label="size 3 select example"
-                      multiple id="pickup_point_id">
-                    </select>
-                  </div>
-                  {{-- <select name="pick_point_id[]" class="form-control selectpicker"
-                    aria-label="size 3 select example" multiple id="pick_point_id">
-                    <option value="">Select Pickup Points</option> --}}
-                    {{-- @if(!empty($points))
-                    @foreach($points as $point)
-                    <option value="{{$point->id}}">{{$point->name}}</option>
-                    @endforeach
-                    @endif --}}
-                    {{--
-                  </select> --}}
-                  <div class="text-danger error_pick_point_id error-inline"></div>
+                <div id="pickup_point"></div>
+
                 </label>
               </div>
               <div class="form-group">
@@ -234,27 +219,6 @@
 <script src="{{URL::asset('assets/plugins/datatable/datatable-2.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/multipleselect/jquery-2.2.4.min.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/multipleselect/jquerymulti-select.min.js')}}"></script>
-
-{{-- <script>
-  $(document).ready(function(){
-    $("#get_point").click(function () {
-    var selected = $("#counties_id").val();
-    var url = $(this).data("url");
-    $.ajax({
-      type: "post",
-      url: url,
-      data: {
-        _token: $("meta[name='csrf-token']").attr("content"),
-        county: selected,
-      },
-      success: function (response) {
-       
-        $("#pickup_point_id").append(response);
-      },
-    });
-  });
-  })
-</script> --}}
 {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 --}}
 <script src="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.js">
