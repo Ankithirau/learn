@@ -6,24 +6,11 @@
 <link href="{{URL::asset('assets/plugins/datatable/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
 <link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('assets/plugins/datatable/responsivebootstrap4.min.css')}}" rel="stylesheet" />
-
-{{--
-<link rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" /> --}}
-<link href="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.css"
-  rel="stylesheet" />
-<link href="https://code.jquery.com/ui/1.12.1/themes/pepper-grinder/jquery-ui.css" rel="stylesheet" />
-{{--
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /> --}}
-<!-- Select2 css -->
-{{--
-<link href="{{URL::asset('assets/plugins/select2/select2.min.css')}}" rel="stylesheet" /> --}}
-{{--
-<link href="{{URL::asset('assets/plugins/multipleselect/example-styles.css')}}" rel="stylesheet" />
-<link href="{{URL::asset('assets/plugins/multipleselect/demo-styles.css')}}" rel="stylesheet" /> --}}
 <link href="{{URL::asset('assets/plugins/multipleselect/multiselect.css')}}" rel="stylesheet" />
 <script src="{{URL::asset('assets/plugins/multipleselect/multiselect.min.js')}}"></script>
-
+<link href="{{URL::asset('assets/plugins/multidate/styles.css')}}" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="{{URL::asset('assets/plugins/multidate/multidatespicker.js')}}"></script>
 @endsection
 
 @section('content')
@@ -84,7 +71,6 @@
 
               <div class="form-group">
                 <div id="pickup_point"></div>
-
                 </label>
               </div>
               <div class="form-group">
@@ -94,8 +80,47 @@
               <div class="form-group">
                 <label for="date_concert" class="col-form-label">Date of Concert:<span
                     class="text-danger">*</span></label>
-                <input type="text" name="date_concert" class="form-control" id="date_concert" autocomplete="off"
-                  placeholder="Select Date here">
+                <div style="width: 30%">
+                  <input type="text" name="date_concert" id="selectedValues" class="date-values" readonly />
+                  <div id="parent" class="container" style="display:none;">
+                    <div class="row header-row">
+                      <div class="col-xs previous">
+                        <a href="javascript:void(0)" id="previous" onclick="previous()">
+                          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        </a>
+                      </div>
+                      <div class="card-header month-selected col-sm" id="monthAndYear">
+                      </div>
+                      <div class="col-sm">
+                        <select class="form-control col-xs-6" name="month" id="month" onchange="change()"></select>
+                      </div>
+                      <div class="col-sm">
+                        <select class="form-control col-xs-6" name="year" id="year" onchange="change()"></select>
+                      </div>
+                      <div class="col-xs next">
+                        <a href="javascript:void(0)" id="next" onclick="next()">
+                          <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <table id="calendar">
+                      <thead>
+                        <tr>
+                          <th>S</th>
+                          <th>M</th>
+                          <th>T</th>
+                          <th>W</th>
+                          <th>T</th>
+                          <th>F</th>
+                          <th>S</th>
+                        </tr>
+                      </thead>
+                      <tbody id="calendarBody"></tbody>
+                    </table>
+                  </div>
+                </div>
+                {{-- <input type="text" name="date_concert" class="form-control" id="date_concert" autocomplete="off"
+                  placeholder="Select Date here"> --}}
               </div>
               <div class="form-group">
                 <label for="status" class="col-form-label">Status :<span class="text-danger">*</span></label>
@@ -217,13 +242,6 @@
 <script src="{{URL::asset('assets/plugins/datatable/dataTables.responsive.min.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/datatable/responsive.bootstrap4.min.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/datatable/datatable-2.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/multipleselect/jquery-2.2.4.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/multipleselect/jquerymulti-select.min.js')}}"></script>
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
---}}
-<script src="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.js">
-</script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-{{-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
---}}
+{{-- <script src="{{URL::asset('assets/plugins/multipleselect/jquery-2.2.4.min.js')}}"></script> --}}
+
 @endsection

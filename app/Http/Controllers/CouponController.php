@@ -38,22 +38,25 @@ class CouponController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->minimum_amount);
         $requested_data = $request->except(['_token', '_method']);
         $request->validate(
             [
-                'coupon_code' => 'required|string',
+                'promo_code' => 'required|string',
                 'start_date' => 'required|date',
                 'end_date' => 'required|date',
                 'discount_type' => 'required|string',
-                'discount' => 'required|string',
+                'minimum_amount' => 'required|integer',
+                'value' => 'required|integer',
                 'status' => 'required|string',
             ],
             [
-                'coupon_code.required'      => 'Coupon code is required.',
+                'promo_code.required'      => 'Coupon code is required.',
                 'start_date.required'      => 'Start date is required.',
                 'end_date.required'      => 'End date is required.',
                 'discount_type.required'      => 'Discount type is required.',
-                'discount.required'      => 'Discount is required.',
+                'minimum_amount.required'      => 'Minimum Cart Amount type is required.',
+                'value.required'      => 'Discount is required.',
                 'status.required'      => 'Status is required.',
             ]
         );

@@ -62,9 +62,9 @@ Route::post('login', [App\Http\Controllers\API\APIEmployeeController::class, 'do
 
 Route::post('/booking', [App\Http\Controllers\API\EventController::class, 'book_product']);
 
-Route::get('companies', [App\Http\Controllers\API\APIClientController::class, 'index']);
+Route::get('/companies', [App\Http\Controllers\API\APIClientController::class, 'index']);
 
-Route::post('/payment', [App\Http\Controllers\StripeController::class, 'stripePost']);
+Route::post('/coupon_code', [App\Http\Controllers\API\CouponController::class, 'validate_coupon']);
 
 Route::get('test', function () {
 

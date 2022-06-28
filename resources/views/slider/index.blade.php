@@ -64,7 +64,7 @@
                 <td>
                   <input type="button"
                     class="btn  @if($result->status==0) btn-danger @else btn-success @endif  updateStatus"
-                    data-url="{{route('slider.status', $result->id)}}"
+                    data-url="{{route('states.status', $result->id)}}"
                     value="@if($result->status==0) Inactive @else Active @endif">
                 </td>
                 <td>

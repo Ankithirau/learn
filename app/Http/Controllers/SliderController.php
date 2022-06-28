@@ -18,7 +18,7 @@ class SliderController extends Controller
     {
         $products = Product::select('id', 'name')->where(['status' => 1])->orderBy('name', 'desc')->get();
 
-        $slider = Slider::select('id', 'title', 'photo', 'product_id')->orderBy('id', 'desc')->get();
+        $slider = Slider::select('id', 'title', 'photo', 'product_id', 'status')->orderBy('id', 'desc')->get();
 
         return view('slider.index', compact('products', 'slider'));
     }

@@ -16,13 +16,13 @@ class CreateCouponCodeTable extends Migration
     {
         Schema::create('coupon_code', function (Blueprint $table) {
             $table->id();
-            $table->string('coupon_code')->nullable();
+            $table->string('promo_code')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->enum('discount_type', ['percentage', 'value'])->default('percentage')->nullable();
-            $table->decimal('discount', 8, 2);
-            $table->integer('maximum_usage')->default(0);
-            $table->integer('current_usage')->default(0);
+            $table->decimal('value', 8, 2);
+            $table->decimal('minimum_amount', 8, 2)->nullable();
+            $table->smallInteger('is_one_time')->default(0);
             $table->bigInteger('created_by')->unsigned();
             $table->foreign('created_by')->references('id')->on('users')
                 ->onDelete('cascade');

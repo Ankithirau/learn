@@ -62,7 +62,7 @@ class ProductController extends Controller
                 'counties_id' => 'required',
                 'status' => 'required',
                 'sku' => 'required|string',
-                'pick_point_id' => 'required',
+                // 'pick_point_id' => 'required',
                 'image'       => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:500',
                 'date_concert' => 'required',
                 'event_id' => 'required',
@@ -73,7 +73,7 @@ class ProductController extends Controller
                 'meta_desc' => 'required|string',
             ],
             [
-                'pick_point_id.required'    => 'The Pickup Point is required.',
+                // 'pick_point_id.required'    => 'The Pickup Point is required.',
                 'counties_id.required'    => 'The Counties is required.',
                 'event_id.required'    => 'The Event is required.',
                 'category_id.required'    => 'The Category is required.',
@@ -98,7 +98,7 @@ class ProductController extends Controller
             $store->description = $requested_data['description'];
             $store->shortdesc = $requested_data['shortdesc'];
             $store->counties_id = implode(', ', $requested_data['counties_id']);
-            $store->pickup_point_id = implode(', ', $requested_data['pick_point_id']);
+            $store->pickup_point_id = implode(', ', $request->pickup_point_id);
             $store->status = $requested_data['status'];
             $store->sku = $requested_data['sku'];
             $store->check_ins_per_ticket = $requested_data['check_in_per_ticket'];
@@ -379,10 +379,12 @@ class ProductController extends Controller
 
         $request->validate(
             [
-                'price' => 'required'
+                'price' => 'required',
+                'stock_quantity' => 'required',
             ],
             [
-                'price.required'    => 'The price is required.'
+                'price.required'    => 'The price is required.',
+                'stock_quantity.required'    => 'The price is required.'
             ]
         );
         $dates = $request->date;
@@ -392,13 +394,15 @@ class ProductController extends Controller
         $pickups = $request->pickup_id;
         $quantity = $request->stock_quantity;
 
+        // dd($request);
+
         for ($i = 0; $i < count($dates); $i++) {
             $date = $dates[$i];
             $product_id = $products[$i];
             $price = $prices[$i];
             $counties_id = $counties[$i];
             $pickup_id = $pickups[$i];
-            $stock_quantity = $quantity[$i];
+            $stock_quantity = ($quantity[$i]) ? $quantity[$i] : 0;
             $variation_exist = Product_variation::where(['product_id' => $product_id, 'counties_id' => $counties_id, 'pickup_point_id' => $pickup_id, 'date_concert' => $date])->first();
             $data_array = array(
                 'date_concert' => $date,

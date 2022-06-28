@@ -31,6 +31,6 @@ class Chargesucceeded implements ShouldQueue
         $store->created_by = "1";
         $store->status = "1";
         $store->save();
-        return response()->json(['hello' => $this->webhookCall->payload]);
+        return response()->json(['hellos' => $this->webhookCall->payload]);
     }
 }

@@ -46,10 +46,9 @@
               <tr>
                 <th class="border-bottom-0 bg-primary">S.No.</th>
                 <th class="border-bottom-0 bg-primary">Coupon Name</th>
-                <th class="border-bottom-0 bg-primary">Start Date</th>
                 <th class="border-bottom-0 bg-primary">End Date</th>
                 <th class="border-bottom-0 bg-primary">Discount Type</th>
-                <th class="border-bottom-0 bg-primary">Discount</th>
+                <th class="border-bottom-0 bg-primary">Discount Value</th>
                 <th class="border-bottom-0 bg-primary">Status</th>
                 <th class="border-bottom-0 bg-primary">Actions</th>
               </tr>
@@ -62,11 +61,10 @@
               @foreach($results as $result)
               <tr>
                 <td>{{$i++}}</td>
-                <td>{{$result->coupon_code}}</td>
-                <td>{{$result->start_date}}</td>
+                <td>{{$result->promo_code}}</td>
                 <td>{{$result->end_date}}</td>
                 <td>{{$result->discount_type}}</td>
-                <td>{{$result->discount}}</td>
+                <td>&#8364; {{$result->value}}</td>
                 <td>
                   <input type="button"
                     class="btn  @if($result->status==0) btn-danger @else btn-success @endif  updateStatus"
@@ -105,8 +103,8 @@
           @csrf
           <div class="modal-body">
             <div class="form-group">
-              <label for="coupon_code" class="col-form-label">Name *:</label>
-              <input type="text" name="coupon_code" class="form-control" id="coupon_code" autocomplete="off">
+              <label for="promo_code" class="col-form-label">Coupon Code *:</label>
+              <input type="text" name="promo_code" class="form-control" id="promo_code" autocomplete="off">
             </div>
             <div class="form-group">
               <label for="start_date" class="col-form-label">Start date *:</label>
@@ -120,13 +118,22 @@
               <label for="discount_type" class="col-form-label">Discount Type *:</label>
               <select name="discount_type" class="form-control">
                 <option value="" selected>Select Discount Type</option>
-                <option value="1">Percentage</option>
-                <option value="2">Value</option>
+                <option value="1">Fixed Percentage Discount</option>
+                <option value="2">Fixed Value Discount</option>
               </select>
             </div>
             <div class="form-group">
-              <label for="discount" class="col-form-label">Discount *:</label>
-              <input type="text" id="discount" name="discount" class="form-control">
+              <label for="value" class="col-form-label">Coupon amount *:</label>
+              <input type="text" id="value" name="value" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="minimum_amount" class="col-form-label">Minimum Cart Amount *:</label>
+              <input type="text" id="minimum_amount" name="minimum_amount" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="checkbox" id="is_one_time" name="is_one_time" value="1">&nbsp&nbsp
+              <label for="is_one_time" class="col-form-label">Is One Time *:</label>
+
             </div>
             <div class="form-group">
               <label for="status" class="col-form-label">Status *:</label>
