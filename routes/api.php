@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/user/login', [App\Http\Controllers\API\APIUserController::class, 'userLogin']);
 
+Route::post('/user/userchecker', [App\Http\Controllers\API\APIUserController::class, 'usernameChecker']);
+
 Route::post('/user/register', [App\Http\Controllers\API\APIUserController::class, 'store']);
 
 Route::post('user/update_password/{id}', [App\Http\Controllers\API\APIUserController::class, 'update_password']);
@@ -73,7 +75,7 @@ Route::get('test', function () {
         'info' => 'Laravel & Python Devloper'
     ];
 
-    \Mail::to('viradoj301@exoacre.com')->send(new \App\Mail\NewMail($user));
+    \Mail::to('vavit12196@hekarro.com')->send(new \App\Mail\NewMail($user));
 
     dd("success");
 });

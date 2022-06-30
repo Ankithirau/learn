@@ -6,13 +6,11 @@
 <link href="{{URL::asset('assets/plugins/datatable/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
 <link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('assets/plugins/datatable/responsivebootstrap4.min.css')}}" rel="stylesheet" />
-
-<link rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" />
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
-<!-- Select2 css -->
-<link href="{{URL::asset('assets/plugins/select2/select2.min.css')}}" rel="stylesheet" />
+<link href="{{URL::asset('assets/plugins/multipleselect/multiselect.css')}}" rel="stylesheet" />
+<script src="{{URL::asset('assets/plugins/multipleselect/multiselect.min.js')}}"></script>
+<link href="{{URL::asset('assets/plugins/multidate/styles.css')}}" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="{{URL::asset('assets/plugins/multidate/multidatespicker.js')}}"></script>
 
 @endsection
 
@@ -51,42 +49,50 @@
                   placeholder="Enter Product Price">{{$result->shortdesc}}</textarea>
               </div>
               <div class="form-group">
-                <label for="pick_point_id" class="col-form-label">Pick up Points & Departure Times:
+                <label for="counties_id" class="col-form-label">County you wish to travel from: <span
+                    class="text-danger">*</span>:</label>
+                <div class="row">
+                  <div class="col-5">
+                    <select name="counties_id[]" class="form-control counties_id" aria-label="size 3 select example"
+                      multiple id='testSelect1'>
+                      @if(!empty($counties))
+                      @php
+                      $selected_counties=explode(',',$result->counties_id);
+                      @endphp
+                      @foreach($counties as $key=> $county)
+                      <option value="{{$county->id}}" @if (in_array($county->id,$selected_counties)) selected
+                        @endif>{{$county->name}}</option>
+                      @endforeach
+                      @endif
+                    </select>
+                  </div>
+                  <div class="col-2">
+                    <input type="button" class="btn btn-sm btn-primary" value="Get Pickup Point" id="get_point"
+                      data-url="{{route('pickup.get')}}">
+                  </div>
+                </div>
+                <div class="text-danger error_counties_id error-inline"></div>
+              </div>
+              <div class="form-group">
+                <label for="pick_point_id" class="col-form-label pick_label">Pick up Points & Departure Times:
                   <span class="text-danger">*</span>
                 </label>
-                {{-- {{print_r($other_point)}} --}}
-                {{--
-                <pre> --}}
+                <div id="pickup_point">
+                  <select name="pickup_point_id[]" class="form-control pickup_point_id hide_select"
+                    aria-label="size 3 select example" multiple id="testSelect2">
+                    @if(!empty($pickup_points))
+                    @php
+                    $selected_points=explode(',',$result->pickup_point_id);
+                    @endphp
+                    @foreach($pickup_points as $key=> $points)
+                    <option value="{{$points->id}}" @if (in_array($points->id,$selected_points)) selected
 
-
-                  {{-- @if(!empty($other_point))
-                  @foreach($other_point as $key=> $pickpoints)
-                  {{print_r($pickpoints->name)}}
-                  @endforeach
-                  @endif --}}
-                {{-- </pre> --}}
-                <select name="pick_point_id[]" class="form-control selectpicker" aria-label="size 3 select example"
-                  multiple id="pick_point_id">
-                  @if(!empty($pickup_points))
-                  @php
-                  $selected_points=explode(',',$result->pickup_point_id);
-                  @endphp
-                  @foreach($pickup_points as $key=> $points)
-                  <option value="{{$points->id}}" @if (in_array($points->id,$selected_points)) selected
-
-                    @endif>{{$points->name}}</option>
-                  @endforeach
-                  @endif
-
-
-                  {{-- @if(!empty($other_point))
-                  @foreach($other_point as $key => $pickpoints)
-                  <option value="{{$pickpoints[0]->id}}">{{$pickpoints[0]->name}}</option>
-                  @endforeach
-                  @endif --}}
-                </select>
+                      @endif>{{$points->name}}</option>
+                    @endforeach
+                    @endif
+                  </select>
+                </div>
               </div>
-              {{-- {{die()}} --}}
               <div class="form-group">
                 <label for="image" class="col-form-label">Product Image :<span class="text-danger">*</span></label>
                 <input type="file" name="image" id="image" class="form-control">
@@ -100,33 +106,6 @@
                     class="text-danger">*</span></label>
                 <input type="text" name="date_concert" class="form-control" id="date_concert"
                   value="{{$result->date_concert}}">
-              </div>
-              <div class="form-group">
-                <label for="counties_id" class="col-form-label">County you wish to travel from: <span
-                    class="text-danger">*</span>:</label>
-                <select name="counties_id[]" class="form-control selectpicker" aria-label="size 3 select example"
-                  multiple id="counties_id">
-                  @if(!empty($counties))
-                  @php
-                  $selected_counties=explode(',',$result->counties_id);
-                  @endphp
-                  @foreach($counties as $key=> $county)
-                  <option value="{{$county->id}}" @if (in_array($county->id,$selected_counties)) selected
-
-                    @endif>{{$county->name}}</option>
-                  @endforeach
-                  @endif
-                  {{-- @if(!empty($county))
-                  @foreach($county as $key=> $county)
-                  <option value="{{$county[0]->id}}" selected>{{$county[0]->name}}</option>
-                  @endforeach
-                  @endif
-                  @if(!empty($counties))
-                  @foreach($counties as $key => $counties)
-                  <option value="{{$counties[0]->id}}">{{$counties[0]->name}}</option>
-                  @endforeach
-                  @endif --}}
-                </select>
               </div>
               <div class="form-group">
                 <label for="status" class="col-form-label">Status :<span class="text-danger">*</span></label>
@@ -166,8 +145,7 @@
               </div>
               <div class="form-group">
                 <label for="category_id" class="col-form-label">Category :<span class="text-danger">*</span></label>
-                <select name="category_id" class="form-control selectpicker" aria-label="size 3 select example"
-                  multiple>
+                <select name="category_id" class="form-control" aria-label="size 3 select example">
                   {{-- @if(!empty($category))
                   @foreach($category as $key=> $category)
                   <option value="{{$category[0]->id}}" selected>{{$category[0]->name}}</option>
@@ -220,7 +198,7 @@
                     <label for="check_in_per_ticket" class="col-form-label">Product Meta Description :<span
                         class="text-danger">*</span></label>
                     <textarea name="meta_desc" id="" cols="25" rows="5"
-                      class="form-control">{{$result->meta_desc}}</textarea>
+                      class="form-control">{{$result->meta_description}}</textarea>
                   </div>
                 </div>
               </div>

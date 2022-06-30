@@ -47,7 +47,7 @@ class CouponController extends Controller
 
             $response = array('status' => $status, 'msg' => $msg, 'data' => $data);
         } catch (\Throwable $th) {
-            $response = array('status' => 500, 'msg' => 'Something went wrong...!');
+            $response = array('status' => 500, 'msg' => $msg);
         }
         return response()->json($response);
     }

@@ -68,10 +68,11 @@
                 </div>
                 <div class="text-danger error_counties_id error-inline"></div>
               </div>
-
               <div class="form-group">
+                {{-- <label for="pick_point_id" class="col-form-label pick_label">Pick up Points & Departure Times:<span
+                    class="text-danger">*</span>
+                </label> --}}
                 <div id="pickup_point"></div>
-                </label>
               </div>
               <div class="form-group">
                 <label for="image" class="col-form-label">Product Image :<span class="text-danger">*</span></label>
@@ -242,6 +243,7 @@
 <script src="{{URL::asset('assets/plugins/datatable/dataTables.responsive.min.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/datatable/responsive.bootstrap4.min.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/datatable/datatable-2.js')}}"></script>
-{{-- <script src="{{URL::asset('assets/plugins/multipleselect/jquery-2.2.4.min.js')}}"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
 @endsection

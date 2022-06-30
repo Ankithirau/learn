@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,7 +43,7 @@ class CouponController extends Controller
         $requested_data = $request->except(['_token', '_method']);
         $request->validate(
             [
-                'promo_code' => 'required|string',
+                'promo_code' => ['required', 'string', Rule::unique('coupon_code', 'promo_code')],
                 'start_date' => 'required|date',
                 'end_date' => 'required|date',
                 'discount_type' => 'required|string',

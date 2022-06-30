@@ -86,11 +86,13 @@ class APIUserController extends Controller
             $store->type = 'User';
             $store->save();
             $token = $store->createToken('mytoken');
+            \Mail::to($request->email)->send(new \App\Mail\NewMail($store));
+
             $response = array('status' => 200, 'msg' => 'User created successfully...!', 'token' => $token->plainTextToken);
         } catch (\Throwable $th) {
             $response = array('status' => 500, 'msg' => $th);
         }
-        return $response;
+        return response()->json($response);
     }
     /**
      * Display the specified resource.
@@ -182,6 +184,37 @@ class APIUserController extends Controller
                 }
             } else {
                 $response = array('status' => 500, 'msg' => "Employee not exist...!");
+            }
+        } catch (\Throwable $th) {
+            $response = array('status' => 500, 'msg' => 'Something went wrong...!');
+        }
+        return response()->json($response);
+    }
+
+    public function usernameChecker(Request $request)
+    {
+        $request->validate(
+            [
+                'email' => 'required|email'
+            ],
+            [
+                'email.required' => 'Username or email required'
+            ]
+        );
+        try {
+            $employee  = User::select('id', 'name', 'email', 'user_timestamp')->where(['email' => $request->email])->first();
+            if ($employee) {
+                date_default_timezone_set('Asia/Kolkata');
+
+                $update = User::find($employee->id);
+                $update->user_timestamp = strtotime('now');
+                $update->save();
+
+                \Mail::to($employee->email)->send(new \App\Mail\SendMail($employee));
+
+                $response = array('status' => 200, 'msg' => 'reset password link created successfully');
+            } else {
+                $response = array('status' => 500, 'msg' => "user not exist...!");
             }
         } catch (\Throwable $th) {
             $response = array('status' => 500, 'msg' => 'Something went wrong...!');

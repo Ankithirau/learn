@@ -563,6 +563,8 @@ $(document).ready(function () {
   $("#get_point").click(function () {
     var selected = $(".counties_id").val();
     var url = $(this).data("url");
+    $("#testSelect2").remove();
+    $(".pick_label").remove();
     $.ajax({
       type: "post",
       url: url,
@@ -574,7 +576,7 @@ $(document).ready(function () {
         var data = JSON.parse(response);
         var list = "";
         list +=
-          '<label for="pick_point_id" class="col-form-label">Pick up Points & Departure Times:<span class="text-danger">*</span></br><select name="pickup_point_id[]" class="form-control pickup_point_id" multiple id="testSelect2">';
+          '<label for="pick_point_id" class="col-form-label">Pick up Points & Departure Times:<span class="text-danger">*</span></label></br><select name="pickup_point_id[]" class="form-control pickup_point_id" multiple id="testSelect2">';
         $.each(data.result, function (k, v) {
           if (v.length > 0) {
             for (let index = 0; index < v.length; index++) {
@@ -661,6 +663,21 @@ $(document).ready(function () {
 });
 document
   .multiselect("#testSelect1")
+  .setCheckBoxClick("checkboxAll", function (target, args) {
+    console.log(
+      "Checkbox 'Select All' was clicked and got value ",
+      args.checked
+    );
+  })
+  .setCheckBoxClick("1", function (target, args) {
+    console.log(
+      "Checkbox for item with value '1' was clicked and got value ",
+      args.checked
+    );
+  });
+
+document
+  .multiselect("#testSelect2")
   .setCheckBoxClick("checkboxAll", function (target, args) {
     console.log(
       "Checkbox 'Select All' was clicked and got value ",

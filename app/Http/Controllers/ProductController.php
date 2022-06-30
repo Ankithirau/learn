@@ -196,6 +196,8 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        // dd($request);
         $requested_data = $request->except(['_token', '_method']);
 
         $request->validate(
@@ -206,7 +208,7 @@ class ProductController extends Controller
                 'counties_id' => 'required',
                 'status' => 'required',
                 'sku' => 'required|string',
-                'pick_point_id' => 'required',
+                // 'pick_point_id' => 'required',
                 'date_concert' => 'required',
                 'event_id' => 'required',
                 'category_id' => 'required',
@@ -216,7 +218,7 @@ class ProductController extends Controller
                 'meta_desc' => 'required|string',
             ],
             [
-                'pick_point_id.required'    => 'The Pickup Point is required.',
+                // 'pick_point_id.required'    => 'The Pickup Point is required.',
                 'counties_id.required'    => 'The Counties is required.',
                 'event_id.required'    => 'The Event is required.',
                 'category_id.required'    => 'The Category is required.',
@@ -235,7 +237,7 @@ class ProductController extends Controller
             $store->description = $requested_data['description'];
             $store->shortdesc = $requested_data['shortdesc'];
             $store->counties_id = implode(', ', $requested_data['counties_id']);
-            $store->pickup_point_id = implode(', ', $requested_data['pick_point_id']);
+            $store->pickup_point_id = implode(', ', $request->pickup_point_id);
             $store->status = $requested_data['status'];
             $store->sku = $requested_data['sku'];
             $store->check_ins_per_ticket = $requested_data['check_ins_per_ticket'];
@@ -245,7 +247,7 @@ class ProductController extends Controller
             $store->category_id = $requested_data['category_id'];
             $store->meta_title = $requested_data['meta_title'];
             $store->meta_tag = $requested_data['meta_tag'];
-            $store->meta_description = $requested_data['meta_desc'];
+            $store->meta_description = $request->meta_desc;
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
                 $filename = time() . '.' . $request->image->extension();

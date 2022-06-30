@@ -137,11 +137,11 @@
                                             valign="top">
                                             <p
                                                 style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;">
-                                                Hi {{ $store->name}},</p>
+                                                Hi {{ $employee->name}},</p>
                                             <p
                                                 style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;">
-                                                Your account has been created successfully, Now you can login with your
-                                                Email Id and Password.</p>
+                                                You are receiving this email because we received a password reset
+                                                request for your account.</p>
                                             <table role="presentation" border="0" cellpadding="0" cellspacing="0"
                                                 class="btn btn-primary"
                                                 style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; box-sizing: border-box; width: 100%;"
@@ -157,16 +157,31 @@
                                                                 <tbody>
                                                                     <tr>
                                                                         <h1></h1>
-                                                                        <p>{{ $store->email }}</p>
-                                                                        <p>Thank you</p>
+                                                                        <p>{{ $employee->email }}</p>
+                                                                        <p>If you're having trouble clicking the "Reset
+                                                                            Password" button, copy and paste the URL
+                                                                            below into your web browser:</p>
                                                                         <br>
+
+                                                                        @php
+                                                                        date_default_timezone_set("Asia/Kolkata");
+                                                                        $id=base64_encode($employee->id);
+                                                                        $time=base64_encode(date("d-m-Y
+                                                                        h:i:sa",$employee->user_timestamp));
+                                                                        $email=$employee->email;
+                                                                        $url="http://localhost:8000/password/reset/".$id.'/'.$time.'/'.$email;
+                                                                        // echo $url;
+                                                                        @endphp
+                                                                        <a class="btn btn-link" href="<?=$url?>">
+                                                                            <?=$url?>
+                                                                        </a>
+                                                                        <br />
                                                                         <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; border-radius: 5px; text-align: center; background-color: #3498db;"
                                                                             valign="top" align="center"
-                                                                            bgcolor="#3498db"> <a
-                                                                                href="https://travel.trutekacademy.com/login"
+                                                                            bgcolor="#3498db"> <a href="<?=$url?>"
                                                                                 target="_blank"
-                                                                                style="border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none; text-transform: capitalize; background-color: #3498db; border-color: #3498db; color: #ffffff;">
-                                                                                Go To Login</a> </td>
+                                                                                style="border: solid 1px #2b3135; border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none; text-transform: capitalize; background-color: #2b3135; border-color: #2b3135; color: #ffffff;">
+                                                                                Reset Password</a> </td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
@@ -176,12 +191,13 @@
                                             </table>
                                             <p
                                                 style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;">
-                                                If you experience any issues logging into your account, reach out to us
-                                                at support@travelmaster.ie</p>
+                                                This password reset link will expire in 60 minutes.
+                                                If you did not request a password reset, no further action is required.
+                                            </p>
                                             <p
                                                 style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;">
-                                                Best,<br />
-                                                The Travelmaster team</p>
+                                                Regards,<br />
+                                                Travel Master</p>
                                         </td>
                                     </tr>
                                 </table>

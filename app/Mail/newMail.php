@@ -16,10 +16,10 @@ class newMail extends Mailable
      *
      * @return void
      */
-    public $user;
-    public function __construct($user)
+    public $store;
+    public function __construct($store)
     {
-        $this->user = $user;
+        $this->store = $store;
     }
 
     /**
@@ -29,7 +29,7 @@ class newMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('This is Testing Mail')
+        return $this->subject('your account has been created')
             ->view('email.test');
     }
 }

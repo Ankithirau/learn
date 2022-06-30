@@ -25,7 +25,7 @@ class CreateProductTable extends Migration
             $table->string('meta_title')->nullable();
             $table->text('meta_tag')->nullable();
             $table->text('meta_description')->nullable();
-            $table->string('pickup_point_id', 100)->nullable();
+            $table->text('pickup_point_id')->nullable();
             $table->string('category_id', 100)->nullable();
             $table->string('counties_id', 100)->nullable();
             $table->bigInteger('event_id')->unsigned();
