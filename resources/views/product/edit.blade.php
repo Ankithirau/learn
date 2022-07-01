@@ -104,8 +104,46 @@
               <div class="form-group">
                 <label for="date_concert" class="col-form-label">Date of Concert:<span
                     class="text-danger">*</span></label>
-                <input type="text" name="date_concert" class="form-control" id="date_concert"
-                  value="{{$result->date_concert}}">
+                <div style="width: 30%">
+                  <input type="text" name="date_concert" id="selectedValues" class="date-values" readonly
+                    value="{{$result->date_concert}}" />
+                  <div id="parent" class="container" style="display:none;">
+                    <div class="row header-row">
+                      <div class="col-xs previous">
+                        <a href="javascript:void(0)" id="previous" onclick="previous()">
+                          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        </a>
+                      </div>
+                      <div class="card-header month-selected col-sm" id="monthAndYear">
+                      </div>
+                      <div class="col-sm">
+                        <select class="form-control col-xs-6" name="month" id="month" onchange="change()"></select>
+                      </div>
+                      <div class="col-sm">
+                        <select class="form-control col-xs-6" name="year" id="year" onchange="change()"></select>
+                      </div>
+                      <div class="col-xs next">
+                        <a href="javascript:void(0)" id="next" onclick="next()">
+                          <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <table id="calendar">
+                      <thead>
+                        <tr>
+                          <th>S</th>
+                          <th>M</th>
+                          <th>T</th>
+                          <th>W</th>
+                          <th>T</th>
+                          <th>F</th>
+                          <th>S</th>
+                        </tr>
+                      </thead>
+                      <tbody id="calendarBody"></tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
               <div class="form-group">
                 <label for="status" class="col-form-label">Status :<span class="text-danger">*</span></label>

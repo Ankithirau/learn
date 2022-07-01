@@ -120,8 +120,6 @@
                     </table>
                   </div>
                 </div>
-                {{-- <input type="text" name="date_concert" class="form-control" id="date_concert" autocomplete="off"
-                  placeholder="Select Date here"> --}}
               </div>
               <div class="form-group">
                 <label for="status" class="col-form-label">Status :<span class="text-danger">*</span></label>

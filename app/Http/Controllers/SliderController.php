@@ -140,7 +140,7 @@ class SliderController extends Controller
             $update->save();
             $response = array('status' => 200, 'msg' => 'Data updated successfully...!');
         } catch (\Throwable $th) {
-            $response = array('status' => 500, 'msg' => $th);
+            $response = array('status' => 500, 'msg' => 'Something went wrong...!');
         }
 
         return json_encode($response);
@@ -169,7 +169,7 @@ class SliderController extends Controller
             $update->save();
             $response = array('status' => 200, 'msg' => 'Status updated successfully...!');
         } catch (\Throwable $th) {
-            $response = array('status' => 500, 'msg' => $th->getMessage());
+            $response = array('status' => 500, 'msg' => 'Something went wrong...!');
         }
         return json_encode($response);
     }
