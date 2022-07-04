@@ -30,6 +30,16 @@ Route::group(['middleware' => ['auth', 'CheckUserLogin']], function () {
 
     Route::resource('/cities', App\Http\Controllers\CityController::class);
 
+    Route::resource('/bus', App\Http\Controllers\BusController::class);
+
+    Route::resource('/assign-bus', App\Http\Controllers\BusassignmentController::class);
+
+    Route::get('/add-schedule/{id}', [App\Http\Controllers\BusassignmentController::class, 'add_schedule'])->name('bus.add_schedule');
+
+    Route::get('/bus/create/{id}', [App\Http\Controllers\BusController::class, 'create'])->name('bus.create');
+
+    Route::get('/bus-status/{id}', [App\Http\Controllers\BusController::class, 'status'])->name('bus.status');
+
     Route::get('/cities-status/{id}', [App\Http\Controllers\CityController::class, 'status'])->name('cities.status');
 
     Route::get('get-city', [App\Http\Controllers\CityController::class, 'get_city'])->name('cities.city_list');

@@ -102,38 +102,57 @@
         <form name="ajax_form" method="post" action="{{route('coupon.store')}}" enctype="multipart/form-data">
           @csrf
           <div class="modal-body">
-            <div class="form-group">
-              <label for="promo_code" class="col-form-label">Coupon Code *:</label>
-              <input type="text" name="promo_code" class="form-control" id="promo_code" autocomplete="off">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="promo_code" class="col-form-label">Coupon Code *:</label>
+                  <input type="text" name="promo_code" class="form-control" id="promo_code" autocomplete="off">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="value" class="col-form-label">Coupon amount *:</label>
+                  <input type="text" id="value" name="value" class="form-control">
+                </div>
+
+              </div>
             </div>
-            <div class="form-group">
-              <label for="start_date" class="col-form-label">Start date *:</label>
-              <input type="date" id="start_date" name="start_date" class="form-control">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="minimum_amount" class="col-form-label">Minimum Cart Amount *:</label>
+                  <input type="text" id="minimum_amount" name="minimum_amount" class="form-control">
+                </div>
+
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="discount_type" class="col-form-label">Discount Type *:</label>
+                  <select name="discount_type" class="form-control">
+                    <option value="" selected>Select Discount Type</option>
+                    <option value="1">Fixed Percentage Discount</option>
+                    <option value="2">Fixed Value Discount</option>
+                  </select>
+                </div>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="end_date" class="col-form-label">End date *:</label>
-              <input type="date" id="end_date" name="end_date" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="discount_type" class="col-form-label">Discount Type *:</label>
-              <select name="discount_type" class="form-control">
-                <option value="" selected>Select Discount Type</option>
-                <option value="1">Fixed Percentage Discount</option>
-                <option value="2">Fixed Value Discount</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="value" class="col-form-label">Coupon amount *:</label>
-              <input type="text" id="value" name="value" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="minimum_amount" class="col-form-label">Minimum Cart Amount *:</label>
-              <input type="text" id="minimum_amount" name="minimum_amount" class="form-control">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="start_date" class="col-form-label">Start date *:</label>
+                  <input type="date" id="start_date" name="start_date" class="form-control">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="end_date" class="col-form-label">End date *:</label>
+                  <input type="date" id="end_date" name="end_date" class="form-control">
+                </div>
+              </div>
             </div>
             <div class="form-group">
               <input type="checkbox" id="is_one_time" name="is_one_time" value="1">&nbsp&nbsp
               <label for="is_one_time" class="col-form-label">Is One Time *:</label>
-
             </div>
             <div class="form-group">
               <label for="status" class="col-form-label">Status *:</label>

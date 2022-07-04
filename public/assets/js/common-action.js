@@ -111,6 +111,92 @@ $(document).ready(function () {
       }
     });
   });
+
+  $(document).on("click", ".schedule_update", function () {
+    var tr = $(this).closest("tr");
+    $(".has_error").remove();
+    var route_name = $("#route_name").val();
+    var product_id = tr.find("input.product_id").val();
+    var booked_seat = tr.find("input.seat_count").val();
+    var schedule_date = tr.find("select.date_concert").val();
+    var pickup_point_id = tr.find("input.pickup_point_id").val();
+    var buses = tr.find("select.buses").val();
+    var formData = {
+      route_name: route_name,
+      product_id: product_id,
+      booked_seat: booked_seat,
+      schedule_date: schedule_date,
+      pickup_point_id: pickup_point_id,
+      product_id: product_id,
+      buses: buses,
+    };
+    $.ajax({
+      method: "GET",
+      url: $(this).data("action"),
+      data: formData,
+      success: function (response) {
+        var data = JSON.parse(response);
+        console.log(data);
+        if (data.status === 400) {
+          if (data.route_name) {
+            $("#route_name").after(
+              '<div class="text-danger has_error">' + data.route_name + "</div>"
+            );
+          }
+
+          if (data.date_concert) {
+            $("#date_concert_" + data.pickup_id).after(
+              '<div class="text-danger has_error">' +
+                data.date_concert +
+                "</div>"
+            );
+          }
+          if (data.buses) {
+            $("#buses_" + data.pickup_id).after(
+              '<div class="text-danger has_error">' + data.buses + "</div>"
+            );
+          }
+        } else if (data.status === 500) {
+          showError(data.msg);
+        } else {
+          //play();
+          showSuccess(data.msg);
+          if (data.redirect == true) {
+            window.location.href = data.url;
+          } else {
+            location.reload();
+          }
+        }
+        //$("#ajax-loader").hide();
+      },
+    }).fail(function (response, status, error) {
+      console.log(response, status, error);
+      var data = response.responseJSON;
+      if (status === "error") {
+        $.each(data.errors, function (i, val) {
+          $("input[name=" + i + "]").after(
+            '<div class="text-danger has_error">' + val + "</div>"
+          );
+          if ($("textarea[name=" + i + "]").length) {
+            $("textarea[name=" + i + "]").after(
+              '<div class="text-danger has_error">' + val + "</div>"
+            );
+          }
+          if ($("select[name=" + i + "]").length) {
+            $("select[name=" + i + "]").after(
+              '<div class="text-danger has_error">' + val + "</div>"
+            );
+          }
+          // if (i == "pick_point_id") {
+          //   $(".pick_point_id_error").text(val);
+          // }
+          if (i == "pick_point_id" || i == "counties_id") {
+            $(".error_" + i).text(val);
+          }
+        });
+      }
+    });
+  });
   $(document).on("submit", "form[name=ajax_form]", function (e) {
     var formData = new FormData(this);
     e.preventDefault();
@@ -146,6 +232,7 @@ $(document).ready(function () {
         // },
         success: function (response) {
           var data = JSON.parse(response);
+
           if (data.status === 400) {
             $.each(data.error, function (i, val) {
               $("input[name=" + i + "]").after(
@@ -184,24 +271,33 @@ $(document).ready(function () {
         var data = response.responseJSON;
         if (status === "error") {
           $.each(data.errors, function (i, val) {
-            $("input[name=" + i + "]").after(
-              '<div class="text-danger has_error">' + val + "</div>"
-            );
-            if ($("textarea[name=" + i + "]").length) {
-              $("textarea[name=" + i + "]").after(
+            if (
+              val == "Concert Date is required." ||
+              val == "Bus Number is required." ||
+              val == "The price is required." ||
+              val == "The stock quantity is required."
+            ) {
+              $("." + i).text(val);
+            } else {
+              $("input[name=" + i + "]").after(
                 '<div class="text-danger has_error">' + val + "</div>"
               );
-            }
-            if ($("select[name=" + i + "]").length) {
-              $("select[name=" + i + "]").after(
-                '<div class="text-danger has_error">' + val + "</div>"
-              );
-            }
-            // if (i == "pick_point_id") {
-            //   $(".pick_point_id_error").text(val);
-            // }
-            if (i == "pick_point_id" || i == "counties_id") {
-              $(".error_" + i).text(val);
+              if ($("textarea[name=" + i + "]").length) {
+                $("textarea[name=" + i + "]").after(
+                  '<div class="text-danger has_error">' + val + "</div>"
+                );
+              }
+              if ($("select[name=" + i + "]").length) {
+                $("select[name=" + i + "]").after(
+                  '<div class="text-danger has_error">' + val + "</div>"
+                );
+              }
+              // if (i == "pick_point_id") {
+              //   $(".pick_point_id_error").text(val);
+              // }
+              if (i == "pick_point_id" || i == "counties_id") {
+                $(".error_" + i).text(val);
+              }
             }
           });
         }

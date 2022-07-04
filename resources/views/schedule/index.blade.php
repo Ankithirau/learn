@@ -23,8 +23,7 @@
   </ol><!-- End breadcrumb -->
   <div class="ml-auto">
     <div class="input-group">
-      <a href="javascript:void(0);" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="modal"
-        data-target="#modalSchedule" title="Add Route Schedule">
+      <a href="{{route('bus.create')}}" class="btn btn-primary text-white mr-2 btn-sm">
         <span>
           <i class="fa fa-plus"></i>
         </span>
@@ -59,7 +58,6 @@
               <tr>
                 <td>{{$i++}}</td>
                 <td>{{$result->name}}</td>
-                <!-- <td>{{date('d-m-Y',strtotime($result->created_at))}}</td> -->
                 <td>
                   <input type="button"
                     class="btn  @if($result->status==0) btn-danger @else btn-success @endif  updateStatus"
@@ -84,7 +82,7 @@
       </div>
     </div>
   </div>
-  <div class="modal fade" id="modalSchedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  {{-- <div class="modal fade" id="modalSchedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
@@ -97,13 +95,9 @@
         <form name="ajax_form" method="post" action="{{route('category.store')}}" enctype="multipart/form-data">
           @csrf
           <div class="modal-body">
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="form-group">
-                  <label for="route_name" class="col-form-label">Route Name *:</label>
-                  <input type="text" name="route_name" class="form-control" id="route_name" autocomplete="off">
-                </div>
-              </div>
+            <div class="form-group">
+              <label for="route_name" class="col-form-label">Route Name *:</label>
+              <input type="text" name="route_name" class="form-control" id="route_name" autocomplete="off">
             </div>
             <div class="row">
               <div class="col-sm-6">
@@ -203,7 +197,7 @@
 
       </div>
     </div>
-  </div>
+  </div> --}}
 </div>
 <!-- row closed -->
 

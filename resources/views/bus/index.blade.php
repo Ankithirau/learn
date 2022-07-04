@@ -19,18 +19,17 @@
   <ol class="breadcrumb">
     <!-- breadcrumb -->
     <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Category List</li>
+    <li class="breadcrumb-item active" aria-current="page">Buses List</li>
   </ol><!-- End breadcrumb -->
   <div class="ml-auto">
     <div class="input-group">
       <a href="javascript:void(0);" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="modal"
-        data-target="#modalState" title="Add State">
+        data-target="#modalBus" title="Add Bus">
         <span>
           <i class="fa fa-plus"></i>
         </span>
-        Add Category
+        Add Buses
       </a>
-
     </div>
   </div>
 </div>
@@ -45,8 +44,9 @@
             <thead>
               <tr>
                 <th class="border-bottom-0 bg-primary">S.No.</th>
-                <th class="border-bottom-0 bg-primary">Name</th>
-                <!-- <th class="border-bottom-0 bg-primary">Created at</th> -->
+                <th class="border-bottom-0 bg-primary">Operator Name</th>
+                <th class="border-bottom-0 bg-primary">Bus No.</th>
+                <th class="border-bottom-0 bg-primary">Bus Capacity</th>
                 <th class="border-bottom-0 bg-primary">Status</th>
                 <th class="border-bottom-0 bg-primary"> Actions</th>
               </tr>
@@ -59,21 +59,26 @@
               @foreach($results as $result)
               <tr>
                 <td>{{$i++}}</td>
-                <td>{{$result->name}}</td>
-                <!-- <td>{{date('d-m-Y',strtotime($result->created_at))}}</td> -->
+                @foreach ($operators as $operator)
+                @if ($operator->id==$result->operator_name)
+                <td>{{$operator->name}}</td>
+                @endif
+                @endforeach
+                <td>{{$result->bus_number}}</td>
+                <td>{{$result->capacity}}</td>
                 <td>
                   <input type="button"
                     class="btn  @if($result->status==0) btn-danger @else btn-success @endif  updateStatus"
-                    data-url="{{route('category.status', $result->id)}}"
+                    data-url="{{route('bus.status', $result->id)}}"
                     value="@if($result->status==0) Inactive @else Active @endif">
                 </td>
                 <td>
                   <div class="d-flex">
-                    <input type="button" class="btn  btn-warning  editRecord" data-title="State"
-                      data-url="{{route('category.edit', $result->id)}}"
-                      data-action="{{route('category.update', $result->id)}}" value="Edit">&nbsp;
+                    <input type="button" class="btn  btn-warning  editRecord" data-title="Bus"
+                      data-url="{{route('bus.edit', $result->id)}}" data-action="{{route('bus.update', $result->id)}}"
+                      value="Edit">&nbsp;
                     <input type="button" class="btn  btn-danger  deleteRecord"
-                      data-url="{{route('category.destroy', $result->id)}}" value="Delete">
+                      data-url="{{route('bus.destroy', $result->id)}}" value="Delete">
                   </div>
                 </td>
               </tr>
@@ -85,22 +90,68 @@
       </div>
     </div>
   </div>
-  <div class="modal fade" id="modalState" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  <div class="modal fade" id="modalBus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add Buses</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form name="ajax_form" method="post" action="{{route('category.store')}}" enctype="multipart/form-data">
+        <form name="ajax_form" method="post" action="{{route('bus.store')}}" enctype="multipart/form-data">
           @csrf
           <div class="modal-body">
             <div class="form-group">
-              <label for="name" class="col-form-label">Name *:</label>
-              <input type="text" name="name" class="form-control" id="name" autocomplete="off">
+              <label for="operator_name" class="col-form-label">Operator Name *:</label>
+              <select name="operator_name" class="form-control" id="operator_name">
+                <option value="" selected>Select Operator</option>
+                @foreach ($operators as $operator)
+                <option value="{{$operator->id}}">{{$operator->name}}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="bus_number" class="col-form-label">Bus Number *:</label>
+                  <input type="text" name="bus_number" class="form-control" id="bus_number" autocomplete="off">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="bus_registration_number" class="col-form-label">Bus Registration Number *:</label>
+                  <input type="text" name="bus_registration_number" class="form-control" id="bus_registration_number"
+                    autocomplete="off">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="bus_type" class="col-form-label">Bus Type *:</label>
+                  <select name="bus_type" class="form-control">
+                    <option value="" selected>Select Bus Type</option>
+                    <option value="AC">AC</option>
+                    <option value="Non-AC">No AC</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="capacity" class="col-form-label">Bus Capacity *:</label>
+                  <input type="text" name="capacity" class="form-control" id="capacity" autocomplete="off">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="status" class="col-form-label">Bus Status *:</label>
+              <select name="status" class="form-control">
+                <option value="" selected>Select Bus Status</option>
+                <option value="1">Active</option>
+                <option value="0">Disable</option>
+              </select>
             </div>
           </div>
           <div class="modal-footer">
@@ -108,7 +159,6 @@
             <input value="Submit" type="submit" id="form-button" class="btn btn-primary">
           </div>
         </form>
-
       </div>
     </div>
   </div>

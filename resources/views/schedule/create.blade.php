@@ -6,6 +6,7 @@
 <link href="{{URL::asset('assets/plugins/datatable/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
 <link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('assets/plugins/datatable/responsivebootstrap4.min.css')}}" rel="stylesheet" />
+
 <!-- Select2 css -->
 <link href="{{URL::asset('assets/plugins/select2/select2.min.css')}}" rel="stylesheet" />
 
@@ -18,9 +19,10 @@
   <ol class="breadcrumb">
     <!-- breadcrumb -->
     <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-    <li class="breadcrumb-item"><a href="{{route('product.index')}}">Product List</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Create Product</li>
-  </ol><!-- End breadcrumb -->
+    <li class="breadcrumb-item"><a href="{{route('bus.index')}}">Bus List</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Create Bus</li>
+  </ol>
+  <!-- End breadcrumb -->
 </div>
 <!-- End page-header -->
 <!-- row opened -->
@@ -28,92 +30,87 @@
   <div class="col-md-12 col-lg-12">
     <div class="card">
       <div class="card-body pt-4">
-        <form name="ajax_form" method="post" action="{{route('product.add_variation_by_form')}}"
-          enctype="multipart/form-data" novalidate>
+        <form name="ajax_form" method="post" action="{{route('assign-bus.store')}}" enctype="multipart/form-data"
+          novalidate>
           @csrf
-          @method('POST')
-          <table class="table table-bordered table-striped table-highlight">
+          @method('post')
+          <div class="form-group">
+            <label for="route_name" class="col-form-label">Route Name *:</label>
+            <input type="text" name="route_name" class="form-control" id="route_name" autocomplete="off">
+
+          </div>
+          <table class="table table-bordered table-striped table-highlight text-center">
             <thead>
               <tr>
-                <th>Date of Concert</th>
+                <th>S no</th>
                 <th>County</th>
                 <th>Pickup Point</th>
-                <th>Stock Quantity</th>
-                <th>Price</th>
+                <th>Seat Booked</th>
+                <th>Concert Date</th>
+                <th>Allot Bus</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               @php
+              $i=1;
               $num=0;
               @endphp
-              @foreach ($result as $item=>$val)
-              @foreach ($val['pick_point'] as $pick =>$point)
+              @foreach ($points as $item)
               <tr>
+                <td>{{$i++}}</td>
                 <td>
-                  <p>{{date("d-m-Y", strtotime($val['date_concert']))}}</p>
-                  <input type="hidden" name="date[]" class="form-control date_concert" value="{{$val['date_concert']}}">
-                  <input type="hidden" name="product_id[]" class="form-control product"
-                    value="{{$val['product']['id']}}">
+                  {{$item->county_name}}
+                  <input type="hidden" name="counties_id[]" class="counties_id" value="{{$item->counties_id}}"
+                    id="counties_id">
+                  <input type="hidden" name="product_id" class="product_id" value="{{$item->product_id}}"
+                    id="product_id">
                 </td>
                 <td>
-                  <p>{{$val['county']['name']}}</p>
-                  <input type="hidden" name="county_id[]" class="form-control county_id"
-                    value="{{$val['county']['id']}}">
+                  {{$item->name}}
+                  <input type="hidden" name="pickup_point_id[]" class="pickup_point_id" value="{{$item->id}}"
+                    id="pickup_point_id">
                 </td>
                 <td>
-                  <p>{{(isset($point->name))?$point->name:""}}</p>
-                  <input type="hidden" name="pickup_id[]" class="form-control pickup_id" value="{{$point->id}}">
-                </td>
-                @php
-                $prices=\App\Models\Product_variation::select('id','price','stock_quantity')->where(['date_concert'=>trim($val['date_concert']),'counties_id'=>$val['county']['id'],'pickup_point_id'=>$point->id,'product_id'=>$val['product']['id']])->first();
-                @endphp
-                @if ($prices)
-                <td>
-                  <input type="text" name="stock_quantity[]" class="form-control stock_quantity"
-                    id="stock_{{$point->id}}" value="{{($prices->stock_quantity!=0)?$prices->stock_quantity:""}}">
-
-                  <div class="stock_quantity {{$num}} text-danger error-inline"></div>
+                  {{$item->seat_count}}
+                  <input type="hidden" name="seat_count[]" class="seat_count" value="{{$item->seat_count}}"
+                    id="seat_count">
                 </td>
                 <td>
-                  <input type="text" name="price[]" class="form-control price" id="price_{{$point->id}}"
-                    value="{{$prices->price}}">
-                  <div class="price {{$num}} text-danger error-inline"></div>
-                </td>
-                @else
-                <td>
-                  <input type="text" name="stock_quantity[]" class="form-control stock_quantity"
-                    id="stock_{{$point->id}}">
-                  <div class="stock_quantity {{$num}} text-danger error-inline"></div>
+                  <select name="date_concert[]" class="form-control date_concert" id="date_concert_{{$item->id}}">
+                    <option value="" selected>Select Concert Date</option>
+                    @foreach ($item->date_concert as $date)
+                    <option value="{{$date}}">{{date("d/m/Y", strtotime($date))}}</option>
+                    @endforeach
+                  </select>
+                  <div class="date_concert {{$num}} text-danger error-inline"></div>
                 </td>
                 <td>
-                  <input type="text" name="price[]" class="form-control price" id="price_{{$point->id}}">
-                  <div class="price {{$num}} text-danger error-inline"></div>
+                  <select name="buses[]" class="form-control buses" id="buses_{{$item->id}}">
+                    <option value="" selected>Select Bus</option>
+                    @foreach ($buses as $bus)
+                    <option value="{{$bus->id}}">{{$bus->bus_number}}</option>
+                    @endforeach
+                  </select>
+                  <div class="buses {{$num}} text-danger error-inline"></div>
                 </td>
-                @endif
-
                 <td>
-                  <input type="button" value="Update" class="btn btn-primary update_variation"
-                    data-action="{{route('product.add_variation',isset($prices->id)?$prices->id:0)}}">
+                  <input type="button" class="btn btn-primary schedule_update" value="update"
+                    data-action="{{route('bus.add_schedule',isset($item->id)?$item->id:0)}}" />
                 </td>
               </tr>
               @php
               $num++;
               @endphp
               @endforeach
-              @endforeach
-
-              {{--
-        </form> --}}
-        </tbody>
-        </table>
-        <input value="Send Request" type="submit" id="form-button" class="btn btn-primary">
+            </tbody>
+          </table>
+          <input value="Submit" type="submit" id="form-button" class="btn btn-primary">
         </form>
       </div>
     </div>
   </div>
 </div>
-
 <!-- row closed -->
 
 @endsection('content')
@@ -144,4 +141,5 @@
 <script src="{{URL::asset('assets/plugins/datatable/dataTables.responsive.min.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/datatable/responsive.bootstrap4.min.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/datatable/datatable-2.js')}}"></script>
+
 @endsection

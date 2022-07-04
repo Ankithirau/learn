@@ -95,7 +95,8 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form name="ajax_form" method="post" action="{{route('slider.store')}}" enctype="multipart/form-data">
+        <form name="ajax_form" method="post" action="{{route('slider.store')}}" enctype="multipart/form-data"
+          id="reset_form">
           @csrf
           <div class="modal-body">
             <div class="form-group">

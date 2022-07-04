@@ -57,14 +57,18 @@
 			</ul>
 		</li>
 		<li>
-			<a class="side-menu__item" href="{{url('pickups')}}">
+			<a class="side-menu__item" href="{{url('bus')}}">
 				<i class="side-menu__icon mdi fs-2 mdi-bus"></i><span class="side-menu__label">
-					Bus Detail</span></a>
+					Buses </span></a>
 		</li>
-		<li>
-			<a class="side-menu__item" href="{{url('schedule')}}">
-				<i class="side-menu__icon mdi fs-2 mdi-timer"></i><span class="side-menu__label">
-					Route Schedule</span></a>
+		<li class="slide">
+			<a class="side-menu__item" data-toggle="slide" href="#">
+				<i class="side-menu__icon mdi fs-2 mdi-road-variant"></i><span class="side-menu__label">Route
+					Schedule</span><i class="angle fa fa-angle-right"></i></a>
+			{{-- <ul class="slide-menu">
+				<li><a href="{{route('bus.create')}}" class="slide-item">Create </a></li>
+				<li><a href="{{route('bus.index')}}" class="slide-item">Lists </a></li>
+			</ul> --}}
 		</li>
 		<li>
 			<a class="side-menu__item" href="{{url('seo')}}">

@@ -77,6 +77,10 @@
                             Variations</a>
                         </li>
                         <li>
+                          <a class="dropdown-item" href="{{route('bus.create', $result->id)}}">
+                            Assign Bus</a>
+                        </li>
+                        <li>
                           <a class="dropdown-item" href="{{route('product.show', $result->id)}}">View</a>
                         </li>
                         <li>

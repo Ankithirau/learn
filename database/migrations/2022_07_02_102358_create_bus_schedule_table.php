@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBusDetailsTable extends Migration
+class CreateBusScheduleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,13 +14,20 @@ class CreateBusDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bus_details', function (Blueprint $table) {
+        Schema::create('bus_schedule', function (Blueprint $table) {
             $table->id();
-            $table->string('operator_name')->nullable();
-            $table->string('bus_number')->nullable();
-            $table->string('bus_registration_number')->nullable();
-            $table->string('bus_type')->nullable();
-            $table->integer('capacity')->nullable();
+            $table->string('route_name', 100);
+            $table->string('booked_seat', 100);
+            $table->string('schedule_date', 50);
+            $table->bigInteger('pickup_point_id')->unsigned();
+            $table->foreign('pickup_point_id')->references('id')->on('pickup_points')
+                ->onDelete('cascade');
+            $table->bigInteger('product_id')->unsigned();
+            $table->foreign('product_id')->references('id')->on('products')
+                ->onDelete('cascade');
+            $table->bigInteger('bus_id')->unsigned();
+            $table->foreign('bus_id')->references('id')->on('bus_details')
+                ->onDelete('cascade');
             $table->bigInteger('created_by')->unsigned();
             $table->foreign('created_by')->references('id')->on('users')
                 ->onDelete('cascade');
@@ -37,6 +44,6 @@ class CreateBusDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bus_details');
+        Schema::dropIfExists('bus_schedule');
     }
 }
