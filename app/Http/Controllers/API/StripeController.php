@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+
 use Illuminate\Http\Request;
 
 class StripeController extends Controller
@@ -37,7 +38,7 @@ class StripeController extends Controller
             'amount' => $request->amount * 100,
             // 'currency' => $request->currency,
             'currency' => 'EUR',
-            'description' => 'Payment Collected on behalf of travelmaster.ie',
+            'description' => 'Payment Collected on behalfs of travelmaster.ie',
             'shipping' => [
                 'name' => $request->firstname .  $request->lastname,
                 'address' => [
