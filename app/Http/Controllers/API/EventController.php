@@ -10,8 +10,10 @@ use App\Models\Event;
 use App\Models\Pick_Point;
 use App\Models\Product;
 use App\Models\Product_variation;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Stmt\TryCatch;
 
 class EventController extends Controller
 {
@@ -125,16 +127,21 @@ class EventController extends Controller
         //
     }
 
-    public function pickuppoint_by_county(Request $request, $id)
+    public function select_county_by_point(Request $request, $id)
     {
-        $pickup = Pick_Point::where(['id' => $id])->get()->makeHidden(['created_by', 'status', 'created_at', 'updated_at']);
+        try {
+            $pickup = Pick_Point::where(['id' => $id])->first()->makeHidden(['created_by', 'status', 'created_at', 'updated_at']);
 
-        if ($pickup->count() > 0) {
-            $response = array('status' => 200, 'data' => $pickup);
-        } else {
-            $response = array('status' => 500, 'msg' => 'No Record Found');
+            $county = County::where('id', $pickup->counties_id)->first()->makeHidden(['created_by', 'status', 'created_at', 'updated_at']);
+
+            if ($county->count() > 0) {
+                $response = array('status' => 200, 'data' => $county);
+            } else {
+                $response = array('status' => 500, 'msg' => 'No Record Found');
+            }
+        } catch (\Throwable $th) {
+            $response = array('status' => 500, 'msg' => 'Something went wrong...!');
         }
-
         return response()->json($response);
     }
 
@@ -153,20 +160,17 @@ class EventController extends Controller
 
     public function get_price(Request $request, $product_id, $county_id, $point_id)
     {
-        $price = Product_variation::select('price', 'stock_quantity')->where(['product_id' => $product_id, 'counties_id' => $county_id, 'pickup_point_id' => $point_id])->first();
+        try {
+            $price = Product_variation::select('price', 'stock_quantity')->where(['product_id' => $product_id, 'counties_id' => $county_id, 'pickup_point_id' => $point_id])->first();
 
-        // if ($price->stock_quantity == 0) {
-        //     $price->Instock = 'SEATS SOLD OUT';
-        // } else {
-        //     $price->Instock = 'IN SEATS';
-        // }
-
-        if (!empty($price)) {
-            $response = array('status' => 200, 'data' => $price);
-        } else {
-            $response = array('status' => 500, 'msg' => 'No Record Found');
+            if ($price->count() > 0) {
+                $response = array('status' => 200, 'data' => $price);
+            } else {
+                $response = array('status' => 500, 'msg' => 'No Record Found');
+            }
+        } catch (\Throwable $th) {
+            $response = array('status' => 500, 'msg' => 'Something went wrong...!');
         }
-
         return response()->json($response);
     }
 
@@ -275,7 +279,7 @@ class EventController extends Controller
 
         $intent = \Stripe\PaymentIntent::create([
             'amount' => 1999,
-            'currency' => 'usd',
+            'currency' => 'EUR',
             'description' => 'Payment Collected on behalf of ShopOnline.com',
             'shipping' => [
                 'name' => 'Jenny Rosen',
@@ -286,11 +290,21 @@ class EventController extends Controller
                     'state' => 'CA',
                     'country' => 'US',
                 ],
+                'phone' => '9977945612',
             ],
+            "metadata" => [
+                "additional_information" => "test msg",
+                "user_email" => "test@gmail.com"
+            ]
         ]);
 
         $client_secret = $intent->client_secret;
 
         return response()->json($client_secret);
+    }
+
+    public function resetmsg()
+    {
+        return Response::json(['msg' => 'hello']);
     }
 }

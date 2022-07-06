@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-
+use App\Models\Booking;
 use Illuminate\Http\Request;
 
 class StripeController extends Controller
@@ -15,13 +15,15 @@ class StripeController extends Controller
                 'firstname' => 'required|string',
                 'lastname' => 'required|string',
                 'email' => 'required|email',
-                'address' => 'required|string|max:100',
-                'postal_code' => 'required|string',
-                'city' => 'required|string',
-                'state' => 'required|string',
-                'country' => 'required|string',
+                // 'phone' => 'required|string',
+                // 'description' => 'required|string',
+                // 'address' => 'required|string|max:100',
+                // 'postal_code' => 'required|string',
+                // 'city' => 'required|string',
+                // 'state' => 'required|string',
+                // 'country' => 'required|string',
                 'amount' => 'required|regex:/^\d+(\.\d{1,2})?$/',
-                'currency' => 'required|string',
+                // 'currency' => 'required|string',
             ],
             [
                 'name.required'      => 'Username is required.',
@@ -33,19 +35,26 @@ class StripeController extends Controller
 
         $results = \Stripe\PaymentIntent::create([
             'amount' => $request->amount * 100,
-            'currency' => $request->currency,
+            // 'currency' => $request->currency,
+            'currency' => 'EUR',
             'description' => 'Payment Collected on behalf of travelmaster.ie',
             'shipping' => [
                 'name' => $request->firstname .  $request->lastname,
                 'address' => [
-                    'line1' => $request->address,
-                    'postal_code' => $request->postal_code,
-                    'city' => $request->city,
-                    'state' => $request->state,
-                    'country' => $request->country,
+                    // 'line1' => $request->address,
+                    // 'postal_code' => $request->postal_code,
+                    // 'city' => $request->city,
+                    // 'state' => $request->state,
+                    // 'country' => $request->country,
+                    'country' => 'ireland',
                 ],
+                'phone' => $request->phone,
             ],
-            'receipt_email' => $request->email
+            "metadata" => [
+                "additional_information" => $request->description,
+                "user_email" => $request->email
+            ],
+            'payment_method_types' => ['card'],
         ]);
 
         if (isset($results) && ($results->status == 'requires_payment_method')) {

@@ -26,7 +26,8 @@ class HomeController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            return view('home.index');
+            $is_home = true;
+            return view('home.index', compact('is_home'));
         } else {
             return redirect('login');
         }

@@ -26,6 +26,8 @@
 </div>
 <!-- End page-header -->
 <!-- row opened -->
+{{-- {{print_r($points)}} --}}
+{{-- {{die()}} --}}
 <div class="row">
   <div class="col-md-12 col-lg-12">
     <div class="card">
@@ -34,15 +36,11 @@
           novalidate>
           @csrf
           @method('post')
-          <div class="form-group">
-            <label for="route_name" class="col-form-label">Route Name *:</label>
-            <input type="text" name="route_name" class="form-control" id="route_name" autocomplete="off">
-
-          </div>
           <table class="table table-bordered table-striped table-highlight text-center">
             <thead>
               <tr>
                 <th>S no</th>
+                <th>Route Name</th>
                 <th>County</th>
                 <th>Pickup Point</th>
                 <th>Seat Booked</th>
@@ -60,6 +58,12 @@
               <tr>
                 <td>{{$i++}}</td>
                 <td>
+                  <input type="text" name="route_name[]" class="form-control route_name" id="route_name_{{$item->id}}"
+                    value="{{(isset($item->bus_assign[0]->route_name))?$item->bus_assign[0]->route_name:""}}"
+                    autocomplete="off">
+                  <div class="route_name {{$num}} text-danger error-inline"></div>
+                </td>
+                <td>
                   {{$item->county_name}}
                   <input type="hidden" name="counties_id[]" class="counties_id" value="{{$item->counties_id}}"
                     id="counties_id">
@@ -76,11 +80,17 @@
                   <input type="hidden" name="seat_count[]" class="seat_count" value="{{$item->seat_count}}"
                     id="seat_count">
                 </td>
+
                 <td>
                   <select name="date_concert[]" class="form-control date_concert" id="date_concert_{{$item->id}}">
                     <option value="" selected>Select Concert Date</option>
                     @foreach ($item->date_concert as $date)
+                    @if(isset(($item->bus_assign[0]->schedule_date))?$item->bus_assign[0]->schedule_date:0
+                    ==trim($date))
+                    <option value="{{$date}}" selected>{{date("d/m/Y", strtotime($date))}}</option>
+                    @else
                     <option value="{{$date}}">{{date("d/m/Y", strtotime($date))}}</option>
+                    @endif
                     @endforeach
                   </select>
                   <div class="date_concert {{$num}} text-danger error-inline"></div>
@@ -89,7 +99,11 @@
                   <select name="buses[]" class="form-control buses" id="buses_{{$item->id}}">
                     <option value="" selected>Select Bus</option>
                     @foreach ($buses as $bus)
+                    @if (isset(($item->bus_assign[0]->bus_id))?$item->bus_assign[0]->bus_id:0==$bus->id)
+                    <option value="{{$bus->id}}" selected>{{$bus->bus_number}}</option>
+                    @else
                     <option value="{{$bus->id}}">{{$bus->bus_number}}</option>
+                    @endif
                     @endforeach
                   </select>
                   <div class="buses {{$num}} text-danger error-inline"></div>

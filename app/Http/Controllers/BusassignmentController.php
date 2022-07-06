@@ -40,17 +40,17 @@ class BusassignmentController extends Controller
 
         $request->validate(
             [
-                'route_name' => 'required|string',
+                'route_name.*' => 'required|string',
                 'date_concert.*' => 'required|string',
                 'buses.*' => 'required|string',
             ],
             [
-                'route_name.required'      => 'Route Name is required.',
+                'route_name.*.required'      => 'Route Name is required.',
                 'date_concert.*.required'      => 'Concert Date is required.',
                 'buses.*.required' => 'Bus Number is required.'
             ]
         );
-
+        $route = $request->route_name;
         $date_concert = $request->date_concert;
         $county = $request->counties_id;
         $pickup = $request->pickup_point_id;
@@ -58,7 +58,7 @@ class BusassignmentController extends Controller
         $buses = $request->buses;
 
         for ($i = 0; $i < count($date_concert); $i++) {
-            $route = $request->route_name;
+            $route_name = $route[$i];
             $products = $request->product_id;
             $date = $date_concert[$i];
             $bus = $buses[$i];
@@ -66,8 +66,10 @@ class BusassignmentController extends Controller
             $pickup_point = $pickup[$i];
             $seat = $seat_count[$i];
 
+            $bus_schedule_exist = Bus_schedule::where(['product_id' => $products, 'pickup_point_id' => $pickup_point, 'schedule_date' => $date])->first();
+
             $data_array = array(
-                'route_name' => $route,
+                'route_name' => $route_name,
                 'booked_seat' => $seat,
                 'schedule_date' => $date,
                 'pickup_point_id' => $pickup_point,
@@ -75,10 +77,14 @@ class BusassignmentController extends Controller
                 'bus_id' => $bus
             );
 
-            $data_array['created_by'] = Auth::user()->id;
-
-            Bus_schedule::insert($data_array);
+            if (!$bus_schedule_exist) {
+                $data_array['created_by'] = Auth::user()->id;
+                Bus_schedule::insert($data_array);
+            } else {
+                Bus_schedule::where('id', $bus_schedule_exist->id)->update($data_array);
+            }
         }
+
         $response = array('status' => 200, 'redirect' => true, 'url' => url('product'), 'msg' => 'Data saved successfully...!');
 
         return json_encode($response);
@@ -133,8 +139,10 @@ class BusassignmentController extends Controller
     {
         $requested_data = $request->except(['_token', '_method']);
 
+        // dd($request);
+
         if (empty($request->get('route_name'))) {
-            $response = array('status' => 400, 'route_name' => 'Route Name is required.');
+            $response = array('status' => 400, 'pickup_id' => $request->get('pickup_point_id'), 'route_name' => 'Route Name is required.');
             return json_encode($response);
         }
 

@@ -47,7 +47,7 @@
     <!---Icons css-->
     <link href="{{URL::asset('assets/plugins/icons/icons.css')}}" rel="stylesheet" />
     <link rel="stylesheet" href="{{asset('assets/css/toastr.css')}}">
-    <script src="https://cdn.tiny.cloud/1/5k156vf3ih1uykgy4c9lbnrvewsstmtvq9w646eucssgnjy9/tinymce/5/tinymce.min.js">
+    <script src="https://cdn.tiny.cloud/1/kothksyhpff81bgsijulfiomprya4bh7pgouemraodj2oetp/tinymce/6/tinymce.min.js">
     </script>
     @yield('styles')
 
@@ -69,9 +69,12 @@
         </main>
         @else
         <!--Global-Loader-->
+        @if (isset($is_home))
         <div id="global-loader">
-            <img src="{{URL::asset('assets/images/brand/icon.png')}}" alt="loader">
+            <img src="{{URL::asset('assets/images/brand/Ellipsis-1.4s-200px.gif')}}" alt="loader">
         </div>
+        @endif
+
         <div id="ajax-loader" style="display: none;" class="active">
             <img src="{{URL::asset('assets/images/brand/icon.png')}}" alt="loader">
         </div>

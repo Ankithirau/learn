@@ -44,6 +44,8 @@ Route::resource('/event', App\Http\Controllers\API\EventController::class);
 //     'index'
 // ]);
 
+Route::get('/msg', [App\Http\Controllers\API\EventController::class, 'resetmsg']);
+
 Route::get('/event-detail/{id}', [App\Http\Controllers\API\EventController::class, 'product_detail']);
 
 Route::get('/event-search/{search}', [App\Http\Controllers\API\EventController::class, 'search_product']);
@@ -52,7 +54,7 @@ Route::resource('/event', App\Http\Controllers\API\EventController::class);
 
 Route::resource('/seo', App\Http\Controllers\API\SeoController::class);
 
-Route::get('pickup_point/{id}', [App\Http\Controllers\API\EventController::class, 'pickuppoint_by_county']);
+Route::get('get_county/{id}', [App\Http\Controllers\API\EventController::class, 'select_county_by_point']);
 
 Route::get('county/{id}', [App\Http\Controllers\API\EventController::class, 'county_by_Id']);
 

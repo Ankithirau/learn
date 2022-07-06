@@ -49,7 +49,7 @@
 		</li>
 		<li class="slide">
 			<a class="side-menu__item" data-toggle="slide" href="#">
-				<i class="side-menu__icon mdi fs-2 mdi-cart"></i><span class="side-menu__label">Product</span><i
+				<i class="side-menu__icon mdi fs-2 mdi-store"></i><span class="side-menu__label">Product</span><i
 					class="angle fa fa-angle-right"></i></a>
 			<ul class="slide-menu">
 				<li><a href="{{route('product.create')}}" class="slide-item">Create </a></li>
@@ -61,14 +61,22 @@
 				<i class="side-menu__icon mdi fs-2 mdi-bus"></i><span class="side-menu__label">
 					Buses </span></a>
 		</li>
+		<li>
+			<a class="side-menu__item" href="{{url('tracker')}}">
+				<i class="side-menu__icon mdi fs-2 mdi-google-maps"></i>
+				<span class="side-menu__label">Map </span></a>
+		</li>
 		<li class="slide">
 			<a class="side-menu__item" data-toggle="slide" href="#">
-				<i class="side-menu__icon mdi fs-2 mdi-road-variant"></i><span class="side-menu__label">Route
-					Schedule</span><i class="angle fa fa-angle-right"></i></a>
-			{{-- <ul class="slide-menu">
-				<li><a href="{{route('bus.create')}}" class="slide-item">Create </a></li>
-				<li><a href="{{route('bus.index')}}" class="slide-item">Lists </a></li>
-			</ul> --}}
+				<i class="side-menu__icon mdi fs-2 mdi-bell"></i>
+				<span class="side-menu__label">Notification</span>
+				<i class="angle fa fa-angle-right"></i>
+			</a>
+			<ul class="slide-menu">
+				<li><a href="javascript:void(0)" class="slide-item">Notify User</a></li>
+				<li><a href="javascript:void(0)" class="slide-item">Notify Operator</a></li>
+				<li><a href="javascript:void(0)" class="slide-item">Notify Driver</a></li>
+			</ul>
 		</li>
 		<li>
 			<a class="side-menu__item" href="{{url('seo')}}">

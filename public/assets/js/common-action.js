@@ -1,4 +1,7 @@
 $(document).ready(function () {
+  $(".modal").on("hidden.bs.modal", function () {
+    $(this).find("form").trigger("reset");
+  });
   toastr.options = {
     closeButton: true,
     debug: false,
@@ -115,7 +118,7 @@ $(document).ready(function () {
   $(document).on("click", ".schedule_update", function () {
     var tr = $(this).closest("tr");
     $(".has_error").remove();
-    var route_name = $("#route_name").val();
+    var route_name = tr.find("input.route_name").val();
     var product_id = tr.find("input.product_id").val();
     var booked_seat = tr.find("input.seat_count").val();
     var schedule_date = tr.find("select.date_concert").val();
@@ -139,7 +142,7 @@ $(document).ready(function () {
         console.log(data);
         if (data.status === 400) {
           if (data.route_name) {
-            $("#route_name").after(
+            $("#route_name_" + data.pickup_id).after(
               '<div class="text-danger has_error">' + data.route_name + "</div>"
             );
           }
@@ -275,7 +278,8 @@ $(document).ready(function () {
               val == "Concert Date is required." ||
               val == "Bus Number is required." ||
               val == "The price is required." ||
-              val == "The stock quantity is required."
+              val == "The stock quantity is required." ||
+              val == "Route Name is required."
             ) {
               $("." + i).text(val);
             } else {

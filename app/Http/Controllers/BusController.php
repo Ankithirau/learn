@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\Bus;
+use App\Models\Bus_schedule;
 use App\Models\County;
 use App\Models\Pick_Point;
 use App\Models\Product;
@@ -53,6 +54,7 @@ class BusController extends Controller
             $points[$key]['county_name'] = $county->name;
             $points[$key]['date_concert'] = explode(',', $products->date_concert);
             $points[$key]['product_id'] = $id;
+            $points[$key]['bus_assign'] = Bus_schedule::where(['product_id' => $id, 'pickup_point_id' => $value->id])->get();
         }
         return view("schedule.create", compact('buses', 'points'));
     }
