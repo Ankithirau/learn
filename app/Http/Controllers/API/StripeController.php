@@ -67,7 +67,7 @@ class StripeController extends Controller
         } else {
             $response = array(
                 "status" => 400,
-                "message" => 'Something went wrong'
+                "message" => 'Something went wrong..!'
             );
         }
         return response()->json($response);
