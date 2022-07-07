@@ -240,7 +240,7 @@
                         <td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
             padding-top: 25px; 
             color: #000000;
-            font-family: sans-serif;" class="paragraph">N.B Bus Departs 45 mins after the event finishes.</td>
+            font-family: sans-serif;" class="paragraph">N.B Buses Departs 45 mins after the event finishes.</td>
                     </tr>
                     <!-- BUTTON -->
                     <!-- Set button background color at TD, link/text color at A and TD, font family ("sans-serif" or "Georgia, serif") at TD. For verification codes add "letter-spacing: 5px;". Link format: http://domain.com/?utm_source=&utm_medium=email&utm_content=&utm_campaign= -->
