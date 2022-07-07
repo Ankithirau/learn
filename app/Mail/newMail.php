@@ -30,6 +30,6 @@ class newMail extends Mailable
     public function build()
     {
         return $this->subject('your account has been created')
-            ->view('email.test');
+            ->view('email.test1');
     }
 }

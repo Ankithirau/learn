@@ -278,8 +278,6 @@ class EventController extends Controller
         \Stripe\Stripe::setApiKey(config('constants.stripe_secret'));
 
         $intent = \Stripe\PaymentIntent::create([
-            'amount' => 1999,
-            'currency' => 'EUR',
             'description' => 'Payment Collected on behalf of ShopOnline.com',
             'shipping' => [
                 'name' => 'Jenny Rosen',
@@ -292,10 +290,18 @@ class EventController extends Controller
                 ],
                 'phone' => '9977945612',
             ],
+            'amount' => 1099,
+            'currency' => 'usd',
+            'payment_method_types' => ['card'],
             "metadata" => [
                 "additional_information" => "test msg",
-                "user_email" => "test@gmail.com"
-            ]
+                "user_email" => "test@gmail.com",
+                'user_id' => 1,
+                "product_id" => 23,
+                "county_id" => 1,
+                "pickup_id" => 12,
+                "event_id" => 1,
+            ],
         ]);
 
         $client_secret = $intent->client_secret;

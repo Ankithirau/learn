@@ -13,22 +13,20 @@ class StripeController extends Controller
     {
         $request->validate(
             [
-                'firstname' => 'required|string',
-                'lastname' => 'required|string',
-                'email' => 'required|email',
-                // 'phone' => 'required|string',
-                // 'description' => 'required|string',
-                // 'address' => 'required|string|max:100',
-                // 'postal_code' => 'required|string',
-                // 'city' => 'required|string',
-                // 'state' => 'required|string',
-                // 'country' => 'required|string',
+                "product_id" => 'required|integer',
+                "county_id" => 'required|integer',
+                "pickup_id" => 'required|integer',
+                "event_id" => 'required|integer',
+                "number_of_seats" => 'required|integer',
                 'amount' => 'required|regex:/^\d+(\.\d{1,2})?$/',
-                // 'currency' => 'required|string',
             ],
             [
-                'name.required'      => 'Username is required.',
-                'address.required'      => 'Address is required.',
+                'product_id.required'      => 'Product id is required.',
+                'county_id.required'      => 'County id is required.',
+                'pickup_id.required'      => 'Point Point id is required.',
+                'event_id.required'      => 'Event id is required.',
+                'number_of_seats.required'     => 'Number of seats is required.',
+                'amount.required'      => 'Amount is required.',
             ]
         );
 
@@ -36,24 +34,29 @@ class StripeController extends Controller
 
         $results = \Stripe\PaymentIntent::create([
             'amount' => $request->amount * 100,
-            // 'currency' => $request->currency,
             'currency' => 'EUR',
             'description' => 'Payment Collected on behalfs of travelmaster.ie',
             'shipping' => [
-                'name' => $request->firstname .  $request->lastname,
+                'name' => 'Travelmaster',
                 'address' => [
-                    // 'line1' => $request->address,
-                    // 'postal_code' => $request->postal_code,
-                    // 'city' => $request->city,
-                    // 'state' => $request->state,
-                    // 'country' => $request->country,
-                    'country' => 'ireland',
+                    'line1' => '510 Townsend St',
+                    'postal_code' => '98140',
+                    'city' => 'San Francisco',
+                    'state' => 'CA',
+                    'country' => 'US',
                 ],
-                'phone' => $request->phone,
+                'phone' => '9977945123',
             ],
             "metadata" => [
                 "additional_information" => $request->description,
-                "user_email" => $request->email
+                'user_id' => $request->user_id,
+                "product_id" => $request->product_id,
+                "county_id" => $request->county_id,
+                "pickup_id" => $request->pickup_id,
+                "event_id" => $request->event_id,
+                "coupon_id" => $request->coupon_id,
+                "newsletter_status" => $request->newsletter_status,
+                "number_of_seats" => $request->number_of_seats,
             ],
             'payment_method_types' => ['card'],
         ]);

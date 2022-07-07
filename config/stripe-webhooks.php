@@ -16,7 +16,8 @@ return [
      */
     'jobs' => [
         'charge_succeeded' => \App\Jobs\Stripewebhooks\Chargesucceeded::class,
-        'payment_intent.created' => \App\Jobs\StripewebHooks\Paymentcreated::class,
+        'charge_failed' => \App\Jobs\Stripewebhooks\Chargefailed::class,
+        // 'payment_intent.created' => \App\Jobs\StripewebHooks\Paymentcreated::class,
         // 'payment_intent_succeeded' => \App\Jobs\Stripewebhooks\Paymentsucceeded::class,
         // 'source_chargeable' => \App\Jobs\StripeWebhooks\HandleChargeableSource::class,
         // 'charge_failed' => \App\Jobs\StripeWebhooks\HandleFailedCharge::class,
