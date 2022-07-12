@@ -11,6 +11,8 @@ class StripeController extends Controller
 {
     public function StripePaymentIntent(Request $request)
     {
+
+        // return response()->json($request->all());
         $request->validate(
             [
                 "product_id" => 'required|integer',

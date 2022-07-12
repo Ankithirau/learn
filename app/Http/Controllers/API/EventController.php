@@ -301,6 +301,8 @@ class EventController extends Controller
                 "county_id" => 1,
                 "pickup_id" => 12,
                 "event_id" => 1,
+                "attendeeName" => "john1, john2",
+                "attendeeNumber" => "997794153, 997794154",
             ],
         ]);
 
@@ -309,8 +311,53 @@ class EventController extends Controller
         return response()->json($client_secret);
     }
 
-    public function resetmsg()
+    public function resetmsg(Request $request)
     {
-        return Response::json(['msg' => 'hello']);
+        if (is_array($request->get('attendee_details'))) {
+            $k = 0;
+            $arr = [];
+            $jem = [];
+            foreach ($request->get('attendee_details') as $key => $value) {
+                $arr[$k] = $value['attendee_name'];
+                $jem[$k] = $value['attendee_number'];
+                // $arr[$k]['number'] = $value['attendee_number'];
+                $k++;
+            }
+            // $input = array("attendee_name", "attendee_number", "attendee_name", "attendee_number");
+            // $data = [];
+            // foreach ($input as $value) {
+            //     $assign = "50"; /* The data just temp */
+            //     $data[][$value] = $assign;
+            // }
+
+            // return response()->json($data);
+            // die;
+            $meta = [
+                "metadata" =>
+                [
+                    "additional_information" => "test msg",
+                    "user_email" => "test@gmail.com",
+                    'user_id' => 1,
+                    "product_id" => 23,
+                    "county_id" => 1,
+                    "pickup_id" => 12,
+                    "event_id" => 1,
+                    "attendeeName" => implode(', ', $arr),
+                    "attendeeNumber" => implode(', ', $jem)
+                    // $response,
+                    // "attendeeName" => "john1",
+                    // "attendeeNumber" => "997794153",
+                ]
+            ];
+            // foreach ($request->get('attendee_details') as $key => $value) {
+            //     $response[]['attendee_name'] = $value['attendee_name'];
+            //     $response[]['attendee_number'] = $value['attendee_number'];
+            // }
+        } else {
+            $response = 'no record found';
+        }
+
+        // return Response::json(['msg' => var_dump($meta)]);
+        return Response::json(['msg' => $meta]);
     }
 }

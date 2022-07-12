@@ -33,6 +33,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('user-password/update/{id}', [App\Http\Controllers\API\APIUserController::class, 'update_password']);
 });
 
+Route::post('user/forget-password',[App\Http\Controllers\API\APIUserController::class, 'user_update_password']);
+
 Route::post('/intent-payments', [App\Http\Controllers\API\StripeController::class, 'StripePaymentIntent']);
 
 Route::get('/get_slider', [App\Http\Controllers\API\SliderController::class, 'get_slider']);

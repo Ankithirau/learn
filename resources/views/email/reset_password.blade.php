@@ -4,7 +4,9 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    {{-- <title>Simple Transactional Email</title> --}}
+    {{--
+    <title>Simple Transactional Email</title>
+    --}}
     <style>
         @media only screen and (max-width: 620px) {
             table.body h1 {
@@ -102,9 +104,8 @@
 
 <body
     style="background-color: #f6f6f6; font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
-
-
-
+    
+    {{-- {{dd($update)}} --}}
     <span class="preheader"
         style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">This
         is preheader text. Some clients will show this text as a preview.</span>
@@ -118,12 +119,10 @@
                 width="580" valign="top">
                 <div class="content"
                     style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 580px; padding: 10px;">
-
                     <!-- START CENTERED WHITE CONTAINER -->
                     <table role="presentation" class="main"
                         style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background: #ffffff; border-radius: 3px; width: 100%;"
                         width="100%">
-
                         <!-- START MAIN CONTENT AREA -->
                         <tr>
                             <td class="wrapper"
@@ -137,11 +136,13 @@
                                             valign="top">
                                             <p
                                                 style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;">
-                                                Hi {{ $employee->name}},</p>
+                                                Hi {{ $update->name}},
+                                            </p>
                                             <p
                                                 style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;">
                                                 You are receiving this email because we received a password reset
-                                                request for your account.</p>
+                                                request for your account.
+                                            </p>
                                             <table role="presentation" border="0" cellpadding="0" cellspacing="0"
                                                 class="btn btn-primary"
                                                 style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; box-sizing: border-box; width: 100%;"
@@ -157,31 +158,32 @@
                                                                 <tbody>
                                                                     <tr>
                                                                         <h1></h1>
-                                                                        <p>{{ $employee->email }}</p>
+                                                                        <p>{{ $update->email }}</p>
                                                                         <p>If you're having trouble clicking the "Reset
                                                                             Password" button, copy and paste the URL
-                                                                            below into your web browser:</p>
+                                                                            below into your web browser:
+                                                                        </p>
                                                                         <br>
-
                                                                         @php
                                                                         date_default_timezone_set("Asia/Kolkata");
-                                                                        $id=base64_encode($employee->id);
+                                                                        $id=base64_encode($update->id);
                                                                         $time=base64_encode(date("d-m-Y
-                                                                        h:i:sa",$employee->user_timestamp));
-                                                                        $email=$employee->email;
-                                                                        $url="http://localhost:8000/password/reset/".$id.'/'.$time.'/'.$email;
+                                                                        h:i:sa",$update->user_timestamp));
+                                                                        $email=$update->email;
+                                                                        $url="http://localhost:3000/password/reset/".$id.'/'.$time.'/'.$email;
                                                                         // echo $url;
                                                                         @endphp
-                                                                        <a class="btn btn-link" href="<?=$url?>">
-                                                                            <?=$url?>
+                                                                        <a class="btn btn-link" href="<?= $url ?>">
+                                                                            <?= $url ?>
                                                                         </a>
                                                                         <br />
                                                                         <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; border-radius: 5px; text-align: center; background-color: #3498db;"
                                                                             valign="top" align="center"
-                                                                            bgcolor="#3498db"> <a href="<?=$url?>"
+                                                                            bgcolor="#3498db"> <a href="<?= $url ?>"
                                                                                 target="_blank"
                                                                                 style="border: solid 1px #2b3135; border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none; text-transform: capitalize; background-color: #2b3135; border-color: #2b3135; color: #ffffff;">
-                                                                                Reset Password</a> </td>
+                                                                                Reset Password</a>
+                                                                        </td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
@@ -197,17 +199,16 @@
                                             <p
                                                 style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;">
                                                 Regards,<br />
-                                                Travel Master</p>
+                                                Travel Master
+                                            </p>
                                         </td>
                                     </tr>
                                 </table>
                             </td>
                         </tr>
-
                         <!-- END MAIN CONTENT AREA -->
                     </table>
                     <!-- END CENTERED WHITE CONTAINER -->
-
                     <!-- START FOOTER -->
                     <div class="footer" style="clear: both; margin-top: 10px; text-align: center; width: 100%;">
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0"
@@ -235,7 +236,6 @@
                         </table>
                     </div>
                     <!-- END FOOTER -->
-
                 </div>
             </td>
             <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;" valign="top">&nbsp;</td>

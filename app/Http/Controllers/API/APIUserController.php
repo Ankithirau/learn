@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use DateTime;
 
 class APIUserController extends Controller
 {
@@ -201,6 +202,8 @@ class APIUserController extends Controller
                 'email.required' => 'Username or email required'
             ]
         );
+
+        // dd()
         try {
             $employee  = User::select('id', 'name', 'email', 'user_timestamp')->where(['email' => $request->email])->first();
             if ($employee) {
@@ -210,20 +213,24 @@ class APIUserController extends Controller
                 $update->user_timestamp = strtotime('now');
                 $update->save();
 
-                \Mail::to($employee->email)->send(new \App\Mail\SendMail($employee));
+                // return response()->json($update->email);
+                // die();  
+
+                \Mail::to($update->email)->send(new \App\Mail\SendMail($update));
 
                 $response = array('status' => 200, 'msg' => 'reset password link created successfully');
             } else {
                 $response = array('status' => 500, 'msg' => "user not exist...!");
             }
         } catch (\Throwable $th) {
-            $response = array('status' => 500, 'msg' => 'Something went wrong...!');
+            $response = array('status' => 500, 'msg' => 'Something went wrong...!', 'hello' => $th->getMessage());
         }
         return response()->json($response);
     }
 
     public function update_password(Request $request, $id)
     {
+
         $request->validate([
             'firstname' => 'required|string',
             'lastname' => 'required|string',
@@ -265,5 +272,59 @@ class APIUserController extends Controller
         }
 
         return response()->json($response);
+    }
+
+    public function user_update_password(Request $request)
+    {
+
+        $request->validate([
+            'id' => 'required|string',
+            'email' => 'required|email',
+            'token' => 'required|string',
+            'password' => [
+                'required',
+                'string',
+                'confirmed',
+                'min:8',             // must be at least 10 characters in length
+                'regex:/[a-z]/',      // must contain at least one lowercase letter
+                'regex:/[A-Z]/',      // must contain at least one uppercase letter
+                'regex:/[0-9]/',      // must contain at least one digit
+                'regex:/[@$!%*#?&]/', // must contain a special character
+            ],
+        ], ['password.regex' => 'Password should be at least 10 characters, contain upper case, lower case, numbers and special characters (!@£$%^&)']);
+        date_default_timezone_set("Asia/Kolkata");
+        $id = base64_decode($request->id);
+        $user  = User::find($id);
+        if (empty($user)) {
+            $response = array("message" =>  'The given data was invalid.', 'erros' => array('erros' => array('invalid user')));
+            return response()->json($response, 422);
+        }
+        $token1 = trim(preg_replace("/\s+/", " ", base64_decode($request->token)));
+        $token2 = date("d-m-Y h:i:sa", $user->user_timestamp);
+        if ($token1 != $token2) {
+            $response = array("message" =>  'The given data was invalid.', 'erros' => array('token' => array('token is invalid')));
+            return response()->json($response, 422);
+        }
+        try {
+            $current = date("d-m-Y h:i:sa", strtotime('now'));
+            $start = strtotime($token1);
+            $end =  strtotime($current);
+            $hours = intval(($end - $start) / 3600);
+            if ($hours >= 1) {
+                $response = array("message" =>  'The given data was invalid.', 'errors' => array('errors' => array('token is out dated')));
+                return response()->json($response, 422);
+            } else {
+                if ($user) {
+                    $user->password = Hash::make($request->password);
+                    $user->save();
+                    $response = array('status' => 200, 'msg' => 'Password changed successfully...!');
+                } else {
+                    $response = array('status' => 500, 'msg' => 'Invalid current password!');
+                }
+            }
+        } catch (\Throwable $th) {
+            $response = array('status' => 500, 'msg' => 'Something went wrong...!');
+        }
+        return response()->json($response, 200);
     }
 }

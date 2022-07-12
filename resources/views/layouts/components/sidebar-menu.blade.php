@@ -3,6 +3,16 @@
 <aside class="app-sidebar toggle-sidebar">
 	<ul class="side-menu toggle-menu">
 		<li>
+			<a class="side-menu__item" href="{{url('route')}}">
+				<i class="side-menu__icon mdi fs-2 mdi-road-variant"></i><span class="side-menu__label">
+					Routes </span></a>
+		</li>
+		<li>
+			<a class="side-menu__item" href="{{url('bus')}}">
+				<i class="side-menu__icon mdi fs-2 mdi-bus"></i><span class="side-menu__label">
+					Buses </span></a>
+		</li>
+		<li>
 			<a class="side-menu__item" href="{{route('home')}}">
 				<i class="side-menu__icon typcn typcn-device-desktop"></i><span class="side-menu__label">Home</span></a>
 		</li>
@@ -56,11 +66,7 @@
 				<li><a href="{{route('product.index')}}" class="slide-item">Show </a></li>
 			</ul>
 		</li>
-		<li>
-			<a class="side-menu__item" href="{{url('bus')}}">
-				<i class="side-menu__icon mdi fs-2 mdi-bus"></i><span class="side-menu__label">
-					Buses </span></a>
-		</li>
+
 		<li>
 			<a class="side-menu__item" href="{{url('tracker')}}">
 				<i class="side-menu__icon mdi fs-2 mdi-google-maps"></i>

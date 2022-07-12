@@ -234,6 +234,7 @@ $(document).ready(function () {
         //   $("#ajax-loader").show();
         // },
         success: function (response) {
+          console.log("1",response);
           var data = JSON.parse(response);
 
           if (data.status === 400) {
@@ -271,7 +272,9 @@ $(document).ready(function () {
           }
         },
       }).fail(function (response, status, error) {
+        
         var data = response.responseJSON;
+        console.log("2",  data);
         if (status === "error") {
           $.each(data.errors, function (i, val) {
             if (
@@ -296,10 +299,12 @@ $(document).ready(function () {
                   '<div class="text-danger has_error">' + val + "</div>"
                 );
               }
-              // if (i == "pick_point_id") {
-              //   $(".pick_point_id_error").text(val);
-              // }
-              if (i == "pick_point_id" || i == "counties_id") {
+              if (i == "pickup_point_id") {
+                $(".multiselect-wrapper").after(
+                  '<div class="text-danger has_error">' + val + "</div>"
+                );
+              }
+              if (i == "pick_point_id" || i == "counties_id" ) {
                 $(".error_" + i).text(val);
               }
             }

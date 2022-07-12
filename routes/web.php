@@ -64,6 +64,8 @@ Route::group(['middleware' => ['auth', 'CheckUserLogin']], function () {
 
     Route::resource('/product', App\Http\Controllers\ProductController::class);
 
+    Route::resource('/route', App\Http\Controllers\RouteController::class);
+
     Route::get('/variation/{id}', [App\Http\Controllers\ProductController::class, 'product_variation'])->name('product.variation');
 
     Route::get('/add-variation/{id}', [App\Http\Controllers\ProductController::class, 'add_variation'])->name('product.add_variation');
